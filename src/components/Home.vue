@@ -29,6 +29,6 @@
 #home_header_sparcs{
 	font-size: 50px;
 }
-	
+
 
 </style>

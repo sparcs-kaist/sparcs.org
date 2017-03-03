@@ -1,5 +1,6 @@
 <template>
 	<div id="member">
+    Member!
 	</div>
 </template>
 <script>
@@ -11,6 +12,6 @@
 </script>
 
 <style>
-	
+
 
 </style>

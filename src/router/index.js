@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+import Home from '@/components/Home'
+import Member from '@/components/Member'
+import Photo from '@/components/Photo'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: Hello
-    }
+    { path: '/home', name: 'Home', component: Home },
+    { path: '/members', name: 'Member', component: Member },
+    { path: '/photos', name: 'Photos', component: Photo }
   ]
 })
