@@ -3,7 +3,7 @@
     <div class="ui huge secondary pointing menu">
 
       <div class="menu">
-        <router-link to="/home" class="item">SPARCS</router-link>
+        <router-link to="/home" class="item" id="sparcs_logo">SPARCS</router-link>
       </div>
 
       <div class="right menu">
@@ -14,11 +14,11 @@
         <div class="ui pointing dropdown item" >
           Log In
           <div class="menu">
-            <h4 id="login_indicator_username">Username</h4>
+            <h4 class="login_indicator">Username</h4>
             <div class="ui input">
               <input type="text" name="search" placeholder="Search issues...">
             </div>
-            <h4 id="login_indicator_password">Password</h4>
+            <h4 class="login_indicator">Password</h4>
             <div class="ui search icon input">
               <i class="search icon"></i>
               <input type="text" name="search" placeholder="Search issues...">
@@ -34,7 +34,6 @@
 
 <script>
   /* eslint-disable */
-
   export default {
     name: 'app',
     components:{
@@ -77,7 +76,7 @@
     border-color: transparent;
   }
 
-  #login_indicator{
+  .login_indicator{
     margin: 10px;
   }
 
