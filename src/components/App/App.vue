@@ -31,52 +31,5 @@
   </div>
 </template>
 
-<script>
-  /* eslint-disable */
-  export default {
-    name: 'app',
-    components:{
-    },
-    data () {
-      return {
-
-      }
-    },
-    methods:{
-      showLogin: function(){
-
-      }
-    },
-    mounted: function(){
-      $(document).ready(function(){
-        $('.ui.secondary.pointing.menu a.item').on('click', function(){
-          $(this).addClass('active').siblings().removeClass('active');
-        });
-        $('#sparcs_logo').on('click', function(){
-          $('.right.menu a.item').removeClass('active');
-        });
-        $('.ui.dropdown').dropdown();
-      });
-
-    }
-  }
-</script>
-
-<style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /*text-align: center;*/
-    color: #2c3e50;
-  }
-
-  #sparcs_logo{
-    border-color: transparent;
-  }
-
-  .login_indicator{
-    margin: 10px;
-  }
-
-</style>
+<script src="./App.js"></script>
+<style src="./App.css"></style>

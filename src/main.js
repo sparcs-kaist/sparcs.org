@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 /* eslint-disable */
 import Vue from 'vue'
-import App from './App'
+import App from './components/App'
 import router from './router'
 import '../node_modules/semantic-ui/dist/semantic.min.css'
 import semantic from 'semantic'
