@@ -3,7 +3,7 @@
     <div class="ui huge secondary pointing menu">
 
       <div class="menu">
-        <router-link to="/home" class="item" id="sparcs_logo">SPARCS</router-link>
+        <router-link to="/" class="active item" id="sparcs_logo">SPARCS</router-link>
       </div>
 
       <div class="right menu">
