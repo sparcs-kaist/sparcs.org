@@ -11,6 +11,7 @@
     "eslint": "eslint src/"
   },
   "dependencies": {
+    "jquery": "^3.1.1",
     "semantic-ui": "^2.2.9",
     "vue": "^2.2.1",
     "vue-router": "^2.2.0"
