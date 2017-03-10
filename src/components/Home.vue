@@ -1,8 +1,8 @@
 <template>
 	<div id="home">
-		<div class="header">
-		<h1 id="home_header_text"> 우리 삶에 녹아드는 서비스 </h1>
-		<h2 id="home_header_sparcs"> SPARCS </h2>
+		<div class="jumbotron">
+      <h1 id="home_header_text"> 우리 삶에 녹아드는 서비스 </h1>
+      <h2 id="home_header_sparcs"> SPARCS </h2>
 		</div>
 	</div>
 </template>
@@ -16,7 +16,7 @@
 
 <style>
 
-.header{
+.jumbotron{
 	padding: 100px;
 	background-color: #448888;
 	color: #ffffff;

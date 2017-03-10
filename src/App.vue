@@ -11,21 +11,20 @@
         <router-link to="/photos" class="item">Photos</router-link>
         <router-link to="/seminar" class="item">Seminar</router-link>
         <router-link to="/mail" class="item">Mail</router-link>
-        <div class="ui pointing dropdown item" >
-          Log In
-          <div class="menu">
-            <h4 class="login_indicator">Username</h4>
-            <div class="ui input">
-              <input type="text" name="search" placeholder="Search issues...">
-            </div>
-            <h4 class="login_indicator">Password</h4>
-            <div class="ui search icon input">
-              <i class="search icon"></i>
-              <input type="text" name="search" placeholder="Search issues...">
-            </div>
-          </div>
-        </div>
-
+        <!--<div class="ui pointing dropdown item" >-->
+          <!--Log In-->
+          <!--<div class="menu">-->
+            <!--<h4 class="login_indicator">Username</h4>-->
+            <!--<div class="ui input">-->
+              <!--<input type="text" name="search" placeholder="Search issues...">-->
+            <!--</div>-->
+            <!--<h4 class="login_indicator">Password</h4>-->
+            <!--<div class="ui search icon input">-->
+              <!--<i class="search icon"></i>-->
+              <!--<input type="text" name="search" placeholder="Search issues...">-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
       </div>
     </div>
     <router-view></router-view>
@@ -68,7 +67,7 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+    /*text-align: center;*/
     color: #2c3e50;
   }
 
