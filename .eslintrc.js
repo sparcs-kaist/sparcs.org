@@ -7,7 +7,6 @@ module.exports = {
     "$": true,
   },
   "plugins": [
-    "jsx-a11y",
     "import",
   ],
   "parser": "babel-eslint",
@@ -26,5 +25,6 @@ module.exports = {
     "import/no-unresolved": "off",
     "import/extensions": "off",
     "func-names": "off",
+    "import/no-extraneous-dependencies": "off",
   }
 };
