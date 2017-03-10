@@ -11,6 +11,6 @@ export default new Router({
   routes: [
     { path: '/', name: 'home', component: Home },
     { path: '/members', name: 'members', component: Members },
-    { path: '/photos', name: 'photos', component: Photos }
-  ]
+    { path: '/photos', name: 'photos', component: Photos },
+  ],
 })

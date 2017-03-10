@@ -1,27 +1,30 @@
-// http://eslint.org/docs/user-guide/configuring
-
 module.exports = {
-  root: true,
-  parser: 'babel-eslint',
-  parserOptions: {
-    sourceType: 'module'
+  "extends": "airbnb",
+  "globals": {
+    "window": true,
+    "semantic": true,
+    "@": true,
+    "$": true,
   },
-  env: {
-    browser: true,
-  },
-  // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: 'standard',
-  // required to lint *.vue files
-  plugins: [
-    'html'
+  "plugins": [
+    "jsx-a11y",
+    "import",
   ],
-  // add your custom rules here
-  'rules': {
-    // allow paren-less arrow functions
-    'arrow-parens': 0,
-    // allow async-await
-    'generator-star-spacing': 0,
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+    }
+  },
+  "rules": {
+    "semi": "off",
+    "max-len": ["error", 120],
+    "global-require": "off",
+    "no-param-reassign": ["error", {"props": false}],
+    "no-mixed-operators": ["error", {"allowSamePrecedence": true}],
+    "no-constant-condition": ["error", { "checkLoops": false }],
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "func-names": "off",
   }
-}
+};
