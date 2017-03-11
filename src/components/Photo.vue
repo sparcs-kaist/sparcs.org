@@ -1,10 +1,16 @@
 <template>
 	<div id="photo">
-    Photo!
+		Photo!
+		<div class="ui small images">
+			<img src="./../../static/test1.jpg">
+			<img src="./../../static/test1.jpg">
+			<img src="./../../static/test1.jpg">
+			<img src="./../../static/test1.jpg">
+		</div>
 	</div>
 </template>
 <script>
-  /* eslint-disable */
+	/* eslint-disable */
 	export default {
 		name: 'Photo'
 	}
