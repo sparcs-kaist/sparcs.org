@@ -55,5 +55,8 @@
 		float: right;
 		margin-right: 30px;
 	}
+	.column.photo{
+		margin-bottom: 25px;
+	}
 
 </style>
