@@ -9,8 +9,7 @@
       <div class="right menu">
         <router-link to="/members" class="item">Members</router-link>
         <router-link to="/photos" class="item">Photos</router-link>
-        <router-link to="/seminar" class="item">Seminar</router-link>
-        <router-link to="/mail" class="item">Mail</router-link>
+        <router-link to="/seminar" class="item">Seminars</router-link>
         <!--<div class="ui pointing dropdown item" >-->
           <!--Log In-->
           <!--<div class="menu">-->

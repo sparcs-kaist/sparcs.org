@@ -20,7 +20,7 @@ export default {
         $(this).addClass('active').siblings().removeClass('active')
       })
       $('#sparcs_logo').on('click', () => { $('.right.menu a.item').removeClass('active') })
-      $('.ui.dropdown').dropdown()
+      // $('.ui.dropdown').dropdown()
     })
   },
 }
