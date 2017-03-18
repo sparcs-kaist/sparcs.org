@@ -31,13 +31,15 @@
 							</div>
 							<div class="description">
 								{{member.quote}}
-								<a :href="'https://facebook.com/' + member.facebook">
+								<a :href="'https://facebook.com/'+member.facebook">
 									<i class="right floated facebook square icon"></i>
 								</a>
 								<a :href="member.website">
 									<i class="right floated home icon"></i>
 								</a>
-								<i class="right floated mail icon"></i>
+								<a :href="'mailto:'+member.id+'@sparcs.org'">
+									<i class="right floated mail icon"></i>
+								</a>
 							</div>
 						</div>
 					</div>
