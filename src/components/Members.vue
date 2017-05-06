@@ -1,8 +1,11 @@
 <template>
 	<div>
-		<div class="ui inverted vertical masthead center aligned segment">
+		<div class="ui vertical masthead center aligned basic segment">
+      <div class="ui text container">
+        <h1 class="ui header">We Make Services</h1>
+        <h2>SPARCS의 개발자와 디자이너를 소개합니다.</h2>
+      </div>
 		</div>
-		<div style="margin: 20px"></div> <!-- To be deleted-->
 		<div class="ui inverted large attached menu">
 			<div class="ui container">
 				<a class="active yellow item" @click="selected = all">All</a>
@@ -71,7 +74,7 @@ export default {
     },
   },
   mounted() {
-    $(window.document).ready(() => {
+    $(document).ready(() => {
       $('.ui.menu a.item').on('click', function () {
         $(this).addClass('active').siblings().removeClass('active')
       })

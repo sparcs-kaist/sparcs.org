@@ -27,14 +27,8 @@ export default {
   components: {
   },
   data() {
-    return {
-
-    }
   },
   methods: {
-    showLogin() {
-
-    },
   },
   mounted() {
     $(window.document).ready(() => {
@@ -50,17 +44,25 @@ export default {
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  color: #2c3e50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*text-align: center;*/
-  color: #2c3e50;
 }
-
 #sparcs_logo{
   border-color: transparent;
 }
-
-.login_indicator{
-  margin: 10px;
+.masthead.segment {
+  min-height: 300px;
+  padding: 1em 0em;
+}
+.masthead h1.ui.header {
+  margin-top: 1.5em;
+  margin-bottom: 0em;
+  font-size: 3em;
+  font-weight: normal;
+}
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
 }
 </style>

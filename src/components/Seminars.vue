@@ -1,8 +1,11 @@
 <template>
 	<div>
-		<div class="ui inverted vertical masthead center aligned basic segment">
+		<div class="ui vertical masthead center aligned basic segment">
+      <div class="ui text container">
+        <h1 class="ui header">Seminars</h1>
+        <h2>Made in SPARCS, SPARCS의 세미나 자료를 공개합니다.</h2>
+      </div>
 		</div>
-    <div style="margin: 20px"></div> <!-- To be deleted-->
 		<div class="ui inverted large attached menu">
 			<div class="ui container">
 				<a class="active yellow item">All</a>
@@ -15,11 +18,12 @@
             <i class="search icon"></i>
           </div>
         </div>
+        <button class="ui red attached button" id="newfile">Upload</button>
       </div>
 		</div>
     <div style="margin: 20px"></div> <!-- To be deleted-->
     <div class="ui container">
-      <table class="ui single line table center aligned">
+      <table class="ui single line table">
         <thead>
           <tr>
             <th class="two wide">Date</th>
@@ -57,7 +61,7 @@
 export default {
   name: 'Seminars',
   mounted() {
-    $(window.document).ready(() => {
+    $(document).ready(() => {
       $('.ui.menu a.item').on('click', function () {
         $(this).addClass('active').siblings().removeClass('active')
       })
