@@ -1,10 +1,13 @@
 <template>
 	<div id="home">
-		<div class="main_window ui inverted vertical masthead center aligned basic segment">
-		<div class="intro-text-box ui container" style="text-align: left;">
-			<h1 class="brand-name">SPARCS</h1>
-			<h2 class="copy-text"><span class="one-line">We make <span class = "text-highlight">service</span>,</span> <span class="one-line">you just <span class = "text-highlight">use</span> it.</span></h2>
-		</div>
+		<div class="ui inverted vertical masthead center aligned basic segment main-window">
+			<div class="intro-text-box ui container" style="text-align: left;">
+				<h1 class="brand-name">SPARCS</h1>
+				<h2 class="copy-text">
+					<span class="one-line">We make <span class="text-highlight">service</span>,</span>
+					<span class="one-line">you just <span class="text-highlight">use</span> it.</span>
+				</h2>
+			</div>
 		</div>
 		<section></section>
 		<section></section>
@@ -14,16 +17,17 @@
 
 <script>
 export default {
-	name: 'AboutUs'
+	name: 'AboutUs',
+	mounted: function () {
+		document.getElementById('aboutus').classList.add('active');
+		document.getElementById('r_view').style.marginTop = 0;
+		document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)';
+	}
 }
 </script>
 
 <style>
-#home {
-}
-
-
-.main_window {
+.main-window {
 	height: 100vh;
 	background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(./../../static/wallpaper.png) !important;
 	background-repeat: no-repeat !important;

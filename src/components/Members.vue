@@ -69,6 +69,7 @@ export default {
 
   mounted: function () {
 		const forEach = Array.prototype.forEach;
+		document.getElementById('members').classList.add('active');
     document.querySelectorAll('#submenu .item').forEach(item => {
       item.onclick = function () {
         forEach.call(this.parentNode.children, sibling => {
