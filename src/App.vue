@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <div class="ui inverted attached basic segment menu_header">
-      <div class="ui inverted large secondary pointing menu menu_list">
-      <div class="ui container">
+      <div class="ui fixed inverted large secondary pointing menu" id="menu_header">
+        <div class="ui container">
         <div class="menu">
           <router-link to="/" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo.png"/></router-link>
         </div>
@@ -16,8 +15,7 @@
         </div>
       </div>
       </div>
-    </div>
-    <router-view></router-view>
+    <router-view id="r_view" style="margin-top: 85px;"></router-view>
   </div>
 </template>
 
@@ -32,6 +30,14 @@ export default {
     const forEach = Array.prototype.forEach;
     document.querySelectorAll('.right.menu .item').forEach(item => {
       item.onclick = function () {
+        if(this.innerHTML === 'ABOUT US'){
+          document.getElementById('r_view').style.marginTop = '0px';
+          document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)';
+        }
+        else{
+          document.getElementById('r_view').style.marginTop = '85px';
+          document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
+        }
         forEach.call(this.parentNode.children, sibling => {
           sibling.classList.remove('active');
         });
@@ -64,11 +70,12 @@ export default {
 h1, h2{
   font-family: 'Noto Sans';
 }
-.menu_header {
-  position: fixed !important;
+
+#menu_header {
+  padding: 1em 1em;
   z-index: 1;
   border: none !important;
-  background-color: rgba(0,0,0,0) !important;
+  background-color: rgba(0,0,0,1);
 }
 
 .menu_list {

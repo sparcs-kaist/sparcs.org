@@ -20,8 +20,8 @@ export default {
 
 <style>
 #home {
-	font-family: 'Noto Sans' !important;
 }
+
 
 .main_window {
 	height: 100vh;
