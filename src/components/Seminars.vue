@@ -6,12 +6,12 @@
         <h2>Made in SPARCS, SPARCS의 세미나 자료를 공개합니다.</h2>
       </div>
 		</div>
-		<div class="ui inverted large attached menu">
+		<div class="ui inverted large attached menu" id="submenu">
 			<div class="ui container">
-				<a class="active yellow item">All</a>
-				<a class="yellow item">Freshman</a>
-				<a class="yellow item">Wheel</a>
-				<a class="yellow item">Etc.</a>
+				<a class="active yellow item" @click="selected = seminars">All</a>
+				<a class="yellow item" @click="selected = freshman">Freshman</a>
+				<a class="yellow item" @click="selected = wheel">Wheel</a>
+				<a class="yellow item" @click="selected = etc">Etc.</a>
         <div class="ui small search right item">
           <div class="ui icon input">
             <input class="prompt" type="text" placeholder="Search slides...">
@@ -33,24 +33,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>2017.00.00</td>
-            <td>2017 봄 신입생 세미나 - 3. Web, HTML, CSS overview</td>
-            <td><i class="file icon"></i> 12.5 MB</td>
-            <td>gunwoo</td>
-          </tr>
-          <tr>
-            <td>2017.00.00</td>
-            <td>2017 봄 신입생 세미나 - 5. Django</td>
-            <td><i class="file icon"></i> 12.5 MB</td>
-            <td>gunwoo</td>
-          </tr>
-          <tr>
-            <td>2017.00.00</td>
-            <td>2017 봄 신입생 세미나 - 6. Git</td>
-            <td><i class="file icon"></i> 12.5 MB</td>
-            <td>gunwoo</td>
-          </tr>
+					<tr v-for="seminar in selected">
+						<td>{{seminar.date}}</td>
+						<td>{{seminar.title}}</td>
+						<td><i class="file icon"></i> 12.5 MB</td>
+						<td>{{seminar.speaker}}</td>
+					</tr>
         </tbody>
       </table>
     </div>
@@ -58,14 +46,59 @@
 </template>
 
 <script>
+const isFreshman = seminar => seminar.title.includes('신입생');
+const isWheel = seminar => seminar.title.includes('Wheel');
+
 export default {
   name: 'Seminars',
-  mounted() {
-    $(document).ready(() => {
-      $('.ui.menu a.item').on('click', function () {
-        $(this).addClass('active').siblings().removeClass('active')
-      })
-    })
+
+	data: () => ({
+		seminars: [
+			{
+				title: '2017 봄 신입생 세미나 - 3. Web, HTML, CSS overview',
+				speaker: 'gunwoo',
+				date: '2017-03-05',
+				source: '1.pptx',
+			},
+			{
+				title: '2017 봄 신입생 세미나 - 5. Django',
+				speaker: 'raon',
+				date: '2017-04-01',
+				source: '2.pptx',
+			},
+			{
+				title: '2017 Wheel 세미나 1',
+				speaker: 'jambo',
+				date: '2017-07-03',
+				source: '3.pptx',
+			},
+			{
+				title: '연애하는 법',
+				speaker: 'pablo',
+				date: '2017-05-19',
+				source: '4.pptx',
+			},
+		],
+		selected: [],
+	}),
+
+	computed: {
+		freshman: function () { return this.seminars.filter(isFreshman); },
+		wheel: function () { return this.seminars.filter(isWheel); },
+		etc: function () { return this.seminars.filter(s => !isFreshman(s) && !isWheel(s)); },
+	},
+
+  mounted: function () {
+		const forEach = Array.prototype.forEach;
+    document.querySelectorAll('#submenu .item').forEach(item => {
+      item.onclick = function () {
+        forEach.call(this.parentNode.children, sibling => {
+          sibling.classList.remove('active');
+        });
+        this.classList.add('active');
+      };
+    });
+		this.selected = this.seminars;
   },
 }
 </script>
