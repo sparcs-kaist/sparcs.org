@@ -5,12 +5,12 @@
         <div class="menu">
           <router-link to="/" class="active item" id="sparcs_logo"><img src="./../static/logo-1@3x.png" style="transform: scale(2); margin-left: 15px;"/></router-link>
         </div>
-        <div class="right menu">
-          <router-link to="/aboutus" class="item">About Us</router-link>
-          <router-link to="/projects" class="item">Projects</router-link>
-          <router-link to="/seminars" class="item">Seminars</router-link>
-          <router-link to="/album" class="item">Album</router-link>
-          <router-link to="/members" class="item">Members</router-link>
+        <div class="right menu" id="navbar">
+          <router-link to="/aboutus" class="item" id="aboutus">About Us</router-link>
+          <router-link to="/projects" class="item" id="projects">Projects</router-link>
+          <router-link to="/seminars" class="item" id="seminars">Seminars</router-link>
+          <router-link to="/album" class="item" id="album">Album</router-link>
+          <router-link to="/members" class="item" id="members">Members</router-link>
           <router-link to="/" class="item">Login</router-link>
         </div>
       </div>
@@ -20,25 +20,31 @@
 </template>
 
 <script>
-import $ from 'jquery'
-
 export default {
   name: 'app',
-  components: {
-  },
-  methods: {
-  },
-  mounted() {
-    $(window.document).ready(() => {
-      $('.ui.secondary.pointing.menu a.item').on('click', function () {
-        $(this).addClass('active').siblings().removeClass('active')
-      })
-      $('#sparcs_logo').on('click', () => { $('.right.menu a.item').removeClass('active') })
-      // $('.ui.dropdown').dropdown()
-    })
+  data: () => ({}),
+
+  methods: {},
+
+  mounted: function () {
+    const forEach = Array.prototype.forEach;
+    document.querySelectorAll('.right.menu .item').forEach(item => {
+      item.onclick = function () {
+        forEach.call(this.parentNode.children, sibling => {
+          sibling.classList.remove('active');
+        });
+        this.classList.add('active');
+      };
+    });
+    document.getElementById('sparcs_logo').onclick = function () {
+      document.querySelectorAll('.right.menu .item').forEach(item => {
+        item.classList.remove('active');
+      });
+    };
   },
 }
 </script>
+
 <style lang="scss">
 #app {
   font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
