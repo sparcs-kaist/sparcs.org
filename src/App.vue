@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <div class="ui inverted attached basic segment">
-      <div class="ui inverted large secondary pointing menu">
+    <div class="ui inverted attached basic segment menu_header">
+      <div class="ui inverted large secondary pointing menu menu_list">
+      <div class="ui container">
         <div class="menu">
-          <router-link to="/" class="active item" id="sparcs_logo">SPARCS</router-link>
+          <router-link to="/" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo.png"/></router-link>
         </div>
         <div class="right menu">
-          <router-link to="/aboutus" class="item">About Us</router-link>
-          <router-link to="/projects" class="item">Projects</router-link>
-          <router-link to="/seminars" class="item">Seminars</router-link>
-          <router-link to="/album" class="item">Album</router-link>
-          <router-link to="/members" class="item">Members</router-link>
-          <router-link to="/" class="item">Login</router-link>
+          <router-link to="/aboutus" class="item">ABOUT US</router-link>
+          <router-link to="/projects" class="item">PROJECTS</router-link>
+          <router-link to="/seminars" class="item">SEMINAR</router-link>
+          <router-link to="/album" class="item">ALBUM</router-link>
+          <router-link to="/members" class="item">MEMBERS</router-link>
+          <router-link to="/" class="item">LOGIN</router-link>
         </div>
+      </div>
       </div>
     </div>
     <router-view></router-view>
@@ -43,7 +45,31 @@ export default {
 </script>
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans' !important;
+}
+
+.logo {
+  margin-top: 12px;
+  width: 110px;
+  height: 39px;
+}
+
+h1, h2{
+  font-family: 'Noto Sans';
+}
+.menu_header {
+  position: fixed !important;
+  z-index: 1;
+  border: none !important;
+  background-color: rgba(0,0,0,0) !important; 
+}
+
+.menu_list {
+  border: none !important;
+}
+
+#app {
+  font-family: 'Noto Sans', 'Avenir', Helvetica, Arial, sans-serif;
   color: #2c3e50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -52,7 +78,6 @@ export default {
   border-color: transparent;
 }
 .masthead.segment {
-  min-height: 300px;
   padding: 1em 0em;
 }
 .masthead h1.ui.header {
