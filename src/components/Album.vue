@@ -63,22 +63,6 @@ export default {
 		text-align: center;
 	}
 
-<<<<<<< HEAD
-	.album.breadcrumb{
-		text-align: left;
-	  display: block;
-		width: 100%;
-		background-color: black;
-		color: white;
-	}
-
-	.divider.album{
-		color: white !important;
-	}
-
-	.section.album{
-		color: yellow !important;
-=======
 	.breadcrumb.album{
 		line-height: 48px;
 		padding-left: 10px;
@@ -164,7 +148,6 @@ export default {
 		padding-top: 25px;
 		text-align: left;
 		font-size: 25px;
->>>>>>> 388624208252b4162ee396d35208eebf6060ce4a
 		font-weight: bold;
 	}
 	.date{

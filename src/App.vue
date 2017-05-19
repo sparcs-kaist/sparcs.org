@@ -49,8 +49,10 @@ export default {
 
 <style lang="scss">
 #app {
-<<<<<<< HEAD
-  font-family: 'Noto Sans' !important;
+  font-family: 'Noto Sans', 'Avenir', Helvetica, Arial, sans-serif;
+  color: #2c3e50;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .logo {
@@ -66,22 +68,13 @@ h1, h2{
   position: fixed !important;
   z-index: 1;
   border: none !important;
-  background-color: rgba(0,0,0,0) !important; 
+  background-color: rgba(0,0,0,0) !important;
 }
 
 .menu_list {
   border: none !important;
 }
 
-#app {
-  font-family: 'Noto Sans', 'Avenir', Helvetica, Arial, sans-serif;
-=======
-  font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
->>>>>>> 388624208252b4162ee396d35208eebf6060ce4a
-  color: #2c3e50;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 #sparcs_logo{
   border-color: transparent;
 }
