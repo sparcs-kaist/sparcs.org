@@ -45,28 +45,27 @@
 		</div>
 	</div>
 </template>
+
 <script>
-	import $ from 'jquery'
-
-	export default {
-		name: 'Photo',
-		data() {
-			return{
-				photolist : [],
-				photo : { photo_src : "./../../static/test1.jpg", photo_info : "2017 겨울"},
-				photo2 : { photo_src : "./../../static/test2.jpg", photo_info : "2016 여름"}
-			}
+import $ from 'jquery'
+export default {
+	name: 'Album',
+	data() {
+		return{
+			photolist : [],
+			photo : { photo_src : "./../../static/test1.jpg", photo_info : "2017 겨울"},
+			photo2 : { photo_src : "./../../static/test2.jpg", photo_info : "2016 여름"}
+		}
+	},
+	methods: {
+		addPhoto() {
+			this.photolist.push(this.photo);
 		},
-		methods: {
-			addPhoto() {
-				this.photolist.push(this.photo);
-			},
-			addPhoto2() {
-				this.photolist.push(this.photo2);
-			}
-		},
-	}
-
+		addPhoto2() {
+			this.photolist.push(this.photo2);
+		}
+	},
+}
 </script>
 
 <style>
