@@ -22,29 +22,34 @@
 </template>
 
 <script>
-import $ from 'jquery'
-
 export default {
   name: 'app',
-  components: {
-  },
-  data() {
-  },
-  methods: {
-  },
-  mounted() {
-    $(window.document).ready(() => {
-      $('.ui.secondary.pointing.menu a.item').on('click', function () {
-        $(this).addClass('active').siblings().removeClass('active')
-      })
-      $('#sparcs_logo').on('click', () => { $('.right.menu a.item').removeClass('active') })
-      // $('.ui.dropdown').dropdown()
-    })
+  data: () => ({}),
+
+  methods: {},
+
+  mounted: function () {
+    const forEach = Array.prototype.forEach;
+    document.querySelectorAll('.right.menu .item').forEach(item => {
+      item.onclick = function () {
+        forEach.call(this.parentNode.children, sibling => {
+          sibling.classList.remove('active');
+        });
+        this.classList.add('active');
+      };
+    });
+    document.getElementById('sparcs_logo').onclick = function () {
+      document.querySelectorAll('.right.menu .item').forEach(item => {
+        item.classList.remove('active');
+      });
+    };
   },
 }
 </script>
+
 <style lang="scss">
 #app {
+<<<<<<< HEAD
   font-family: 'Noto Sans' !important;
 }
 
@@ -70,6 +75,9 @@ h1, h2{
 
 #app {
   font-family: 'Noto Sans', 'Avenir', Helvetica, Arial, sans-serif;
+=======
+  font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
+>>>>>>> 388624208252b4162ee396d35208eebf6060ce4a
   color: #2c3e50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
