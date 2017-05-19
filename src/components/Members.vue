@@ -6,7 +6,7 @@
         <h2>SPARCS의 개발자와 디자이너를 소개합니다.</h2>
       </div>
 		</div>
-		<div class="ui inverted large attached menu">
+		<div class="ui inverted large attached menu" id="submenu">
 			<div class="ui container">
 				<a class="active yellow item" @click="selected = all">All</a>
 				<a class="yellow item" @click="selected = staff">Staff</a>
@@ -56,29 +56,27 @@ import directory from './../../static/directory.js'
 
 export default {
   name: 'Members',
-  data() {
-    return {
-      all: directory,
-      selected: directory,
-    }
-  },
+  data: () => ({
+		all: directory,
+		selected: directory,
+  }),
+
   computed: {
-    staff() {
-      return this.all.filter(member => member.role.staff)
-    },
-    developers() {
-      return this.all.filter(member => member.role.developer)
-    },
-    designers() {
-      return this.all.filter(member => member.role.designer)
-    },
+    staff: function () { return this.all.filter(member => member.role.staff); },
+    developers: function () { return this.all.filter(member => member.role.developer); },
+    designers: function () { return this.all.filter(member => member.role.designer); },
   },
-  mounted() {
-    $(document).ready(() => {
-      $('.ui.menu a.item').on('click', function () {
-        $(this).addClass('active').siblings().removeClass('active')
-      })
-    })
+
+  mounted: function () {
+		const forEach = Array.prototype.forEach;
+    document.querySelectorAll('#submenu .item').forEach(item => {
+      item.onclick = function () {
+        forEach.call(this.parentNode.children, sibling => {
+          sibling.classList.remove('active');
+        });
+        this.classList.add('active');
+      };
+    });
   },
 }
 </script>
