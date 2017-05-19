@@ -3,7 +3,7 @@
     <div class="ui inverted attached basic segment">
       <div class="ui inverted large secondary pointing menu">
         <div class="menu">
-          <router-link to="/" class="active item" id="sparcs_logo">SPARCS</router-link>
+          <router-link to="/" class="active item" id="sparcs_logo"><img src="./../static/logo-1@3x.png" style="transform: scale(2); margin-left: 15px;"/></router-link>
         </div>
         <div class="right menu">
           <router-link to="/aboutus" class="item">About Us</router-link>
@@ -26,8 +26,6 @@ export default {
   name: 'app',
   components: {
   },
-  data() {
-  },
   methods: {
   },
   mounted() {
@@ -43,7 +41,7 @@ export default {
 </script>
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
   color: #2c3e50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

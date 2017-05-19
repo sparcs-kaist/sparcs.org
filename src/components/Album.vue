@@ -1,45 +1,36 @@
 <template>
 	<div id="photo">
-
-		<button class="ui primary button photo" @click="addPhoto">
-			Add
-		</button>
-		<button class="ui button photo" @click="addPhoto2">
-			Add
-		</button>
-		<div class="ui vertical menu">
-			<div class="item">
-				<div class="ui input"><input type="text" placeholder="Search..."></div>
+		<div class="album index">
+			<div class="yellow rectangle">
+				Album
 			</div>
-			<div class="item">
-				Home
-				<div class="menu">
-					<a class="active item">Search</a>
-					<a class="item">Add</a>
-					<a class="item">Remove</a>
-				</div>
+			<div class="yellow triangle">
 			</div>
-			<a class="item">
-				<i class="grid layout icon"></i> Browse
-			</a>
-			<a class="item">
-				Messages
-			</a>
-			<div class="ui dropdown item">
-				More
-				<i class="dropdown icon"></i>
-				<div class="menu">
-					<a class="item"><i class="edit icon"></i> Edit Profile</a>
-					<a class="item"><i class="globe icon"></i> Choose Language</a>
-					<a class="item"><i class="settings icon"></i> Account Settings</a>
-				</div>
+			<div class="grey rectangle">
+				2017
+			</div>
+			<div class="grey triangle">
+			</div>
+			<div class="ui huge breadcrumb album" >
+			  <a class="section album">딸기파티</a>
+			  <i class="right chevron icon divider album"></i>
+			  <a class="section album">img_20160710</a>
 			</div>
 		</div>
-		<div class="ui grid photo">
-			<div class="three column row" >
-				<div class="column photo" v-for="p in photolist">
-					<img class="image preview" :src="p.photo_src">
-					<h3> {{p.photo_info}} </h3>
+		<div class="ui container album">
+			<div class="ui aligned three column grid">
+				<div class="column">
+					<div class="preview" v-bind:style="{'background-image':'url(./../../static/test1.jpg)'}"/>
+					<div class="title">2017 Photos</div>
+					<div class="date">January, 2017 - May, 2017</div>
+				</div>
+				<div class="column">
+					<div class="preview" v-bind:style="{'background-image':'url(./../../static/test1.jpg)'}"/>
+					<div class="title">2016 Photos</div>
+					<div class="date">January, 2016 - May, 2016</div>
+				</div>
+				<div class="column">
+					<div class="preview" v-bind:style="{'background-image':'url(./../../static/test1.jpg)'}"/>
 				</div>
 			</div>
 		</div>
@@ -50,11 +41,10 @@
 import $ from 'jquery'
 export default {
 	name: 'Album',
-	data() {
-		return{
-			photolist : [],
+	data: function(){
+		return {
 			photo : { photo_src : "./../../static/test1.jpg", photo_info : "2017 겨울"},
-			photo2 : { photo_src : "./../../static/test2.jpg", photo_info : "2016 여름"}
+			photo2 : { photo_src : "./../../static/test2.jpg", photo_info : "2016 여름"},
 		}
 	},
 	methods: {
@@ -72,20 +62,99 @@ export default {
 	#photo{
 		text-align: center;
 	}
-	.ui.grid.photo{
-		padding-left : 100px;
-		padding-right: 100px;
-		float: left;
+
+	.breadcrumb.album{
+		line-height: 48px;
+		padding-left: 10px;
 	}
-	.ui.button.photo{
-		float: right;
-		margin-right: 30px;
-	}
-	.column.photo{
-		margin-bottom: 25px;
-	}
-	.ui.vertical.menu{
+
+	.album.index{
 		text-align: left;
+		height: 48px;
+		width: 100%;
+		background-color: black;
+		color: white;
+	}
+
+	.divider.album{
+		color: white !important;
+	}
+
+	.section.album{
+		color: white !important;
+	}
+	.preview{
+		width: 350px;
+		height: 350px;
+		background-size: 100% 100%;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+	}
+
+	.container.album{
+		padding-top: 70px;
+	}
+
+	.yellow.rectangle{
+		width: 219px;
+		height: 48px;
+		background-color: #f6a623;
+		display: inline-block;
+		float: left;
+		text-align: right;
+		font-size: 20px;
+		font-weight: bold;
+		color: #000000;
+		line-height: 48px;
+		padding-right: 10px;
+	}
+	.yellow.triangle{
+	  width: 0;
+	  height: 0;
+	  border-top: 24px solid transparent;
+	  border-bottom: 24px solid transparent;
+	  border-left: 20px solid #f6a623;
+		z-index: 1001;
+		display: inline-block;
+		float: left;
+		position: relative;
+	}
+
+	.grey.rectangle{
+		width: 93px;
+		height: 48px;
+		margin-left: -20px;
+		background-color: #9b9b9b;
+		display: inline-block;
+		float: left;
+		text-align: right;
+		font-size: 20px;
+		font-weight: bold;
+  	color: #2d3e51;
+		line-height: 48px;
+		z-index: 100;
+		position: relative;
+		padding-right: 10px;
+	}
+	.grey.triangle{
+	  width: 0;
+	  height: 0;
+	  border-top: 24px solid transparent;
+	  border-bottom: 24px solid transparent;
+	  border-left: 20px solid #9b9b9b;
+		display: inline-block;
 		float: left;
 	}
+	.title{
+		padding-top: 25px;
+		text-align: left;
+		font-size: 25px;
+		font-weight: bold;
+	}
+	.date{
+		padding-top: 10px;
+		font-size: 15px;
+		text-align: left;
+		font-weight: 500;
+	}
+
 </style>

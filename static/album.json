@@ -1,0 +1,18 @@
+[
+  {
+    "year": 2017,
+    "event": 5,
+    "photo": 120,
+    "albums": [
+      {
+        "title": "딸기파티",
+        "date": "April 5, 2017",
+        "photo": [
+          {
+            "uri": "./../../static/test1.jpg",
+          },
+        ],
+      },
+    ],
+  },
+]
