@@ -1,7 +1,7 @@
 module.exports = {
   "env": {
-    "browser": 1,
-    "node": 1,
+    "browser": true,
+    "node": true,
   },
   "extends": [
     "airbnb",
@@ -24,6 +24,7 @@ module.exports = {
   "rules": {
     "max-len": ["error", 120],
     "global-require": "off",
+    "no-console": "off",
     "no-param-reassign": ["error", {"props": false}],
     "no-mixed-operators": ["error", {"allowSamePrecedence": true}],
     "no-constant-condition": ["error", { "checkLoops": false }],
