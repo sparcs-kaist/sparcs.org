@@ -1,13 +1,19 @@
 module.exports = {
-  "extends": "airbnb",
+  "env": {
+    "browser": 1,
+    "node": 1,
+  },
+  "extends": [
+    "airbnb",
+  ],
   "globals": {
-    "window": true,
     "semantic": true,
     "@": true,
     "$": true,
   },
   "plugins": [
     "import",
+    "html",
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -16,7 +22,6 @@ module.exports = {
     }
   },
   "rules": {
-    "semi": "off",
     "max-len": ["error", 120],
     "global-require": "off",
     "no-param-reassign": ["error", {"props": false}],

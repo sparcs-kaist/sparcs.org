@@ -39,46 +39,44 @@
 </template>
 
 <script>
-
-import $ from 'jquery'
 export default {
-	name: 'Album',
-	data: () => ({
-		photo : { photo_src : "./../../static/test1.jpg", photo_info : "2017 겨울"},
-		photo2 : { photo_src : "./../../static/test2.jpg", photo_info : "2016 여름"},
-	}),
+  name: 'Album',
+  data: () => ({
+    photo: { photo_src: './../../static/test1.jpg', photo_info: '2017 겨울' },
+    photo2: { photo_src: './../../static/test2.jpg', photo_info: '2016 여름' },
+  }),
 
-	mounted: function () {
-		document.getElementById('album').classList.add('active');
-	},
+  mounted() {
+    document.getElementById('album').classList.add('active');
+  },
 
-	methods: {
-		addPhoto() {
-			this.photolist.push(this.photo);
-		},
-		addPhoto2() {
-			this.photolist.push(this.photo2);
-		},
-		addAlbum(){
-        let httpPost = new XMLHttpRequest(),
-        path = "http://localhost:8080/newYear",
-        data = JSON.stringify({year:2017});
-        httpPost.onreadystatechange = function(err) {
-          if (httpPost.readyState == 4 && httpPost.status == 200){
-            let res = httpPost.responseText;
-            let jsonList = JSON.parse(res);
-            console.log(res);
-          } else {
-            console.log(err);
-          }
-        }.bind(this);
-        // Set the content type of the request to json since that's what's being sent
-        httpPost.open("POST", path, true);
-        httpPost.setRequestHeader('Content-Type', 'application/json');
-        httpPost.send(data);
-		}
-	},
-}
+  methods: {
+    addPhoto() {
+      this.photolist.push(this.photo);
+    },
+    addPhoto2() {
+      this.photolist.push(this.photo2);
+    },
+    addAlbum() {
+      const httpPost = new XMLHttpRequest();
+      const path = 'http://localhost:8080/newYear';
+      const data = JSON.stringify({ year: 2017 });
+      httpPost.onreadystatechange = function (err) {
+        if (httpPost.readyState === 4 && httpPost.status === 200) {
+          const res = httpPost.responseText;
+          // const jsonList = JSON.parse(res);
+          console.log(res);
+        } else {
+          console.log(err);
+        }
+      };
+      // Set the content type of the request to json since that's what's being sent
+      httpPost.open('POST', path, true);
+      httpPost.setRequestHeader('Content-Type', 'application/json');
+      httpPost.send(data);
+    },
+  },
+};
 </script>
 
 <style>

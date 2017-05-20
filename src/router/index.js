@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import AboutUs from '@/components/AboutUs'
-import Projects from '@/components/Projects'
-import Seminars from '@/components/Seminars'
-import Album from '@/components/Album'
-import Members from '@/components/Members'
+import Vue from 'vue';
+import Router from 'vue-router';
+import AboutUs from '@/components/AboutUs';
+import Projects from '@/components/Projects';
+import Seminars from '@/components/Seminars';
+import Album from '@/components/Album';
+import Members from '@/components/Members';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -18,4 +18,4 @@ export default new Router({
     { path: '/album', name: 'album', component: Album },
     { path: '/members', name: 'members', component: Members },
   ],
-})
+});

@@ -52,34 +52,34 @@
 </template>
 
 <script>
-import directory from './../../static/directory.js'
+import directory from './../../static/directory.js';
 
 export default {
   name: 'Members',
   data: () => ({
-		all: directory,
-		selected: directory,
+    all: directory,
+    selected: directory,
   }),
 
   computed: {
-    staff: function () { return this.all.filter(member => member.role.staff); },
-    developers: function () { return this.all.filter(member => member.role.developer); },
-    designers: function () { return this.all.filter(member => member.role.designer); },
+    staff() { return this.all.filter(member => member.role.staff); },
+    developers() { return this.all.filter(member => member.role.developer); },
+    designers() { return this.all.filter(member => member.role.designer); },
   },
 
-  mounted: function () {
-		const forEach = Array.prototype.forEach;
-		document.getElementById('members').classList.add('active');
-    document.querySelectorAll('#submenu .item').forEach(item => {
+  mounted() {
+    const forEach = Array.prototype.forEach;
+    document.getElementById('members').classList.add('active');
+    document.querySelectorAll('#submenu .item').forEach((item) => {
       item.onclick = function () {
-        forEach.call(this.parentNode.children, sibling => {
+        forEach.call(this.parentNode.children, (sibling) => {
           sibling.classList.remove('active');
         });
         this.classList.add('active');
       };
     });
   },
-}
+};
 </script>
 
 <style>

@@ -52,56 +52,56 @@ const isWheel = seminar => seminar.title.includes('Wheel');
 export default {
   name: 'Seminars',
 
-	data: () => ({
-		seminars: [
-			{
-				title: '2017 봄 신입생 세미나 - 3. Web, HTML, CSS overview',
-				speaker: 'gunwoo',
-				date: '2017-03-05',
-				source: '1.pptx',
-			},
-			{
-				title: '2017 봄 신입생 세미나 - 5. Django',
-				speaker: 'raon',
-				date: '2017-04-01',
-				source: '2.pptx',
-			},
-			{
-				title: '2017 Wheel 세미나 1',
-				speaker: 'jambo',
-				date: '2017-07-03',
-				source: '3.pptx',
-			},
-			{
-				title: '연애하는 법',
-				speaker: 'pablo',
-				date: '2017-05-19',
-				source: '4.pptx',
-			},
-		],
-		selected: [],
-	}),
+  data: () => ({
+    seminars: [
+      {
+        title: '2017 봄 신입생 세미나 - 3. Web, HTML, CSS overview',
+        speaker: 'gunwoo',
+        date: '2017-03-05',
+        source: '1.pptx',
+      },
+      {
+        title: '2017 봄 신입생 세미나 - 5. Django',
+        speaker: 'raon',
+        date: '2017-04-01',
+        source: '2.pptx',
+      },
+      {
+        title: '2017 Wheel 세미나 1',
+        speaker: 'jambo',
+        date: '2017-07-03',
+        source: '3.pptx',
+      },
+      {
+        title: '연애하는 법',
+        speaker: 'pablo',
+        date: '2017-05-19',
+        source: '4.pptx',
+      },
+    ],
+    selected: [],
+  }),
 
-	computed: {
-		freshman: function () { return this.seminars.filter(isFreshman); },
-		wheel: function () { return this.seminars.filter(isWheel); },
-		etc: function () { return this.seminars.filter(s => !isFreshman(s) && !isWheel(s)); },
-	},
+  computed: {
+    freshman() { return this.seminars.filter(isFreshman); },
+    wheel() { return this.seminars.filter(isWheel); },
+    etc() { return this.seminars.filter(s => !isFreshman(s) && !isWheel(s)); },
+  },
 
-  mounted: function () {
-		const forEach = Array.prototype.forEach;
-		document.getElementById('seminars').classList.add('active');
-    document.querySelectorAll('#submenu .item').forEach(item => {
+  mounted() {
+    const forEach = Array.prototype.forEach;
+    document.getElementById('seminars').classList.add('active');
+    document.querySelectorAll('#submenu .item').forEach((item) => {
       item.onclick = function () {
-        forEach.call(this.parentNode.children, sibling => {
+        forEach.call(this.parentNode.children, (sibling) => {
           sibling.classList.remove('active');
         });
         this.classList.add('active');
       };
     });
-		this.selected = this.seminars;
+    this.selected = this.seminars;
   },
-}
+};
 </script>
 
 <style>

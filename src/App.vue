@@ -24,32 +24,31 @@ export default {
   name: 'app',
   data: () => ({}),
 
-  mounted: function () {
+  mounted() {
     const forEach = Array.prototype.forEach;
-    document.getElementById('sparcs_logo').onclick = function(){
+    document.getElementById('sparcs_logo').onclick = function () {
       document.getElementById('r_view').style.marginTop = '0px';
       document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)';
-
-    }
-    document.querySelectorAll('.right.menu .item').forEach(item => {
+    };
+    document.querySelectorAll('.right.menu .item').forEach((item) => {
       item.onclick = function () {
         if (this.innerHTML !== 'ABOUT US') {
           document.getElementById('r_view').style.marginTop = '85px';
           document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
         }
-        forEach.call(this.parentNode.children, sibling => {
+        forEach.call(this.parentNode.children, (sibling) => {
           sibling.classList.remove('active');
         });
         this.classList.add('active');
       };
     });
     document.getElementById('sparcs_logo').onclick = function () {
-      document.querySelectorAll('.right.menu .item').forEach(item => {
+      document.querySelectorAll('.right.menu .item').forEach((item) => {
         item.classList.remove('active');
       });
     };
   },
-}
+};
 </script>
 
 <style lang="scss">

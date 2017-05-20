@@ -17,13 +17,13 @@
 
 <script>
 export default {
-	name: 'AboutUs',
-	mounted: function () {
-		document.getElementById('aboutus').classList.add('active');
-		document.getElementById('r_view').style.marginTop = 0;
-		document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)';
-	}
-}
+  name: 'AboutUs',
+  mounted() {
+    document.getElementById('aboutus').classList.add('active');
+    document.getElementById('r_view').style.marginTop = 0;
+    document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)';
+  },
+};
 </script>
 
 <style>

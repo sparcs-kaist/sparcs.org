@@ -75,11 +75,11 @@
 
 <script>
 export default {
-	name: 'Projects',
-	mounted: function () {
-		document.getElementById('projects').classList.add('active');
-	},
-}
+  name: 'Projects',
+  mounted() {
+    document.getElementById('projects').classList.add('active');
+  },
+};
 </script>
 
 <style>
