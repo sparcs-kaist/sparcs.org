@@ -28,6 +28,11 @@ export default {
 
   mounted: function () {
     const forEach = Array.prototype.forEach;
+    document.getElementById('sparcs_logo').onclick = function(){
+      document.getElementById('r_view').style.marginTop = '0px';
+      document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)';
+
+    }
     document.querySelectorAll('.right.menu .item').forEach(item => {
       item.onclick = function () {
         if(this.innerHTML === 'ABOUT US'){
@@ -73,7 +78,7 @@ h1, h2{
 
 #menu_header {
   padding: 1em 1em;
-  z-index: 1;
+  z-index: 1002;
   border: none !important;
   background-color: rgba(0,0,0,1);
 }

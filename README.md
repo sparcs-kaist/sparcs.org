@@ -2,6 +2,22 @@
 
 > new project for sparcs home
 
+## DB Setup
+
+``` bash
+# install mongodb (macOS)
+brew install mongodb
+mkdir -p /data/db
+chown [username] /data/db
+
+# execute mongodb
+mongod
+
+# execute mongodb CLI
+mongo
+```
+
+
 ## Build Setup
 
 ``` bash

@@ -9,8 +9,13 @@ var opn = require('opn')
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
+var mongoose = require("mongoose")
+var mongodb = require('mongodb')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+var yearSchema = require('./year_schema.js');
+var albumSchema = require('./album_schema.js');
+var bodyParser = require('body-parser');
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -31,6 +36,11 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
 var hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: () => {}
 })
+
+mongoose.connect('mongodb://localhost/sparcs_home');
+
+
+
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', function (compilation) {
   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
@@ -61,12 +71,33 @@ app.use(hotMiddleware)
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 var uri = 'http://localhost:' + port
 
 devMiddleware.waitUntilValid(function () {
   console.log('> Listening at ' + uri + '\n')
 })
+
+app.post('/newYear', function (req, res) {
+  console.log('hi');
+  console.log(req.body);
+  var json = req.body;
+  var year = new yearSchema({
+          year: json.year,
+          eventNumber: 1,
+          photoNumber: 1,
+          albums: []
+  });
+  year.save(function(err){
+    if(err) console.log('some error occured..' + err);
+    else{
+      console.log('successfully saved screenshot!');
+      res.send({result : 'success'});
+    }
+  });
+});
 
 module.exports = app.listen(port, function (err) {
   if (err) {

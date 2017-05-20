@@ -16,6 +16,7 @@
 			  <i class="right chevron icon divider album"></i>
 			  <a class="section album">img_20160710</a>
 			</div>
+			<button class="ui red attached button album" id="newAlbum" @click="addAlbum()">Upload</button>
 		</div>
 		<div class="ui container album">
 			<div class="ui aligned three column grid">
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+
 import $ from 'jquery'
 export default {
 	name: 'Album',
@@ -53,6 +55,24 @@ export default {
 		},
 		addPhoto2() {
 			this.photolist.push(this.photo2);
+		},
+		addAlbum(){
+        let httpPost = new XMLHttpRequest(),
+        path = "http://localhost:8080/newYear",
+        data = JSON.stringify({year:2017});
+        httpPost.onreadystatechange = function(err) {
+          if (httpPost.readyState == 4 && httpPost.status == 200){
+            let res = httpPost.responseText;
+            let jsonList = JSON.parse(res);
+            console.log(res);
+          } else {
+            console.log(err);
+          }
+        }.bind(this);
+        // Set the content type of the request to json since that's what's being sent
+        httpPost.open("POST", path, true);
+        httpPost.setRequestHeader('Content-Type', 'application/json');
+        httpPost.send(data);
 		}
 	},
 }
@@ -63,12 +83,20 @@ export default {
 		text-align: center;
 	}
 
+	.button.album{
+		height: 100%;
+		display: inline-block;
+		float: right;
+		margin-right: 107px !important;
+	}
+
 	.breadcrumb.album{
 		line-height: 48px;
 		padding-left: 10px;
 	}
 
 	.album.index{
+		position: fixed;
 		text-align: left;
 		height: 48px;
 		width: 100%;
@@ -88,6 +116,7 @@ export default {
 		height: 350px;
 		background-size: 100% 100%;
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+		z-index: 0px !important;
 	}
 
 	.container.album{
