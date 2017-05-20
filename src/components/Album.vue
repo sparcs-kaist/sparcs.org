@@ -43,12 +43,15 @@
 import $ from 'jquery'
 export default {
 	name: 'Album',
-	data: function(){
-		return {
-			photo : { photo_src : "./../../static/test1.jpg", photo_info : "2017 겨울"},
-			photo2 : { photo_src : "./../../static/test2.jpg", photo_info : "2016 여름"},
-		}
+	data: () => ({
+		photo : { photo_src : "./../../static/test1.jpg", photo_info : "2017 겨울"},
+		photo2 : { photo_src : "./../../static/test2.jpg", photo_info : "2016 여름"},
+	}),
+
+	mounted: function () {
+		document.getElementById('album').classList.add('active');
 	},
+
 	methods: {
 		addPhoto() {
 			this.photolist.push(this.photo);

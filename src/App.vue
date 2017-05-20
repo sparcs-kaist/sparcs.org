@@ -3,19 +3,19 @@
       <div class="ui fixed inverted large secondary pointing menu" id="menu_header">
         <div class="ui container">
         <div class="menu">
-          <router-link to="/" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo.png"/></router-link>
+          <router-link to="/" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo-1@3x.png"/></router-link>
         </div>
         <div class="right menu">
-          <router-link to="/aboutus" class="item">ABOUT US</router-link>
-          <router-link to="/projects" class="item">PROJECTS</router-link>
-          <router-link to="/seminars" class="item">SEMINAR</router-link>
-          <router-link to="/album" class="item">ALBUM</router-link>
-          <router-link to="/members" class="item">MEMBERS</router-link>
+          <router-link to="/aboutus" class="item" id="aboutus">ABOUT US</router-link>
+          <router-link to="/projects" class="item" id="projects">PROJECTS</router-link>
+          <router-link to="/seminars" class="item" id="seminars">SEMINAR</router-link>
+          <router-link to="/album" class="item" id="album">ALBUM</router-link>
+          <router-link to="/members" class="item" id="members">MEMBERS</router-link>
           <router-link to="/" class="item">LOGIN</router-link>
         </div>
       </div>
       </div>
-    <router-view id="r_view" style="margin-top: 85px;"></router-view>
+    <router-view id="r_view" style="margin-top: 85px"></router-view>
   </div>
 </template>
 
@@ -23,8 +23,6 @@
 export default {
   name: 'app',
   data: () => ({}),
-
-  methods: {},
 
   mounted: function () {
     const forEach = Array.prototype.forEach;
@@ -35,11 +33,7 @@ export default {
     }
     document.querySelectorAll('.right.menu .item').forEach(item => {
       item.onclick = function () {
-        if(this.innerHTML === 'ABOUT US'){
-          document.getElementById('r_view').style.marginTop = '0px';
-          document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)';
-        }
-        else{
+        if (this.innerHTML !== 'ABOUT US') {
           document.getElementById('r_view').style.marginTop = '85px';
           document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
         }
@@ -72,8 +66,23 @@ export default {
   height: 39px;
 }
 
-h1, h2{
+.masthead.segment {
+  min-height: 300px;
+  padding: 1em 0em;
+}
+
+.masthead h1.ui.header {
+  margin-top: 1.5em;
+  margin-bottom: 0em;
   font-family: 'Noto Sans';
+  font-size: 3em;
+  font-weight: normal;
+}
+
+.masthead h2 {
+  font-family: 'Noto Sans';
+  font-size: 1.7em;
+  font-weight: normal;
 }
 
 #menu_header {
@@ -89,18 +98,5 @@ h1, h2{
 
 #sparcs_logo{
   border-color: transparent;
-}
-.masthead.segment {
-  padding: 1em 0em;
-}
-.masthead h1.ui.header {
-  margin-top: 1.5em;
-  margin-bottom: 0em;
-  font-size: 3em;
-  font-weight: normal;
-}
-.masthead h2 {
-  font-size: 1.7em;
-  font-weight: normal;
 }
 </style>

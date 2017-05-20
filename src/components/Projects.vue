@@ -75,7 +75,10 @@
 
 <script>
 export default {
-	name: 'Projects'
+	name: 'Projects',
+	mounted: function () {
+		document.getElementById('projects').classList.add('active');
+	},
 }
 </script>
 
