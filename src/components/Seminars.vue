@@ -18,7 +18,7 @@
             <i class="search icon"></i>
           </div>
         </div>
-        <button class="ui red attached button" id="newfile">Upload</button>
+        <button class="ui red attached button" id="newfile" @click="upload('2017 봄', 'gunwoo', Date.now(), ['hello.pptx'])">Upload</button>
       </div>
 		</div>
     <div style="margin: 20px"></div> <!-- To be deleted-->
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 const isFreshman = seminar => seminar.title.includes('신입생');
 const isWheel = seminar => seminar.title.includes('Wheel');
 
@@ -53,32 +55,7 @@ export default {
   name: 'Seminars',
 
   data: () => ({
-    seminars: [
-      {
-        title: '2017 봄 신입생 세미나 - 3. Web, HTML, CSS overview',
-        speaker: 'gunwoo',
-        date: '2017-03-05',
-        source: '1.pptx',
-      },
-      {
-        title: '2017 봄 신입생 세미나 - 5. Django',
-        speaker: 'raon',
-        date: '2017-04-01',
-        source: '2.pptx',
-      },
-      {
-        title: '2017 Wheel 세미나 1',
-        speaker: 'jambo',
-        date: '2017-07-03',
-        source: '3.pptx',
-      },
-      {
-        title: '연애하는 법',
-        speaker: 'pablo',
-        date: '2017-05-19',
-        source: '4.pptx',
-      },
-    ],
+    seminars: [],
     selected: [],
   }),
 
@@ -86,6 +63,21 @@ export default {
     freshman() { return this.seminars.filter(isFreshman); },
     wheel() { return this.seminars.filter(isWheel); },
     etc() { return this.seminars.filter(s => !isFreshman(s) && !isWheel(s)); },
+  },
+
+  methods: {
+    upload(title, speaker, date, sources) {
+      axios.post('http://localhost:8080/db/seminars', { title, speaker, date, sources })
+      .then((response) => {
+        const { success } = response;
+        if (success) {
+          // TODO: On success...
+        } else {
+          // TODO: On failure...
+        }
+      })
+      .catch((error) => { console.log(error); });
+    },
   },
 
   mounted() {
@@ -99,7 +91,14 @@ export default {
         this.classList.add('active');
       };
     });
-    this.selected = this.seminars;
+
+    axios.get('http://localhost:8080/db/seminars')
+    .then((response) => {
+      const { seminars } = response.data;
+      this.seminars = seminars;
+      this.selected = seminars;
+    })
+    .catch((error) => { console.log(error); });
   },
 };
 </script>

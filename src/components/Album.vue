@@ -58,6 +58,11 @@ export default {
       this.photolist.push(this.photo2);
     },
     addAlbum() {
+      // Suggestion!
+      // axios.post('http://localhost:8080/newYear', { year: 2017 })
+      // .then((response) => { console.log(response); })
+      // .catch((error) => { console.log(error); });
+
       const httpPost = new XMLHttpRequest();
       const path = 'http://localhost:8080/newYear';
       const data = JSON.stringify({ year: 2017 });

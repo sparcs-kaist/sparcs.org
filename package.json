@@ -11,6 +11,7 @@
     "eslint": "eslint --ext .html,.js,.vue src/ build/"
   },
   "dependencies": {
+    "axios": "^0.16.1",
     "body-parser": "^1.17.2",
     "fs": "0.0.1-security",
     "jquery": "^3.1.1",

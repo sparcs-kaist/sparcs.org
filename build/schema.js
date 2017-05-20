@@ -18,9 +18,9 @@ const albumSchema = new Schema({
 
 const seminarSchema = new Schema({
   title: String,
-  date: String,
-  photoNumber: Number,
-  photos: Array,
+  speaker: String,
+  date: Date,
+  sources: [String],
 });
 
 exports.Years = mongoose.model('Years', yearSchema);

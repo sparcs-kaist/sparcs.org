@@ -95,6 +95,22 @@ app.post('/newYear', (req, res) => {
   });
 });
 
+app.post('/db/seminars', (req, res) => {
+  const { title, speaker, date, sources } = req.body;
+  const tuple = new schema.Seminars({ title, speaker, date, sources });
+  tuple.save((err) => {
+    if (err) res.send({ success: false });
+    else res.send({ success: true });
+  });
+});
+
+app.get('/db/seminars', (req, res) => {
+  schema.Seminars.find({}, (err, seminars) => {
+    if (err) res.send({ seminars: [] });
+    else res.send({ seminars });
+  });
+});
+
 module.exports = app.listen(port, (err) => {
   if (err) {
     console.log(err);

@@ -7,6 +7,7 @@ module.exports = {
     "airbnb",
   ],
   "globals": {
+    "axios": true,
     "semantic": true,
     "@": true,
     "$": true,
