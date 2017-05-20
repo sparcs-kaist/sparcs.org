@@ -2,18 +2,18 @@
   <div id="app">
       <div class="ui fixed inverted large secondary pointing menu" id="menu_header">
         <div class="ui container">
-        <div class="menu">
-          <router-link to="/" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo-1@3x.png"/></router-link>
+          <div class="menu">
+            <router-link to="/" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo-1@3x.png"/></router-link>
+          </div>
+          <div class="right menu">
+            <router-link to="/aboutus" class="item" id="aboutus">ABOUT US</router-link>
+            <router-link to="/projects" class="item" id="projects">PROJECTS</router-link>
+            <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
+            <router-link to="/album" class="item" id="album">ALBUM</router-link>
+            <router-link to="/members" class="item" id="members">MEMBERS</router-link>
+            <router-link to="/" class="item">LOGIN</router-link>
+          </div>
         </div>
-        <div class="right menu">
-          <router-link to="/aboutus" class="item" id="aboutus">ABOUT US</router-link>
-          <router-link to="/projects" class="item" id="projects">PROJECTS</router-link>
-          <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
-          <router-link to="/album" class="item" id="album">ALBUM</router-link>
-          <router-link to="/members" class="item" id="members">MEMBERS</router-link>
-          <router-link to="/" class="item">LOGIN</router-link>
-        </div>
-      </div>
       </div>
     <router-view id="r_view" style="margin-top: 85px"></router-view>
   </div>
