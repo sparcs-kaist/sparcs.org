@@ -8,7 +8,7 @@
         <div class="right menu">
           <router-link to="/aboutus" class="item" id="aboutus">ABOUT US</router-link>
           <router-link to="/projects" class="item" id="projects">PROJECTS</router-link>
-          <router-link to="/seminars" class="item" id="seminars">SEMINAR</router-link>
+          <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
           <router-link to="/album" class="item" id="album">ALBUM</router-link>
           <router-link to="/members" class="item" id="members">MEMBERS</router-link>
           <router-link to="/" class="item">LOGIN</router-link>
