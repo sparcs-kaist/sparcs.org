@@ -5,6 +5,7 @@ import Projects from '@/components/Projects';
 import Seminars from '@/components/Seminars';
 import Album from '@/components/Album';
 import Members from '@/components/Members';
+import Rules from '@/components/Rules';
 
 Vue.use(Router);
 
@@ -17,5 +18,6 @@ export default new Router({
     { path: '/seminars', name: 'seminars', component: Seminars },
     { path: '/album', name: 'album', component: Album },
     { path: '/members', name: 'members', component: Members },
+    { path: '/rules', name: 'rules', component: Rules },
   ],
 });

@@ -15,7 +15,15 @@
           </div>
         </div>
       </div>
-    <router-view id="r_view" style="margin-top: 85px"></router-view>
+    <router-view id="r_view"></router-view>
+    <div id="footer" class="ui inverted vertical footer segment">
+      <div class="ui center aligned container">
+        <div class="ui horizontal inverted small divided link list">
+          <router-link to="/rules" class="item">회칙</router-link>
+          <a class="item">만든 사람들</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -57,6 +65,25 @@ export default {
   color: #2c3e50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#sparcs_logo{
+  border-color: transparent;
+}
+
+#menu_header {
+  padding: 1em 1em;
+  z-index: 1002;
+  border: none !important;
+  background-color: rgba(0,0,0,1);
+}
+
+#r_view {
+  margin-top: 85px;
+  flex: 1;
 }
 
 .logo {
@@ -84,18 +111,17 @@ export default {
   font-weight: normal;
 }
 
-#menu_header {
-  padding: 1em 1em;
-  z-index: 1002;
-  border: none !important;
-  background-color: rgba(0,0,0,1);
-}
-
 .menu_list {
   border: none !important;
 }
 
-#sparcs_logo{
-  border-color: transparent;
+.ui.footer.segment {
+  margin: 5em 0em 0em;
+  padding: 2em 0em;
+}
+
+.ui.horizontal.link.list a.item {
+  font-weight: bold;
+  font-size: 1rem;
 }
 </style>
