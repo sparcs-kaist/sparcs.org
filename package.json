@@ -14,6 +14,7 @@
     "axios": "^0.16.1",
     "body-parser": "^1.17.2",
     "fs": "0.0.1-security",
+    "hangul-js": "^0.2.3",
     "jquery": "^3.1.1",
     "module": "^1.2.5",
     "mongodb": "^2.2.26",

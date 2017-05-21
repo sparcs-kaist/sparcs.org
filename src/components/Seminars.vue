@@ -8,22 +8,21 @@
 		</div>
 		<div class="ui inverted large attached menu" id="submenu">
 			<div class="ui container">
-				<a class="active yellow item" @click="selected = seminars">All</a>
-				<a class="yellow item" @click="selected = freshman">Freshman</a>
-				<a class="yellow item" @click="selected = wheel">Wheel</a>
-				<a class="yellow item" @click="selected = etc">Etc.</a>
+				<a class="active yellow item" @click="filtered = seminars">All</a>
+				<a class="yellow item" @click="filtered = freshman">Freshman</a>
+				<a class="yellow item" @click="filtered = wheel">Wheel</a>
+				<a class="yellow item" @click="filtered = etc">Etc.</a>
         <div class="ui small search right item">
           <div class="ui icon input">
-            <input class="prompt" type="text" placeholder="Search slides...">
+            <input class="prompt" type="text" placeholder="Search slides..." v-model="searchQuery">
             <i class="search icon"></i>
           </div>
         </div>
-        <button class="ui red attached button" id="newfile" @click="upload('2017 봄', 'gunwoo', Date.now(), ['hello.pptx'])">Upload</button>
+        <button class="ui red attached button">Upload</button>
       </div>
 		</div>
-    <div style="margin: 20px"></div> <!-- To be deleted-->
     <div class="ui container">
-      <table class="ui single line table">
+      <table class="ui single line table" id="seminar-list">
         <thead>
           <tr>
             <th class="two wide">Date</th>
@@ -47,22 +46,30 @@
 
 <script>
 import axios from 'axios';
+import * as hangul from 'hangul-js';
 
 const isFreshman = seminar => seminar.title.includes('신입생');
 const isWheel = seminar => seminar.title.includes('Wheel');
+const normal = str => str.replace(/\s/gi, '').toLowerCase();
 
 export default {
   name: 'Seminars',
 
   data: () => ({
     seminars: [],
-    selected: [],
+    filtered: [],
+    searchQuery: '',
   }),
 
   computed: {
     freshman() { return this.seminars.filter(isFreshman); },
     wheel() { return this.seminars.filter(isWheel); },
     etc() { return this.seminars.filter(s => !isFreshman(s) && !isWheel(s)); },
+    selected() {
+      return this.filtered.filter(seminar =>
+        hangul.search(normal(seminar.title), normal(this.searchQuery)) >= 0 ||
+        hangul.search(normal(seminar.speaker), normal(this.searchQuery)) >= 0);
+    },
   },
 
   methods: {
@@ -83,7 +90,7 @@ export default {
   mounted() {
     const forEach = Array.prototype.forEach;
     document.getElementById('seminars').classList.add('active');
-    document.querySelectorAll('#submenu .item').forEach((item) => {
+    document.querySelectorAll('#submenu .yellow.item').forEach((item) => {
       item.onclick = function () {
         forEach.call(this.parentNode.children, (sibling) => {
           sibling.classList.remove('active');
@@ -95,8 +102,11 @@ export default {
     axios.get('http://localhost:8080/db/seminars')
     .then((response) => {
       const { seminars } = response.data;
+      seminars.forEach((seminar) => {
+        seminar.date = seminar.date.split('T')[0];
+      });
       this.seminars = seminars;
-      this.selected = seminars;
+      this.filtered = seminars;
     })
     .catch((error) => { console.log(error); });
   },
@@ -104,5 +114,7 @@ export default {
 </script>
 
 <style>
-
+#seminar-list {
+  margin-top: 3em;
+}
 </style>
