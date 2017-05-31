@@ -115,7 +115,7 @@ export default {
   border: none !important;
 }
 
-.ui.footer.segment {
+.ui.vertical.footer.segment {
   margin: 5em 0em 0em;
   padding: 2em 0em;
 }
