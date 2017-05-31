@@ -1,7 +1,5 @@
 # sparcs_home
 
-> new project for sparcs home
-
 ## DB Setup
 
 ``` bash
@@ -23,6 +21,11 @@ mongo
 ``` bash
 # install dependencies
 npm install
+
+# set up semantic-ui
+npm install -g gulp
+cd semantic
+gulp build
 
 # serve with hot reload at localhost:8080
 npm run dev

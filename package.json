@@ -21,7 +21,7 @@
     "mongoose": "^4.10.0",
     "net": "^1.0.2",
     "node-sass": "^4.5.0",
-    "semantic-ui-css": "^2.2.9",
+    "semantic-ui": "^2.2.10",
     "tls": "0.0.1",
     "vue": "^2.2.1",
     "vue-router": "^2.2.0"
