@@ -3,17 +3,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const yearSchema = new Schema({
-  year: String,
+  year: Number,
   eventNumber: Number,
   photoNumber: Number,
   albums: Array,
 });
 
 const albumSchema = new Schema({
+  year: Number,
   title: String,
   date: String,
   photoNumber: Number,
-  photos: Array,
+  photos: [String],
 });
 
 const seminarSchema = new Schema({
