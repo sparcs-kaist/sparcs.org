@@ -86,6 +86,10 @@ export default {
   flex: 1;
 }
 
+#footer{
+  margin-top: 0px !important;
+}
+
 .logo {
   margin-top: 12px;
   width: 110px;

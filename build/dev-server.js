@@ -67,12 +67,12 @@ app.use(hotMiddleware);
 
 // serve pure static assets
 const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
-app.use(staticPath, express.static('./public'));
+app.use(staticPath, express.static('./static'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
 const uri = `http://localhost:${port}`;
-const imgWritePath = '/public/images/';
+const imgWritePath = staticPath + '/images/';
 const imgAccessPath = staticPath + '/images/';
 
 devMiddleware.waitUntilValid(() => {
@@ -206,7 +206,7 @@ function saveImageSync(base64Data) {
   let strImage = base64Data.replace(/^data:image\/[a-z]+;base64,/, "");
   let imageBuffer = new Buffer(strImage, 'base64');;
   let filename = "img_" + Date.now() + ".jpg";
-  let filepath = __dirname + imgWritePath + filename;
+  let filepath = __dirname + '/..' + imgWritePath + filename;
   console.log(filepath);
   fs.writeFileSync(filepath, imageBuffer);
   let url = uri + imgAccessPath + filename;

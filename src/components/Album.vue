@@ -2,32 +2,49 @@
 	<div id="photo">
 		<div id="album_breadcrumb" class="album index">
 		</div>
-		<div class="ui container album">
-			<div id="album_list" class="ui stackable three column relaxed grid container">
-				<div class="column" v-for="(year, index) in yearList" v-if="state === 'year'" @click="showAlbum(year.year)">
-					<img class="ui centered image" src="./../../static/test1.jpg"/>
-					<div class="title">2017 Photos</div>
-					<div class="date">January, 2017 - May, 2017</div>
-				</div>
-				<div class="column" v-for="(album, index) in albumList" v-if="state === 'album'" @click="showPhotos(album)">
-					<img class="ui centered image" src="./../../static/test1.jpg"/>
-					<div class="title">2016 Photos</div>
-					<div class="date">January, 2016 - May, 2016</div>
-				</div>
-				<div class="column" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo)">
-					<img class="ui centered image" :src="photo"/>
-				</div>
-			</div>
-		</div>
-		<div id="photoDetail" class="ui modal">
+    <div class="album overlay">
+  		<div class="ui container album">
+  			<div id="album_list" class="doubling stackable three column ui grid container">
+  				<div class="column" v-for="(year, index) in yearList" v-if="state === 'year'" @click="showAlbum(year.year)">
+  					<img class="ui centered image" src="./../../static/test1.jpg"/>
+  					<div class="title">2017 Photos</div>
+  					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
+  					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+  					<div class="year photo" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
+  					<div class="year photo" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+  				</div>
+  				<div class="column" v-for="(album, index) in albumList" v-if="state === 'album'" @click="showPhotos(album)">
+  					<img class="ui centered image" src="./../../static/test1.jpg"/>
+  					<div class="title">{{album.title}}</div>
+  					<!-- <div class="year event" v-if="album.photoNumber > 1">{{album.date}}     {{album.photoNumber}} photos</div>
+  					<div class="year event" v-if="album.photoNumber <= 1">{{album.date}}     {{album.photoNumber}} photo</div> -->
+            <div class="year event">{{album.date}} </div>
+  				</div>
+  				<div class="column" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo)">
+  					<img class="ui centered image" :src="photo"/>
+  				</div>
+
+  			</div>
+     </div>
+
+     <div class="hi" id="photoDetail" @click="hideImage">
+       <div class="ui segment modal_content" style="height: 100%; display: inline-block; position:relative; background-color:#FFFFFF;">
+         <div class="header">Memory of SPARCS</div>
+         <hr/>
+   		    <img id="photoDetailImage" class="image" :src="selectedPhoto" style="height: 90%;">
+       </div>
+    </div>
+   </div>
+		<!-- <div id="photoDetail" class="ui modal">
 		  <div class="header">Header</div>
 		  <div class="image content">
-		    <img class="image" src="./../../static/test1.jpg">
+		    <img id="photoDetailImage" class="image" :src="selectedPhoto">
 		    <div class="description">
 		      <p></p>
 		    </div>
 		  </div>
-		</div>
+		</div> -->
+
     <div id="addNewPhoto" class="ui modal" style="min-width: 680px;">
       <i class="close icon"></i>
       <div class="header">
@@ -81,6 +98,7 @@ export default {
     uploadAlbum: '',
     uploadPhotoTitle: '',
     uploadPhoto: '',
+    selectedPhoto: '',
   }),
 
   mounted() {
@@ -194,16 +212,12 @@ export default {
       }).modal('show');
     },
     showImage(src) {
-      this.breadcrumb.push(src);
-      this.fixBreadCrumb();
-      $('#photoDetail').modal({
-        onHide: () => {
-          this.breadcrumb = this.breadcrumb.slice(0, 2);
-          this.fixBreadCrumb();
-        },
-      }).modal('show');
+      this.selectedPhoto = src;
+      $('#photoDetail').show();
     },
-
+    hideImage() {
+      $('#photoDetail').hide();
+    },
     showAlbum(year) {
       this.breadcrumb.push(year);
       this.filterAlbum(year, () => { this.state = 'album'; });
@@ -280,6 +294,10 @@ export default {
 	#photo{
 		text-align: center;
 	}
+  .album.overlay{
+    position: relative;
+    min-height: 500px;
+  }
 
 	.button.album{
 		height: 100%;
@@ -296,6 +314,10 @@ export default {
   #ui_breadcrumb{
     height: 48px;
     line-height: 48px;
+  }
+  #album_list{
+    padding-top: 3em;
+    padding-bottom: 3em;
   }
 
 	.album.index{
@@ -324,7 +346,7 @@ export default {
 	}
 
 	.container.album{
-		padding-top: 70px;
+		margin-top: 62px;
 	}
 
 	.yellow.rectangle{
@@ -383,11 +405,28 @@ export default {
 		font-size: 25px;
 		font-weight: bold;
 	}
-	.date{
+	.year.event{
 		padding-top: 10px;
 		font-size: 15px;
 		text-align: left;
 		font-weight: 500;
 	}
+
+  #photoDetail{
+    display: none;
+    width:100%;
+    height: 100%;
+    text-align:center;
+    top:0;
+    left:0;
+    position:absolute;
+    padding:70px 100px;
+    background-color: rgba(0,0,0,0.6);
+  }
+
+  #photoDetailImage{
+    max-height: 500px !important;
+
+  }
 
 </style>

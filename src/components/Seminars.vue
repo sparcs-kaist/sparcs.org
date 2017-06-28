@@ -143,5 +143,6 @@ export default {
 <style>
 #seminar-list {
   margin-top: 3em;
+  margin-bottom: 3em;
 }
 </style>
