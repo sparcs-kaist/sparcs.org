@@ -127,58 +127,56 @@ app.post('/album/upload', (req, res) => {
     photoList[i] = saveImageSync(photoList[i]);
   }
   schema.Years.findOneAndUpdate(
-    { year: year },
+    { year },
     {
-      $inc: { eventNumber: albumInc, photoNumber: photoNumber },
-      $addToSet: { albums : album },
-      $setOnInsert: { year: year }
+      $inc: { eventNumber: albumInc, photoNumber },
+      $addToSet: { albums: album },
+      $setOnInsert: { year },
     },
     {
       upsert: true,
-      returnNewDocument: true
+      returnNewDocument: true,
     },
-    function (err, res1) {
-      if (err) {
-        res.send({ success : false});
-        console.log(err);
-      }
-      else{
+    (err1, res1) => {
+      if (err1) {
+        res.send({ success: false });
+        console.log(err1);
+      } else {
         console.log(res1);
         schema.Albums.findOneAndUpdate(
           { title: album },
           {
-            $inc: { photoNumber: photoNumber },
+            $inc: { photoNumber },
             $pushAll: { photos: photoList },
-            $setOnInsert: { year: year, title: album, date: albumDate },
+            $setOnInsert: { year, title: album, date: albumDate },
           },
           {
             upsert: true,
-            returnNewDocument: true
+            returnNewDocument: true,
           },
-          function (err, res2) {
-            if (err) {
-              res.send({ success : false });
-              console.log(err);
-            }
-            else{
+          (err2, res2) => {
+            if (err2) {
+              res.send({ success: false });
+              console.log(err2);
+            } else {
               console.log('succeed in uploading photo');
               console.log(res2);
-              res.send({ success: true, result1: res1, result2: res2});
+              res.send({ success: true, result1: res1, result2: res2 });
             }
-          }
-        )
+          },
+        );
       }
-    }
-  )
+    },
+  );
 });
 
 app.get('/album/getAlbum', (req, res) => {
-  schema.Years.find({}, (err, years) => {
-    if (err) res.send({ years: [] });
+  schema.Years.find({}, (err1, years) => {
+    if (err1) res.send({ years: [] });
     else {
-      schema.Albums.find({}, (err, albums) => {
-        if (err) res.send({ years });
-        res.send({years, albums});
+      schema.Albums.find({}, (err2, albums) => {
+        if (err2) res.send({ years });
+        res.send({ years, albums });
       });
     }
   });
