@@ -8,6 +8,7 @@ if (!process.env.NODE_ENV) {
 
 const opn = require('opn');
 const path = require('path');
+const joinPath = require('path.join');
 const express = require('express');
 const webpack = require('webpack');
 const mongoose = require('mongoose');
@@ -73,18 +74,20 @@ app.use(bodyParser.json({ limit: '50mb' }));
 
 const uri = `http://localhost:${port}`;
 const imgWritePath = '/public/images/';
-const imgAccessPath = staticPath + '/images/';
+const imgAccessPath = `${staticPath}/images/`;
+const seminarPath = '/public/seminars/';
+const seminarAccessPath = `${staticPath}/seminars/`;
 
 devMiddleware.waitUntilValid(() => {
   console.log(`> Listening at ${uri}\n`);
 });
 
 // Database
-let db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error);
-db.once('open', function () {
+db.once('open', () => {
   // CONNECTED TO MONGODB SERVER
-  console.log("Connected to mongod server");
+  console.log('Connected to mongod server');
 });
 
 mongoose.connect('mongodb://localhost/sparcs_home');
@@ -106,13 +109,23 @@ app.post('/album/newYear', (req, res) => {
   });
 });
 
+function saveImageSync(base64Data) {
+  const strImage = base64Data.replace(/^data:image\/[a-z]+;base64,/, '');
+  const imageBuffer = new Buffer(strImage, 'base64');
+  const fileName = `img_${Date.now()}.jpg`;
+  const filePath = joinPath(__dirname, imgWritePath, fileName);
+  console.log(filePath);
+  fs.writeFileSync(filePath, imageBuffer);
+  const url = uri + imgAccessPath + fileName;
+  return url;
+}
 
 app.post('/album/upload', (req, res) => {
   const { year, album, albumDate, newAlbum, photoList } = req.body;
   const photoNumber = photoList.length;
   let albumInc = 0;
   if (newAlbum) albumInc += 1;
-  for(let i = 0 ; i < photoNumber ; i++){
+  for (let i = 0; i < photoNumber; i += 1) {
     photoList[i] = saveImageSync(photoList[i]);
   }
   schema.Years.findOneAndUpdate(
@@ -173,13 +186,24 @@ app.get('/album/getAlbum', (req, res) => {
   });
 });
 
-
 app.post('/db/seminars', (req, res) => {
-  const { title, speaker, date, sources } = req.body;
+  const { title, speaker, date, content } = req.body;
+
+  const strContent = content.replace(/^data:application\/pdf;base64,/, '');
+  const buffer = new Buffer(strContent, 'base64');
+  const titleWithUnderscores = title.replace(' ', '_');
+  const fileName = `${speaker}_${titleWithUnderscores}.pdf`;
+  const filePath = joinPath(__dirname, seminarPath, fileName);
+  const url = uri + seminarAccessPath + fileName;
+  fs.writeFileSync(filePath, buffer);
+
+  const sources = [url];
   const tuple = new schema.Seminars({ title, speaker, date, sources });
   tuple.save((err) => {
-    if (err) res.send({ success: false });
-    else res.send({ success: true });
+    if (err) {
+      console.log(err);
+      res.send({ success: false });
+    } else res.send({ success: true });
   });
 });
 
@@ -201,14 +225,3 @@ module.exports = app.listen(port, (err) => {
     opn(uri);
   }
 });
-
-function saveImageSync(base64Data) {
-  let strImage = base64Data.replace(/^data:image\/[a-z]+;base64,/, "");
-  let imageBuffer = new Buffer(strImage, 'base64');;
-  let filename = "img_" + Date.now() + ".jpg";
-  let filepath = __dirname + imgWritePath + filename;
-  console.log(filepath);
-  fs.writeFileSync(filepath, imageBuffer);
-  let url = uri + imgAccessPath + filename;
-  return url;
-}
