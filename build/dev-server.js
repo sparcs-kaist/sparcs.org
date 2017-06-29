@@ -68,15 +68,13 @@ app.use(hotMiddleware);
 
 // serve pure static assets
 const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
-app.use(staticPath, express.static('./public'));
+app.use(staticPath, express.static('./static'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
 const uri = `http://localhost:${port}`;
-const imgWritePath = '/public/images/';
-const imgAccessPath = `${staticPath}/images/`;
-const seminarPath = '/public/seminars/';
-const seminarAccessPath = `${staticPath}/seminars/`;
+const imgPath = `${staticPath}/images/`;
+const seminarPath = `${staticPath}/seminars/`;
 
 devMiddleware.waitUntilValid(() => {
   console.log(`> Listening at ${uri}\n`);
@@ -113,10 +111,10 @@ function saveImageSync(base64Data) {
   const strImage = base64Data.replace(/^data:image\/[a-z]+;base64,/, '');
   const imageBuffer = new Buffer(strImage, 'base64');
   const fileName = `img_${Date.now()}.jpg`;
-  const filePath = joinPath(__dirname, imgWritePath, fileName);
+  const filePath = joinPath(__dirname, '/..', imgPath, fileName);
   console.log(filePath);
   fs.writeFileSync(filePath, imageBuffer);
-  const url = uri + imgAccessPath + fileName;
+  const url = uri + imgPath + fileName;
   return url;
 }
 
@@ -193,8 +191,8 @@ app.post('/db/seminars', (req, res) => {
   const buffer = new Buffer(strContent, 'base64');
   const titleWithUnderscores = title.replace(' ', '_');
   const fileName = `${speaker}_${titleWithUnderscores}.pdf`;
-  const filePath = joinPath(__dirname, seminarPath, fileName);
-  const url = uri + seminarAccessPath + fileName;
+  const filePath = joinPath(__dirname, '/..', seminarPath, fileName);
+  const url = uri + seminarPath + fileName;
   fs.writeFileSync(filePath, buffer);
 
   const sources = [url];

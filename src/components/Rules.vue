@@ -1,5 +1,5 @@
 <template>
-  <div class="ui text container">
+  <div class="ui container">
     <div class="ui active tab">
       <div class="ui main container" style="margin-top: 2em">
         <h2 class="ui dividing header">SPARCS 회칙</h2>
