@@ -11,7 +11,7 @@
             <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
             <router-link to="/album" class="item" id="album">ALBUM</router-link>
             <router-link to="/members" class="item" id="members">MEMBERS</router-link>
-            <router-link to="/login" class="item">LOGIN</router-link>
+            <div class="item" @click="getLogin()">LOGIN</div>
           </div>
         </div>
       </div>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'app',
   data: () => ({}),
@@ -55,6 +57,15 @@ export default {
         item.classList.remove('active');
       });
     };
+  },
+  methods: {
+    getLogin() {
+      console.log('hi');
+      axios.get('http://localhost:8080/login')
+      .then((response) => {
+        console.log(response);
+      });
+    },
   },
 };
 </script>
