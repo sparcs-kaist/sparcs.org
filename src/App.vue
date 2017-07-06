@@ -11,7 +11,7 @@
             <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
             <router-link to="/album" class="item" id="album">ALBUM</router-link>
             <router-link to="/members" class="item" id="members">MEMBERS</router-link>
-            <router-link to="/" class="item">LOGIN</router-link>
+            <router-link to="/login" class="item">LOGIN</router-link>
           </div>
         </div>
       </div>

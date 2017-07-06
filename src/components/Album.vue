@@ -337,6 +337,7 @@ export default {
           albumDate: 'May, 2017',
           newAlbum: true,
           photoList: [this.uploadPhoto] };
+      console.log(sendJson);
       axios.post('http://localhost:8080/album/upload', sendJson)
       .then((response) => { console.log(response); })
       .catch((error) => { console.log(error); });

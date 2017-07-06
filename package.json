@@ -13,6 +13,8 @@
   "dependencies": {
     "axios": "^0.16.1",
     "body-parser": "^1.17.2",
+    "crypto": "0.0.3",
+    "express-session": "^1.15.3",
     "fs": "0.0.1-security",
     "hangul-js": "^0.2.3",
     "jquery": "^3.1.1",
@@ -21,6 +23,8 @@
     "mongoose": "^4.10.0",
     "net": "^1.0.2",
     "node-sass": "^4.5.0",
+    "path.join": "^1.0.0",
+    "request-promise": "^4.2.1",
     "semantic-ui": "^2.2.10",
     "tls": "0.0.1",
     "vue": "^2.2.1",
