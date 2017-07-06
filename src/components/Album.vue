@@ -35,15 +35,6 @@
        </div>
     </div>
    </div>
-		<!-- <div id="photoDetail" class="ui modal">
-		  <div class="header">Header</div>
-		  <div class="image content">
-		    <img id="photoDetailImage" class="image" :src="selectedPhoto">
-		    <div class="description">
-		      <p></p>
-		    </div>
-		  </div>
-		</div> -->
 
     <div id="addNewPhoto" class="ui modal" style="min-width: 680px;">
       <i class="close icon"></i>
@@ -54,16 +45,31 @@
           <div class="ui form">
             <div class="field">
               <label>연도 </label>
-              <input class="fluid" v-model="uploadYear"></input>
+              <!-- <input class="fluid" v-model="uploadYear"></input> -->
+              <div id="yearDropdown" class="ui fluid search selection dropdown">
+                <input type="hidden" name="year">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Year</div>
+                <div class="menu">
+                  <div class="item" v-for="(year, index) in yearData" :data-value="year.year" >{{year}}</div>
+                </div>
+              </div>
             </div>
             <div class="field">
-              <label>앨범 </label>
-              <input class="fluid" v-model="uploadAlbum"></input>
+              <label>앨범 <i class="add icon" @click="showAddAlbumModal()"></i></label>
+              <div id="albumDropdown" class="ui fluid search selection dropdown">
+                <input type="hidden" name="album">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Album</div>
+                <div class="menu">
+                  <div class="item" v-for="(album, index) in uploadAlbumList" :data-value="album.title" >{{album.title}}</div>
+                </div>
+              </div>
             </div>
             <div class="field">
               <label>사진 첨부 </label>
               <div class="ui file input action">
-                <input type="text" v-model="uploadPhotoTitle">
+                <input type="text" v-model="uploadPhotoTitle" readonly>
                 <input type="file" id="photoUpload" ref="fileUploads" @change="onFileChangePhoto($event)" style="display: none">
                 <div class="ui button" @click="onSelectFileClick"> 파일 선택 </div>
               </div>
@@ -77,11 +83,41 @@
           </div>
         </div>
       </div>
+
+      <div id="addAlbumModal" class="ui small modal">
+        <i class="close icon"></i>
+        <div class="header">Add New Album</div>
+     	  <div class="content">
+          <div class="ui form">
+            <input type="text" name="year">
+          </div>
+     	  </div>
+        <div class="actions">
+          <div class="ui black button deny">Cancel</div>
+          <div class="ui positive right labeled icon button approve">
+            Upload <i class="checkmark icon"></i>
+          </div>
+        </div>
+   	 </div>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
+
+const d = new Date();
+
+Array.range = (a, b, step) => {
+  const A = [a];
+  const realStep = step || 1;
+  let realA = a;
+  while (realA + realStep >= b) {
+    realA += realStep;
+    A.push(realA);
+  }
+  return A;
+};
+
 
 export default {
   name: 'Album',
@@ -90,12 +126,14 @@ export default {
     photo2: { photo_src: './../../static/test2.jpg', photo_info: '2016 여름' },
     state: 'year',
     yearList: [],
+    yearData: [],
     albumList: [],
     photoList: [],
     albumRawList: [],
     breadcrumb: [],
     uploadYear: '',
     uploadAlbum: '',
+    uploadAlbumList: [],
     uploadPhotoTitle: '',
     uploadPhoto: '',
     selectedPhoto: '',
@@ -103,6 +141,26 @@ export default {
 
   mounted() {
     document.getElementById('album').classList.add('active');
+    $('#yearDropdown').dropdown({
+      onChange: (year) => {
+        // custom action
+        this.uploadYear = year;
+        this.uploadAlbumList = [];
+        for (let i = 0; i < this.albumRawList.length; i += 1) {
+          if (this.albumRawList[i].year === parseInt(year, 10)) {
+            this.uploadAlbumList.push(this.deepcopy(this.albumRawList[i]));
+          }
+        }
+        this.uploadAlbum = '';
+        $('#albumDropdown').dropdown('restore defaults');
+      },
+    });
+    $('#albumDropdown').dropdown({
+      onChange: (value) => {
+        // custom action
+        this.uploadAlbum = value;
+      },
+    });
     axios.get('http://localhost:8080/album/getAlbum')
     .then((response) => {
       const { years, albums } = response.data;
@@ -111,6 +169,7 @@ export default {
       this.fixBreadCrumb();
     })
     .catch((error) => { console.log(error); });
+    this.yearData = Array.range(d.getFullYear(), 1970, -1);
   },
 
   methods: {
@@ -122,6 +181,9 @@ export default {
         }
       }
       callback();
+    },
+    showAddAlbumModal() {
+      $('#addAlbumModal').show();
     },
     fixBreadCrumb() {
       const len = this.breadcrumb.length;
@@ -318,6 +380,10 @@ export default {
   #album_list{
     padding-top: 3em;
     padding-bottom: 3em;
+  }
+  #addAlbumModal{
+    z-index: 3000;
+    top: 40% !important;
   }
 
 	.album.index{
