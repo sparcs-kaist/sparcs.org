@@ -17,6 +17,8 @@ const proxyMiddleware = require('http-proxy-middleware');
 const webpackConfig = require('./webpack.dev.conf');
 const bodyParser = require('body-parser');
 const schema = require('./schema.js');
+const session = require('express-session');
+const Client = require('./sparcsssov2');
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.dev.port;
@@ -65,6 +67,29 @@ app.use(devMiddleware);
 // enable hot-reload and state-preserving
 // compilation error display
 app.use(hotMiddleware);
+
+// Use express-session for save session
+app.use(session({
+  key: 'destroyKey',
+  resave: false,
+  saveUninitialized: true,
+  secret: 'secretkey',
+  cookie: {
+    maxAge: 1000 * 60 * 60, // 1hour
+  },
+  // store: new MongoStore(options),
+}));
+
+// set for SSO connecting. for dev
+const client = new Client('teste0b822cdafbe', '4a68305ccb64c7b944bc', false);
+
+// Javascript have no function for set default value.
+function getKey(dict, key, replacement) {
+  if (Object.prototype.hasOwnProperty.call(dict, key)) {
+    return dict[key];
+  }
+  return replacement;
+}
 
 // serve pure static assets
 const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
@@ -163,11 +188,9 @@ app.post('/album/upload', (req, res) => {
               console.log(res2);
               res.send({ success: true, result1: res1, result2: res2 });
             }
-          },
-        );
+          });
       }
-    },
-  );
+    });
 });
 
 app.get('/album/getAlbum', (req, res) => {
@@ -208,6 +231,67 @@ app.get('/db/seminars', (req, res) => {
     if (err) res.send({ seminars: [] });
     else res.send({ seminars });
   });
+});
+
+app.get('/login', (req, res) => {
+  const sess = req.session;
+  if (Object.prototype.hasOwnProperty.call(sess, 'authenticated') && sess.authenticated === true) {
+    return res.redirect(getKey(sess, 'next', '/'));
+  }
+  const [loginUrl, state] = client.getLoginParams();
+  console.log(sess);
+  sess.ssoState = state;
+  return res.redirect(loginUrl);
+});
+
+app.get('/login/callback', (req, res) => {
+  const sess = req.session;
+  const stateBefore = getKey(sess, 'ssoState', 'default');
+
+  const state = getKey(req.query, 'state', '');
+  if (stateBefore !== state) {
+    throw new Error('State changed');
+  }
+
+  const code = getKey(req.query, 'code', '');
+
+  client.getUserInfo(code)
+          .then((resp) => {
+            sess.authenticated = true;
+            sess.sid = resp.sid;
+            if (resp.sparcs_id) {
+              sess.sparcsId = resp.sparcs_id;
+              sess.isSPARCS = true;
+            } else {
+              sess.isSPARCS = false;
+            }
+            console.log('=========================');
+            console.log(resp);
+            console.log('=========================');
+            console.log(sess);
+
+            let next;
+            if (Object.prototype.hasOwnProperty.call(sess, 'next')) {
+              next = sess.next;
+              delete sess.next;
+            } else {
+              next = '/';
+            }
+            return res.redirect(next);
+          });
+});
+
+app.get('/logout', (req, res) => {
+  const sess = req.session;
+  if (!sess.authenticated) {
+    console.log('REDIRECTED');
+    return res.redirect('/');
+  }
+  const sid = getKey(sess, 'sid', '');
+  client.getLogoutUrl(sid, '/');
+  req.session.destroy();
+  res.clearCookie('destroyKey');
+  return res.redirect('/');
 });
 
 module.exports = app.listen(port, (err) => {
