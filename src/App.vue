@@ -1,22 +1,22 @@
 <template>
   <div id="app">
-      <div class="ui fixed inverted large secondary pointing menu" id="menu_header">
-        <div class="ui container">
-          <div class="menu">
-            <router-link to="/" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo-1@3x.png"/></router-link>
-          </div>
-          <div class="right menu">
-            <router-link to="/aboutus" class="item" id="aboutus">ABOUT US</router-link>
-            <router-link to="/projects" class="item" id="projects">PROJECTS</router-link>
-            <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
-            <router-link to="/album" class="item" id="album">ALBUM</router-link>
-            <router-link to="/members" class="item" id="members">MEMBERS</router-link>
-            <div class="item" @click="getLogin()">LOGIN</div>
-          </div>
+    <div class="ui fixed inverted large secondary pointing menu" id="menu_header" v-if="$route.path==='/' ? false : true">
+      <div class="ui container">
+        <div class="menu">
+          <router-link to="/aboutus" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo-1@3x.png"/></router-link>
+        </div>
+        <div class="right menu">
+          <router-link to="/aboutus" class="item" id="aboutus">ABOUT US</router-link>
+          <router-link to="/projects" class="item" id="projects">PROJECTS</router-link>
+          <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
+          <router-link to="/album" class="item" id="album">ALBUM</router-link>
+          <router-link to="/members" class="item" id="members">MEMBERS</router-link> 
+          <div class="item" @click="getLogin()">LOGIN</div>
         </div>
       </div>
+    </div>
     <router-view id="r_view"></router-view>
-    <div id="footer" class="ui inverted vertical footer segment">
+    <div id="footer" class="ui inverted vertical footer segment" v-if="$route.path==='/' ? false : true">
       <div class="ui center aligned container">
         <div class="ui horizontal inverted small divided link list">
           <router-link to="/rules" class="item">회칙</router-link>
@@ -33,7 +33,6 @@ import axios from 'axios';
 export default {
   name: 'app',
   data: () => ({}),
-
   mounted() {
     const forEach = Array.prototype.forEach;
     document.getElementById('sparcs_logo').onclick = function () {
