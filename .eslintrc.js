@@ -23,6 +23,7 @@ module.exports = {
     }
   },
   "rules": {
+    "semi": "off",
     "max-len": ["error", 120],
     "global-require": "off",
     "no-console": "off",
@@ -34,5 +35,6 @@ module.exports = {
     "func-names": "off",
     "import/no-extraneous-dependencies": "off",
     "linebreak-style": "off",
+    "arrow-parens": "off",
   }
 };

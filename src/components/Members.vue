@@ -21,45 +21,52 @@
 		<div style="margin: 20px"></div> <!-- To be deleted-->
     <div class="ui container">
 			<div class="ui four doubling cards">
-				<div class="card" v-for="member in selected">
-					<div class="middle aligned content">
-						<img class="left floated large ui avatar image" src="./../../static/test1.jpg" />
-						<div class="header">{{member.name}} ({{member.id}})</div>
-						<div class="meta">
-							<template v-if="member.role.staff">
-								{{ member.role.staffTitle }},
-							</template>
-							<template v-if="member.role.developer">Developer, </template>
-							<template v-if="member.role.designer">Designer, </template>
-						</div>
-						<div class="description">
-							{{member.quote}}
-							<a :href="'https://facebook.com/'+member.facebook">
-								<i class="right floated facebook square icon"></i>
-							</a>
-							<a :href="member.website">
-								<i class="right floated home icon"></i>
-							</a>
-							<a :href="'mailto:'+member.id+'@sparcs.org'">
-								<i class="right floated mail icon"></i>
-							</a>
-						</div>
-					</div>
-				</div>
+
+        <div class="card" v-for="member in users">
+          <div class="middle aligned content">
+            <img class="left floated large ui avatar image" src="./../../static/test1.jpg" />
+            <div class="header">{{member.name}}</div>
+            <div class="meta">
+              <!--<template v-if="member.role.staff">-->
+                <!--{{ member.role.staffTitle }},-->
+              <!--</template>-->
+              <template v-if="member.is_developer">Developer, </template>
+              <template v-if="member.is_designer">Designer, </template>
+            </div>
+            <div class="description">
+              {{member.id}}
+              <a v-if="member.linkedin_url" :href="'https://www.linkedin.com/in/'+member.linkedin_url">
+                <i class="right floated linkedin square icon"></i>
+              </a>
+              <a v-if="member.github_id"  :href="'https://github.com/'+member.github_id">
+                <i class="right floated github square icon"></i>
+              </a>
+            </div>
+          </div>
+        </div>
 			</div>
     </div>
 	</div>
 </template>
 
 <script>
-import directory from './../../static/directory.js';
+import axios from 'axios'
+
+import directory from './../../static/directory.js'
 
 export default {
   name: 'Members',
   data: () => ({
     all: directory,
     selected: directory,
+    users: [],
   }),
+  created() {
+    axios.get('http://localhost:12345/users/')
+      .then(res => {
+        this.users = res.data
+      })
+  },
 
   computed: {
     staff() { return this.all.filter(member => member.role.staff); },
@@ -83,5 +90,8 @@ export default {
 </script>
 
 <style>
-
+.linkedin.square.icon, .github.square.icon {
+  font-size: 20px;
+  color: black;
+}
 </style>
