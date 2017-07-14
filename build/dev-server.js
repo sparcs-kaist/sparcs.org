@@ -58,16 +58,6 @@ Object.keys(proxyTable).forEach((context) => {
   app.use(proxyMiddleware(options.filter || context, options));
 });
 
-// handle fallback for HTML5 history API
-app.use(require('connect-history-api-fallback')());
-
-// serve webpack bundle output
-app.use(devMiddleware);
-
-// enable hot-reload and state-preserving
-// compilation error display
-app.use(hotMiddleware);
-
 // Use express-session for save session
 app.use(session({
   key: 'destroyKey',
@@ -240,8 +230,6 @@ app.get('/login', (req, res) => {
   }
   const [loginUrl, state] = client.getLoginParams();
   sess.ssoState = state;
-  console.log(sess);
-  console.log(loginUrl);
   return res.redirect(loginUrl);
 });
 
@@ -285,7 +273,6 @@ app.get('/login/callback', (req, res) => {
 app.get('/logout', (req, res) => {
   const sess = req.session;
   if (!sess.authenticated) {
-    console.log('REDIRECTED');
     return res.redirect('/');
   }
   const sid = getKey(sess, 'sid', '');
@@ -294,6 +281,17 @@ app.get('/logout', (req, res) => {
   res.clearCookie('destroyKey');
   return res.redirect('/');
 });
+
+
+// handle fallback for HTML5 history API
+app.use(require('connect-history-api-fallback')());
+
+// serve webpack bundle output
+app.use(devMiddleware);
+
+// enable hot-reload and state-preserving
+// compilation error display
+app.use(hotMiddleware);
 
 module.exports = app.listen(port, (err) => {
   if (err) {

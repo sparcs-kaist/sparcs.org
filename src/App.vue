@@ -10,7 +10,7 @@
           <router-link to="/projects" class="item" id="projects">PROJECTS</router-link>
           <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
           <router-link to="/album" class="item" id="album">ALBUM</router-link>
-          <router-link to="/members" class="item" id="members">MEMBERS</router-link> 
+          <router-link to="/members" class="item" id="members">MEMBERS</router-link>
           <div class="item" @click="getLogin()">LOGIN</div>
         </div>
       </div>
@@ -59,11 +59,7 @@ export default {
   },
   methods: {
     getLogin() {
-      console.log('hi');
-      axios.get('http://localhost:8080/login')
-      .then((response) => {
-        console.log(response);
-      });
+      window.location.href = 'http://localhost:8080/login'
     },
   },
 };
