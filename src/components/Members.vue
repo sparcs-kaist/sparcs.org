@@ -67,7 +67,6 @@ export default {
 
   computed: {
     selectedUsers() {
-      console.log('selectedUsers', this.filter)
       if (this.roleFilter === 'all') {
         return this.users
       }
