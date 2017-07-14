@@ -8,10 +8,10 @@
 		</div>
 		<div class="ui inverted large attached menu" id="submenu">
 			<div class="ui container">
-				<a class="active yellow item" @click="selected = all">All</a>
-				<a class="yellow item" @click="selected = staff">Staff</a>
-				<a class="yellow item" @click="selected = developers">Developers</a>
-				<a class="yellow item" @click="selected = designers">Designers</a>
+				<a class="active yellow item" @click="roleFilter = 'all'">All</a>
+				<a class="yellow item" @click="roleFilter = 'staff'">Staff</a>
+				<a class="yellow item" @click="roleFilter = 'is_developer'">Developers</a>
+				<a class="yellow item" @click="roleFilter = 'is_designer'">Designers</a>
 				<div class="ui right toggle checkbox item">
 					<input type="checkbox" name="under"/>
 					<label>Undergrads only</label>
@@ -22,7 +22,7 @@
     <div class="ui container">
 			<div class="ui four doubling cards">
 
-        <div class="card" v-for="member in users">
+        <div class="card" v-for="member in selectedUsers">
           <div class="middle aligned content">
             <img class="left floated large ui avatar image" src="./../../static/test1.jpg" />
             <div class="header">{{member.name}}</div>
@@ -52,13 +52,10 @@
 <script>
 import axios from 'axios'
 
-import directory from './../../static/directory.js'
-
 export default {
   name: 'Members',
   data: () => ({
-    all: directory,
-    selected: directory,
+    roleFilter: 'all',
     users: [],
   }),
   created() {
@@ -69,9 +66,13 @@ export default {
   },
 
   computed: {
-    staff() { return this.all.filter(member => member.role.staff); },
-    developers() { return this.all.filter(member => member.role.developer); },
-    designers() { return this.all.filter(member => member.role.designer); },
+    selectedUsers() {
+      console.log('selectedUsers', this.filter)
+      if (this.roleFilter === 'all') {
+        return this.users
+      }
+      return this.users.filter(user => user[this.roleFilter])
+    },
   },
 
   mounted() {
