@@ -239,8 +239,9 @@ app.get('/login', (req, res) => {
     return res.redirect(getKey(sess, 'next', '/'));
   }
   const [loginUrl, state] = client.getLoginParams();
-  console.log(sess);
   sess.ssoState = state;
+  console.log(sess);
+  console.log(loginUrl);
   return res.redirect(loginUrl);
 });
 
@@ -250,7 +251,7 @@ app.get('/login/callback', (req, res) => {
 
   const state = getKey(req.query, 'state', '');
   if (stateBefore !== state) {
-    throw new Error('State changed');
+    throw new Error('TOKEN MISMATCH: session might be hijacked!');
   }
 
   const code = getKey(req.query, 'code', '');
