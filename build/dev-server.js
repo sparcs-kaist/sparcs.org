@@ -143,23 +143,61 @@ function saveImageSync(base64Data) {
   return url;
 }
 
+app.post('/album/newAlbum', (req, res) => {
+  const { year, albumTitle, albumDate } = req.body;
+  const album = new schema.Albums({
+    year: year,
+    title: albumTitle,
+    date: albumDate,
+    photoNumber: 0,
+    photos: [],
+  });
+  console.log(album);
+  album.save((err1, res1) => {
+    if (err1){
+      res.send({ success: false, err: err1});
+      console.log(err1);
+    } else {
+      schema.Years.findOneAndUpdate(
+        { year: year },
+        {
+          $inc: { eventNumber: 1 },
+          $addToSet: { albums: albumTitle },
+          $setOnInsert: { year: year },
+        },
+        {
+          upsert: true,
+          returnOriginal: false,
+          returnNewDocument: true,
+        },
+        (err2, res2) => {
+          if(err2) {
+            res.send({ success: false, err: err2 });
+            console.log(err2);
+          } else{
+            res.send({ success: true, resultAlbum: res1, resultYear: res2 });
+          }
+        }
+      );
+    }
+  });
+});
+
 app.post('/album/upload', (req, res) => {
-  const { year, album, albumDate, newAlbum, photoList } = req.body;
+  const { year, album, albumDate, photoList } = req.body;
   const photoNumber = photoList.length;
-  let albumInc = 0;
-  if (newAlbum) albumInc += 1;
   for (let i = 0; i < photoNumber; i += 1) {
     photoList[i] = saveImageSync(photoList[i]);
   }
   schema.Years.findOneAndUpdate(
-    { year },
+    { year: year },
     {
-      $inc: { eventNumber: albumInc, photoNumber },
-      $addToSet: { albums: album },
-      $setOnInsert: { year },
+      $inc: { photoNumber },
+      $setOnInsert: { year: year },
     },
     {
       upsert: true,
+      returnOriginal: false,
       returnNewDocument: true,
     },
     (err1, res1) => {
@@ -173,10 +211,11 @@ app.post('/album/upload', (req, res) => {
           {
             $inc: { photoNumber },
             $pushAll: { photos: photoList },
-            $setOnInsert: { year, title: album, date: albumDate },
+            $setOnInsert: { year: year, title: album, date: albumDate },
           },
           {
             upsert: true,
+            returnOriginal: false,
             returnNewDocument: true,
           },
           (err2, res2) => {

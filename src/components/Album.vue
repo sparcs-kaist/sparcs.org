@@ -4,34 +4,55 @@
 		</div>
     <div class="album overlay">
   		<div class="ui container album">
-  			<div id="album_list" class="doubling stackable three column ui grid container">
-  				<div class="column" v-for="(year, index) in yearList" v-if="state === 'year'" @click="showAlbum(year.year)">
-  					<img class="ui centered image" src="./../../static/test1.jpg"/>
-  					<div class="title">2017 Photos</div>
-  					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
-  					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-  					<div class="year photo" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
-  					<div class="year photo" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+  			<div id="album_list" class="ui three column grid">
+        <!-- <div id="album_list" class="doubling stackable three column ui grid container"> -->
+  				<div class="column album" v-for="(year, index) in yearList" v-if="state === 'year' && index % 3 != 2" @click="showAlbum(year.year)">
+            <div v-if="index % 3 != 2">
+              <img class="ui centered image album" src="./../../static/test1.jpg"/>
+    					<div class="title">{{year.year}}</div>
+    					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
+    					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+    					<div class="year photo" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
+    					<div class="year photo" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+            </div>
+            <div class="right" v-if="index % 3 == 2">
+    					<img class="ui centered image album" src="./../../static/test1.jpg"/>
+    					<div class="title">{{year.year}}</div>
+    					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
+    					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+    					<div class="year photo" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
+    					<div class="year photo" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+    				</div>
   				</div>
-  				<div class="column" v-for="(album, index) in albumList" v-if="state === 'album'" @click="showPhotos(album)">
-  					<img class="ui centered image" src="./../../static/test1.jpg"/>
-  					<div class="title">{{album.title}}</div>
-  					<!-- <div class="year event" v-if="album.photoNumber > 1">{{album.date}}     {{album.photoNumber}} photos</div>
-  					<div class="year event" v-if="album.photoNumber <= 1">{{album.date}}     {{album.photoNumber}} photo</div> -->
-            <div class="year event">{{album.date}} </div>
+  				<div class="column album" v-for="(album, index) in albumList" v-if="state === 'album' && index % 3 != 2" @click="showPhotos(album)">
+            <div v-if="index % 3 != 2">
+              <img class="ui centered medium image" src="./../../static/test1.jpg"/>
+    					<div class="title">{{album.title}}</div>
+    					<!-- <div class="year event" v-if="album.photoNumber > 1">{{album.date}}     {{album.photoNumber}} photos</div>
+    					<div class="year event" v-if="album.photoNumber <= 1">{{album.date}}     {{album.photoNumber}} photo</div> -->
+              <div class="year event">{{album.date}} </div>
+            </div>
+            <div class="right" v-if="index % 3 == 2" @click="showPhotos(album)">
+    					<img class="ui centered medium image" src="./../../static/test1.jpg"/>
+    					<div class="title">{{album.title}}</div>
+    					<!-- <div class="year event" v-if="album.photoNumber > 1">{{album.date}}     {{album.photoNumber}} photos</div>
+    					<div class="year event" v-if="album.photoNumber <= 1">{{album.date}}     {{album.photoNumber}} photo</div> -->
+              <div class="year event">{{album.date}} </div>
+    				</div>
   				</div>
-  				<div class="column" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo)">
-  					<img class="ui centered image" :src="photo"/>
+  				<div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo)">
+  					<img class="ui centered medium image album" :src="photo"/>
+  				</div>
+          <div class="column right album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 == 2" @click="showImage(photo)">
+            <img class="ui centered medium image album" :src="photo"/>
   				</div>
 
   			</div>
      </div>
 
-     <div class="hi" id="photoDetail" @click="hideImage">
-       <div class="ui segment modal_content" style="height: 100%; display: inline-block; position:relative; background-color:#FFFFFF;">
-         <div class="header">Memory of SPARCS</div>
-         <hr/>
-   		    <img id="photoDetailImage" class="image" :src="selectedPhoto" style="height: 90%;">
+     <div class="ui" id="photoDetail" @click="hideImage" style="text-align: center;">
+       <div class="hi" style="position: relative; width: 100%; height: 100%; text-align: center; display: inline-block;">
+         <img id="photoDetailImage" class="ui middle aligned image" :src="selectedPhoto" style="display: inline-block; position: relative; top: 50%; transform: translateY(-50%); max-width: 90%; max-height: 90%; padding: 50px 50px; text-align:center;">
        </div>
     </div>
    </div>
@@ -62,7 +83,7 @@
                 <i class="dropdown icon"></i>
                 <div class="default text">Select Album</div>
                 <div class="menu">
-                  <div class="item" v-for="(album, index) in uploadAlbumList" :data-value="album.title" >{{album.title}}</div>
+                  <div class="item" v-for="(albumTitle, index) in uploadAlbumList" :data-value="albumTitle" >{{albumTitle}}</div>
                 </div>
               </div>
             </div>
@@ -85,17 +106,16 @@
       </div>
 
       <div id="addAlbumModal" class="ui small modal">
-        <i class="close icon"></i>
-        <div class="header">Add New Album</div>
+        <div class="header">Add New Album <i class="close icon" style="float:right; cursor: pointer; cursor: hand;" @click="hideNewAlbumModal"></i> </div>
      	  <div class="content">
           <div class="ui form">
-            <input type="text" name="year">
+            <input id="newAlbumName" type="text" name="year" placeholder="New Album Name">
           </div>
      	  </div>
         <div class="actions">
-          <div class="ui black button deny">Cancel</div>
-          <div class="ui positive right labeled icon button approve">
-            Upload <i class="checkmark icon"></i>
+          <div class="ui black button" @click="hideNewAlbumModal">Cancel</div>
+          <div class="ui positive right labeled icon black button" @click="addNewAlbum">
+            Add <i class="checkmark icon"></i>
           </div>
         </div>
    	 </div>
@@ -146,9 +166,10 @@ export default {
         // custom action
         this.uploadYear = year;
         this.uploadAlbumList = [];
+        this.newAlbumList = [];
         for (let i = 0; i < this.albumRawList.length; i += 1) {
           if (this.albumRawList[i].year === parseInt(year, 10)) {
-            this.uploadAlbumList.push(this.deepcopy(this.albumRawList[i]));
+            this.uploadAlbumList.push(this.albumRawList[i].title);
           }
         }
         this.uploadAlbum = '';
@@ -184,6 +205,35 @@ export default {
     },
     showAddAlbumModal() {
       $('#addAlbumModal').show();
+    },
+    hideNewAlbumModal() {
+      $('#addAlbumModal').hide();
+    },
+    addNewAlbum() {
+      const newAlbumName = $('#newAlbumName').val();
+      for (let v = 0; v < this.uploadAlbumList.length; v += 1) {
+        if (this.uploadAlbumList[v] === newAlbumName) {
+          console.log('album already exists!');
+          return;
+        }
+      }
+      const sendJson =
+        { year: this.uploadYear,
+          albumTitle: newAlbumName,
+          albumDate: 'May, 2017' };
+      console.log(sendJson);
+      axios.post('http://localhost:8080/album/newAlbum', sendJson)
+      .then((response) => {
+        const data = response.data;
+        if (data.success) {
+          this.albumRawList.push(data.resultAlbum);
+          this.uploadAlbumList.push(data.resultAlbum.title);
+          $('#addAlbumModal').hide();
+        } else {
+          console.log(data);
+        }
+      })
+      .catch((error) => { console.log(error); });
     },
     fixBreadCrumb() {
       const len = this.breadcrumb.length;
@@ -270,6 +320,7 @@ export default {
           this.uploadPhoto = '';
           this.uploadPhotoTitle = '';
           this.uploadAlbum = '';
+          this.hideNewAlbumModal();
         },
       }).modal('show');
     },
@@ -335,12 +386,49 @@ export default {
         { year: this.uploadYear,
           album: this.uploadAlbum,
           albumDate: 'May, 2017',
-          newAlbum: true,
           photoList: [this.uploadPhoto] };
       console.log(sendJson);
       axios.post('http://localhost:8080/album/upload', sendJson)
-      .then((response) => { console.log(response); })
+      .then((response) => {
+        const data = response.data;
+        if (data.success) {
+          console.log(data);
+          this.setYearList(data.result1);
+          this.setAlbumList(data.result2);
+          if (this.state === 'album') {
+            this.filterAlbum(this.breadcrumb[0], () => { this.state = 'album'; });
+          } else if (this.state === 'photo') {
+            this.showPhotos(this.breadcrumb[1]);
+          }
+        } else {
+          console.log(data);
+        }
+      })
       .catch((error) => { console.log(error); });
+    },
+    setYearList(newYear) {
+      const year = newYear.year;
+      for (let v = 0; this.yearList.length; v += 1) {
+        if (this.yearList[v].year === year) {
+          this.yearList[v].eventNumber = newYear.eventNumber;
+          this.yearList[v].photoNumber = newYear.photoNumber;
+          this.yearList[v].albums = newYear.albums;
+          return;
+        }
+      }
+      this.yearList.push(this.deepcopy(newYear));
+    },
+    setAlbumList(newAlbum) {
+      const year = newAlbum.year;
+      const title = newAlbum.title;
+      for (let v = 0; this.albumRawList.length; v += 1) {
+        if (this.albumRawList[v].year === year && this.albumRawList[v].title === title) {
+          this.albumRawList[v].photoNumber = newAlbum.photoNumber;
+          this.albumRawList[v].photos = newAlbum.photos;
+          return;
+        }
+      }
+      this.albumRawList.push(newAlbum);
     },
     createImage(file) {
       const reader = new FileReader();
@@ -415,6 +503,11 @@ export default {
 	.container.album{
 		margin-top: 62px;
 	}
+  .ui.centered.medium.image.album{
+    min-width: 100%;
+    max-width: 100%;
+  }
+
 
 	.yellow.rectangle{
 		width: 219px;
@@ -466,34 +559,105 @@ export default {
 		display: inline-block;
 		float: left;
 	}
-	.title{
-		padding-top: 25px;
-		text-align: left;
-		font-size: 25px;
-		font-weight: bold;
-	}
-	.year.event{
-		padding-top: 10px;
-		font-size: 15px;
-		text-align: left;
-		font-weight: 500;
-	}
+  @media (min-width: 600px){
+    .column.album{
+      padding-left: 0 !important;
+      padding-right: 28px !important;
+      padding-top: 0 !important;
+    }
+    .right{
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  	.year.event{
+  		padding-top: 5px;
+  		font-size: 15px;
+  		text-align: left;
+  		font-weight: 500;
+  	}
+  	.title{
+  		padding-top: 10px;
+  		text-align: left;
+  		font-size: 25px;
+  		font-weight: bold;
+  	}
+  }
+  @media (max-width: 600px){
+    .column.album{
+      padding-left: 0 !important;
+      padding-right: 3px !important;
+      padding-top: 0 !important;
+      padding-bottom: 2px !important;
+    }
+    .ui[class*="three column"].grid>.column:not(.row), .ui[class*="three column"].grid>.row>.column {
+        width: 33.33333333%;
+        height: 33.3333333% !important;
+    }
+    .right{
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 2px !important;
+    }
+  	.year.event{
+      display: none;
+  	}
+  	.title{
+  		padding-top: 5px;
+  		text-align: left;
+  		font-size: 20px;
+  		font-weight: bold;
+      position: absolute;
+      top: 71%;
+      left: 0;
+      width: 90%;
+      color: white;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 10px;
+  	}
+  }
+  @media (max-width: 435px){
+    .title{
+  		padding-top: 5px;
+  		text-align: left;
+  		font-size: 17px;
+  		font-weight: bold;
+      position: absolute;
+      top: 73%;
+      left: 0;
+      width: 90%;
+      color: white;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 5px 5px;
+  	}
+  }
+  @media (max-width: 350px){
+    .title{
+  		padding-top: 5px;
+  		text-align: left;
+  		font-size: 17px;
+  		font-weight: bold;
+      position: absolute;
+      top: 71%;
+      left: 0;
+      width: 90%;
+      color: white;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 5px 5px;
+  	}
+  }
+
 
   #photoDetail{
     display: none;
     width:100%;
     height: 100%;
-    text-align:center;
+    text-align: center;
     top:0;
     left:0;
-    position:absolute;
-    padding:70px 100px;
+    position: absolute;
     background-color: rgba(0,0,0,0.6);
   }
 
-  #photoDetailImage{
-    max-height: 500px !important;
-
-  }
 
 </style>
