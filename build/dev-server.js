@@ -150,10 +150,10 @@ new Promise(res => {
         photoList[i] = saveImageSync(photoList[i]);
       }
       schema.Years.findOneAndUpdate(
-        { year: year },
+        { year },
         {
           $inc: { photoNumber },
-          $setOnInsert: { year: year },
+          $setOnInsert: { year },
         },
         {
           upsert: true,
@@ -171,7 +171,7 @@ new Promise(res => {
               {
                 $inc: { photoNumber },
                 $pushAll: { photos: photoList },
-                $setOnInsert: { year: year, title: album, date: albumDate },
+                $setOnInsert: { year, title: album, date: albumDate },
               },
               {
                 upsert: true,
@@ -188,7 +188,7 @@ new Promise(res => {
                   res.send({ success: true, result1: res1, result2: res2 });
                 }
               });
-            }
+          }
         });
     });
 
@@ -206,7 +206,7 @@ new Promise(res => {
     app.post('/album/newAlbum', (req, res) => {
       const { year, albumTitle, albumDate } = req.body;
       const album = new schema.Albums({
-        year: year,
+        year,
         title: albumTitle,
         date: albumDate,
         photoNumber: 0,
@@ -214,16 +214,16 @@ new Promise(res => {
       });
       console.log(album);
       album.save((err1, res1) => {
-        if (err1){
-          res.send({ success: false, err: err1});
+        if (err1) {
+          res.send({ success: false, err: err1 });
           console.log(err1);
         } else {
           schema.Years.findOneAndUpdate(
-            { year: year },
+            { year },
             {
               $inc: { eventNumber: 1 },
               $addToSet: { albums: albumTitle },
-              $setOnInsert: { year: year },
+              $setOnInsert: { year },
             },
             {
               upsert: true,
@@ -231,14 +231,13 @@ new Promise(res => {
               returnNewDocument: true,
             },
             (err2, res2) => {
-              if(err2) {
+              if (err2) {
                 res.send({ success: false, err: err2 });
                 console.log(err2);
-              } else{
+              } else {
                 res.send({ success: true, resultAlbum: res1, resultYear: res2 });
               }
-            }
-          );
+            });
         }
       });
     });
@@ -274,7 +273,7 @@ new Promise(res => {
     app.get('/login', (req, res) => {
       const sess = req.session;
       if (Object.prototype.hasOwnProperty.call(sess, 'authenticated') && sess.authenticated === true) {
-        return res.redirect(getKey(sess, 'next', '/'));
+        return res.redirect(getKey(sess, 'next', '/aboutus'));
       }
       const [loginUrl, state] = client.getLoginParams();
       sess.ssoState = state;
@@ -285,7 +284,10 @@ new Promise(res => {
       const sess = req.session;
       const stateBefore = getKey(sess, 'ssoState', 'default');
 
-      const state = getKey(req.query, 'state', '');
+      const state = getKey(req.query, 'state', 'queryState');
+
+      console.log(stateBefore)
+      console.log(state)
       if (stateBefore !== state) {
         throw new Error('TOKEN MISMATCH: session might be hijacked!');
       }
@@ -312,7 +314,7 @@ new Promise(res => {
             next = sess.next;
             delete sess.next;
           } else {
-            next = '/';
+            next = '/aboutus';
           }
           return res.redirect(next);
         });
@@ -321,15 +323,15 @@ new Promise(res => {
     app.get('/logout', (req, res) => {
       const sess = req.session;
       if (!sess.authenticated) {
-        return res.redirect('/');
+        return res.redirect('/aboutus');
       }
       const sid = getKey(sess, 'sid', '');
-      client.getLogoutUrl(sid, '/');
+      client.getLogoutUrl(sid, '/aboutus');
       req.session.destroy();
       res.clearCookie('destroyKey');
-      return res.redirect('/');
+      console.log('You logged out from SPARCS')
+      return res.redirect('/aboutus');
     });
-
 
     // handle fallback for HTML5 history API
     app.use(require('connect-history-api-fallback')());
