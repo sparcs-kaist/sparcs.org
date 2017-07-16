@@ -40,10 +40,10 @@
               <div class="year event">{{album.date}} </div>
     				</div>
   				</div>
-  				<div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo)">
+  				<div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo, index)">
   					<img class="ui centered medium image album" :src="photo"/>
   				</div>
-          <div class="column right album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 == 2" @click="showImage(photo)">
+          <div class="column right album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 == 2" @click="showImage(photo, index)">
             <img class="ui centered medium image album" :src="photo"/>
   				</div>
 
@@ -52,7 +52,9 @@
 
      <div class="ui" id="photoDetail" @click="hideImage" style="text-align: center;">
        <div class="hi" style="position: relative; width: 100%; height: 100%; text-align: center; display: inline-block;">
-         <img id="photoDetailImage" class="ui middle aligned image" :src="selectedPhoto" style="display: inline-block; position: relative; top: 50%; transform: translateY(-50%); max-width: 90%; max-height: 90%; padding: 50px 50px; text-align:center;">
+         <i class="angle large left icon album" @click="previousImage"></i>
+         <img id="photoDetailImage" class="ui middle aligned image" :src="selectedPhoto.s" style="display: inline-block; position: relative; top: 50%; transform: translateY(-50%); max-width: 80%; max-height: 80%; text-align:center;">
+         <i class="angle large right icon album" @click="nextImage"></i>
        </div>
     </div>
    </div>
@@ -324,12 +326,26 @@ export default {
         },
       }).modal('show');
     },
-    showImage(src) {
-      this.selectedPhoto = src;
+    showImage(src, index) {
+      this.selectedPhoto = { ind: index, s: src };
       $('#photoDetail').show();
     },
     hideImage() {
       $('#photoDetail').hide();
+    },
+    previousImage(event) {
+      const index = this.selectedPhoto.ind;
+      if (index > 0) {
+        this.selectedPhoto = { ind: index - 1, s: this.photoList[index - 1] }
+      }
+      event.stopPropagation();
+    },
+    nextImage(event) {
+      const index = this.selectedPhoto.ind;
+      if (index < this.photoList.length - 1) {
+        this.selectedPhoto = { ind: index + 1, s: this.photoList[index + 1] }
+      }
+      event.stopPropagation();
     },
     showAlbum(year) {
       this.breadcrumb.push(year);
@@ -533,6 +549,10 @@ export default {
 		float: left;
 		position: relative;
 	}
+  .icon.album{
+    z-index: 1300;
+    color: #ffffff;
+  }
 
 	.grey.rectangle{
 		width: 93px;
