@@ -1,6 +1,7 @@
 require('./check-versions')();
 
 const config = require('../config');
+const localConfig = require('../localconfig')
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
@@ -57,12 +58,6 @@ Object.keys(proxyTable).forEach((context) => {
   app.use(proxyMiddleware(options.filter || context, options));
 });
 
-// Database
-const db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', () => {
-  console.log('Connected to mongod server');
-});
 
 const sessionArgs = {
   key: 'destroyKey',
@@ -74,16 +69,21 @@ const sessionArgs = {
   },
 }
 
+// Database
+const { dbUser, dbPassword } = localConfig
+const dbAuth = dbUser ? `${dbUser}:${dbPassword}@` : ''
+const mongoUrl = `mongodb://${dbAuth}${localConfig.dbHost}/${localConfig.dbName}`
+
 new Promise(res => {
-  mongoose.connect('mongodb://localhost/sparcs_home')
+  mongoose.connect(mongoUrl)
     .then(() => {
       console.log('Successed in connecting to mongod server')
       const mongoStore = require('connect-mongo')(session)
-      sessionArgs.store = new mongoStore({ url: 'mongodb://localhost/sparcs_home' })
+      sessionArgs.store = new mongoStore({ url: mongoUrl })
       res()
     })
     .catch(err => {
-      console.error('Failed to connecting to mongod server')
+      console.error(err)
       res()
     })
 })
@@ -92,7 +92,7 @@ new Promise(res => {
     app.use(session(sessionArgs))
 
     // set for SSO connecting. for dev
-    const client = new Client('teste0b822cdafbe', '4a68305ccb64c7b944bc', false);
+    const client = new Client(localConfig.ssoClientId, localConfig.ssoSecretKey, false);
 
     // Javascript have no function for set default value.
     function getKey(dict, key, replacement) {

@@ -171,3 +171,4 @@ dist/
 semantic/
 static/images/
 static/seminars/
+localconfig.js
