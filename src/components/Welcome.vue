@@ -8,7 +8,7 @@
         <h1 id="welcome_message" style="color: white; text-align: center">WE MAKE <span style="color: #f1951c">SERVICE</span>,<br>YOU JUST <span style="color: #f1951c">USE</span> IT.</h1>
       </div>
       <div id="goto">
-        <a href="/aboutus"><button class="ui inverted button" href="/aboutus">Go to page</button></a>
+        <router-link to="/aboutus"><button class="ui inverted button" href="/aboutus">Go to page</button></router-link>
       </div>
     </div>
     <div class="bottom">
@@ -125,7 +125,7 @@
       font-family: 'Noto Sans', bold, !important;
       font-size: 4vw;
     }
-    
+
     #goto {
       padding-top: 5vh;
       width: 50%;
@@ -152,5 +152,5 @@
     #facebook, #github, #mail{
       font-size: 40px;
     }
-  } 
+  }
 </style>
