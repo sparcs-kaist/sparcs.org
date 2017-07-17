@@ -63,7 +63,7 @@ const sessionArgs = {
   key: 'destroyKey',
   resave: false,
   saveUninitialized: true,
-  secret: 'secretkey',
+  secret: localConfig.expressSessionSecret,
   cookie: {
     maxAge: 1000 * 60 * 60, // 1hour
   },
