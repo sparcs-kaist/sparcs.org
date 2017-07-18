@@ -36,5 +36,6 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "linebreak-style": "off",
     "arrow-parens": "off",
+    "import/prefer-default-export": "off",
   }
 };
