@@ -6,7 +6,6 @@ const yearSchema = new Schema({
   year: Number,
   eventNumber: Number,
   photoNumber: Number,
-  albums: Array,
 });
 
 const albumSchema = new Schema({

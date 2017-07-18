@@ -222,7 +222,6 @@ new Promise(res => {
             { year },
             {
               $inc: { eventNumber: 1 },
-              $addToSet: { albums: albumTitle },
               $setOnInsert: { year },
             },
             {
@@ -240,6 +239,56 @@ new Promise(res => {
             });
         }
       });
+    });
+
+    app.post('/album/removeAlbum', (req, res) => {
+      const { year, albumTitle } = req.body;
+      schema.Years.findOneAndUpdate(
+        { year: year },
+        {
+          $inc: { eventNumber: -1 },
+        },
+        {
+          upsert: true,
+          returnNewDocument: true,
+        },
+        (err1, res1) => {
+          if (err1) {
+            res.send({ success: false, err: err1 });
+            console.log(err1);
+          } else {
+            schema.Albums.remove(
+              { year: year, title: albumTitle},
+              (err2, res2) => {
+                if (err2) {
+                  res.send({ success: false, err: err2});
+                  console.log(err2);
+                } else {
+                  res.send({ success: true, result1: res2, result2: res2});
+                }
+              }
+            )
+          }
+        }
+      );
+    });
+
+    app.post('/album/removePhoto', (req, res) => {
+      const { year, albumTitle, photoURL } = req.body;
+      schema.Albums.findOneAndUpdate(
+        { year: year, title: albumTitle},
+        {
+          $pull: { photos: photoURL }
+        },
+        (err1, res1) => {
+          if (err1) {
+            res.send({ success: false, err: err1});
+            console.log(err1);
+          } else {
+            res.send({ success: true, result1: res1});
+          }
+        }
+      )
     });
 
     app.post('/db/seminars', (req, res) => {

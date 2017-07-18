@@ -26,6 +26,7 @@
   				</div>
   				<div class="column album" v-for="(album, index) in albumList" v-if="state === 'album' && index % 3 != 2" @click="showPhotos(album)">
             <div v-if="index % 3 != 2">
+              <i class="remove icon" @click="deleteAlbum(album)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
               <img class="ui centered medium image" src="./../../static/test1.jpg"/>
     					<div class="title">{{album.title}}</div>
     					<!-- <div class="year event" v-if="album.photoNumber > 1">{{album.date}}     {{album.photoNumber}} photos</div>
@@ -41,9 +42,11 @@
     				</div>
   				</div>
   				<div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo, index)">
-  					<img class="ui centered medium image album" :src="photo"/>
+            <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
+            <img class="ui centered medium image album" :src="photo"/>
   				</div>
           <div class="column right album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 == 2" @click="showImage(photo, index)">
+            <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
             <img class="ui centered medium image album" :src="photo"/>
   				</div>
 
@@ -352,6 +355,19 @@ export default {
       this.filterAlbum(year, () => { this.state = 'album'; });
       this.fixBreadCrumb();
     },
+    deleteAlbum(album) {
+      const sendJson = { year: album.year, albumTitle: album.title }
+      axios.post('http://localhost:8080/album/removeAlbum', sendJson)
+      .then((response) => {
+        const data = response.data;
+        if (data.success) {
+          console.log(data);
+        } else {
+          console.log(data);
+        }
+      })
+      .catch((error) => { console.log(error); });
+    },
     showPhotos(album) {
       this.breadcrumb.push(album);
       this.photoList = [];
@@ -360,6 +376,20 @@ export default {
       }
       this.state = 'photo';
       this.fixBreadCrumb();
+    },
+    deletePhoto(photo) {
+      const album = this.breadcrumb[1];
+      const sendJson = { year: album.year, albumTitle: album.title, photoURL: photo }
+      axios.post('http://localhost:8080/album/removePhoto', sendJson)
+      .then((response) => {
+        const data = response.data;
+        if (data.success) {
+          console.log(data);
+        } else {
+          console.log(data);
+        }
+      })
+      .catch((error) => { console.log(error); });
     },
     addPhoto(src, title, date) {
       this.photolist.push(this.photo);
@@ -428,7 +458,6 @@ export default {
         if (this.yearList[v].year === year) {
           this.yearList[v].eventNumber = newYear.eventNumber;
           this.yearList[v].photoNumber = newYear.photoNumber;
-          this.yearList[v].albums = newYear.albums;
           return;
         }
       }
