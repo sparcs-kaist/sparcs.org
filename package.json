@@ -19,6 +19,8 @@
     "fs": "0.0.1-security",
     "hangul-js": "^0.2.3",
     "jquery": "^3.1.1",
+    "js-cookie": "^2.1.4",
+    "lodash": "^4.17.4",
     "module": "^1.2.5",
     "mongodb": "^2.2.26",
     "mongoose": "^4.10.0",
@@ -28,6 +30,7 @@
     "request-promise": "^4.2.1",
     "semantic-ui": "^2.2.10",
     "tls": "0.0.1",
+    "url": "^0.11.0",
     "vue": "^2.2.1",
     "vue-router": "^2.2.0"
   },

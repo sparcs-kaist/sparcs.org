@@ -11,7 +11,8 @@
           <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
           <router-link to="/album" class="item" id="album">ALBUM</router-link>
           <router-link to="/members" class="item" id="members">MEMBERS</router-link>
-          <div class="item" @click="getLogin()">LOGIN</div>
+          <div v-if=authenticated class="item" @click="logout">LOGOUT</div>
+          <div v-else class="item" @click="login">LOGIN</div>
         </div>
       </div>
     </div>
@@ -28,10 +29,15 @@
 </template>
 
 <script>
+import { getSession } from './utils'
+
 export default {
   name: 'app',
   data: () => ({}),
-  mounted() {
+  computed: {
+    authenticated() {
+      return getSession('authenticated')
+    },
   },
   updated() {
     const parser = document.createElement('a')
@@ -62,8 +68,11 @@ export default {
     }
   },
   methods: {
-    getLogin() {
+    login() {
       window.location.href = 'http://localhost:8080/login'
+    },
+    logout() {
+      window.location.href = 'http://localhost:8080/logout'
     },
   },
 };

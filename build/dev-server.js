@@ -6,8 +6,8 @@ const localConfig = require('../localconfig')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
 }
-
-const opn = require('opn');
+const _ = require('lodash')
+const opn = require('opn')
 const path = require('path');
 const joinPath = require('path.join');
 const express = require('express');
@@ -286,8 +286,8 @@ new Promise(res => {
 
       const state = getKey(req.query, 'state', 'queryState');
 
-      console.log(stateBefore)
-      console.log(state)
+      // console.log(stateBefore)
+      // console.log(state)
       if (stateBefore !== state) {
         throw new Error('TOKEN MISMATCH: session might be hijacked!');
       }
@@ -304,10 +304,10 @@ new Promise(res => {
           } else {
             sess.isSPARCS = false;
           }
-          console.log('=========================');
-          console.log(resp);
-          console.log('=========================');
-          console.log(sess);
+          // console.log('=========================');
+          // console.log(resp);
+          // console.log('=========================');
+          // console.log(req.session);
 
           let next;
           if (Object.prototype.hasOwnProperty.call(sess, 'next')) {
@@ -316,12 +316,16 @@ new Promise(res => {
           } else {
             next = '/aboutus';
           }
-          return res.redirect(next);
+          const sess2 = _.cloneDeep(sess)
+          delete sess2.cookie
+          res.cookie('session', JSON.stringify(sess2))
+          return res.redirect(next)
         });
     });
 
     app.get('/logout', (req, res) => {
       const sess = req.session;
+      res.clearCookie('session');
       if (!sess.authenticated) {
         return res.redirect('/aboutus');
       }
