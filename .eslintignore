@@ -3,3 +3,5 @@ build/*.js
 !build/schema.js
 
 config/*.js
+
+src/utils/jquery.scrollify.min.js
