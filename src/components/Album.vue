@@ -163,7 +163,18 @@ export default {
     uploadPhoto: '',
     selectedPhoto: '',
   }),
-
+  ready: () => {
+    window.onresize = () => {
+      const width = $(window).width() - 25;
+      const diff = 1280 - width;
+      const cols = document.getElementsByClassName('yellow rectangle');
+      for (let i = 0; i < cols.length; i += 1) {
+        const w = 219 - (diff / 5);
+        cols[i].style.width = `${w} + px`;
+        console.log(cols[i].clientWidth);
+      }
+    }
+  },
   mounted() {
     document.getElementById('album').classList.add('active');
     $('#yearDropdown').dropdown({
@@ -197,6 +208,9 @@ export default {
     .catch((error) => { console.log(error); });
     this.yearData = Array.range(d.getFullYear(), 1970, -1);
   },
+  computed: {
+  },
+
 
   methods: {
     filterAlbum(year, callback) {
