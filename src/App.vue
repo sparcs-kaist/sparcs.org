@@ -29,15 +29,15 @@
 </template>
 
 <script>
-import { getSession } from './utils'
+// import { getSession } from './utils'
 
 export default {
   name: 'app',
   data: () => ({}),
   computed: {
-    authenticated() {
-      return getSession('authenticated')
-    },
+    // authenticated() {
+    //   return getSession('authenticated')
+    // },
   },
   updated() {
     const parser = document.createElement('a')

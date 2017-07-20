@@ -41,14 +41,25 @@
               <div class="year event">{{album.date}} </div>
     				</div>
   				</div>
-  				<div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo, index)">
+  				<!-- <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo, index)">
             <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
             <img class="ui centered medium image album" :src="photo"/>
   				</div>
           <div class="column right album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 == 2" @click="showImage(photo, index)">
             <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
             <img class="ui centered medium image album" :src="photo"/>
-  				</div>
+  				</div> -->
+          <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo'" >
+            <div class="ui fluid card">
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
+
+            </div>
+          </div>
+          <!-- <div class="ui link centered cards">
+            <div class="ui card" v-for="(photo, index) in photoList" v-if="state === 'photo'" >
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
+            </div>
+          </div> -->
 
   			</div>
      </div>
@@ -164,16 +175,6 @@ export default {
     selectedPhoto: '',
   }),
   ready: () => {
-    window.onresize = () => {
-      const width = $(window).width() - 25;
-      const diff = 1280 - width;
-      const cols = document.getElementsByClassName('yellow rectangle');
-      for (let i = 0; i < cols.length; i += 1) {
-        const w = 219 - (diff / 5);
-        cols[i].style.width = `${w} + px`;
-        console.log(cols[i].clientWidth);
-      }
-    }
   },
   mounted() {
     document.getElementById('album').classList.add('active');
@@ -191,6 +192,24 @@ export default {
         this.uploadAlbum = '';
         $('#albumDropdown').dropdown('restore defaults');
       },
+    });
+    // window.onresize = () => {
+    //   const width = $(window).width();
+    //   const diff = 1280 - width;
+    //   const cols = document.getElementsByClassName('yellow rectangle');
+    //   for (let i = 0; i < cols.length; i += 1) {
+    //     const w = 219 - (diff / 5);
+    //     cols[i].style.width = `${w} + px`;
+    //     console.log(cols[i].clientWidth);
+    //   }
+    //   const images = document.getElementsByClassName('image');
+    //   for (let i = 0; i < images.length; i += 1) {
+    //     images[i].style.height = images[i].style.clientWidth;
+    //     console.log(images[i].style.clientHeight);
+    //   }
+    // }
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.checkWindowSize);
     });
     $('#albumDropdown').dropdown({
       onChange: (value) => {
@@ -221,6 +240,16 @@ export default {
         }
       }
       callback();
+    },
+    checkWindowSize() {
+      const width = $(window).width();
+      const diff = 1280 - width;
+      const w = 219 - (diff / 5);
+      $('.yellow.rectangle').css('width', w);
+      this.fitImageHeight();
+    },
+    fitImageHeight() {
+      $('.image').css('height', $('#card_preview').width());
     },
     showAddAlbumModal() {
       $('#addAlbumModal').show();
@@ -513,7 +542,6 @@ export default {
 		height: 100%;
 		display: inline-block;
 		float: right;
-		margin-right: 107px !important;
 	}
 
 	.breadcrumb.album{
@@ -532,6 +560,8 @@ export default {
   #addAlbumModal{
     z-index: 3000;
     top: 40% !important;
+  }
+  #newAlbum{
   }
 
 	.album.index{
@@ -567,6 +597,12 @@ export default {
     max-width: 100%;
   }
 
+  #card_preview{
+    width: 100%;
+    height: 300px;
+    background-image: url('./../../static/test2.jpg');
+    background-size: 100% 100%;
+  }
 
 	.yellow.rectangle{
 		width: 219px;
