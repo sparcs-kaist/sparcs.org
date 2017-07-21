@@ -246,10 +246,9 @@ export default {
       const diff = 1280 - width;
       const w = 219 - (diff / 5);
       $('.yellow.rectangle').css('width', w);
-      this.fitImageHeight();
+      $('.image').css('height', $('#card_preview').width());
     },
     fitImageHeight() {
-      $('.image').css('height', $('#card_preview').width());
     },
     showAddAlbumModal() {
       $('#addAlbumModal').show();
@@ -355,6 +354,7 @@ export default {
         uiWrapper.appendChild(bcDivider);
         uiWrapper.appendChild(bcSection2);
       }
+      this.checkWindowSize();
     },
     deepcopy(obj) {
       if (obj) return JSON.parse(JSON.stringify(obj));
