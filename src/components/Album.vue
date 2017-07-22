@@ -49,17 +49,12 @@
             <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
             <img class="ui centered medium image album" :src="photo"/>
   				</div> -->
-          <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo'" >
+          <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
+              <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
-
             </div>
           </div>
-          <!-- <div class="ui link centered cards">
-            <div class="ui card" v-for="(photo, index) in photoList" v-if="state === 'photo'" >
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
-            </div>
-          </div> -->
 
   			</div>
      </div>
@@ -67,7 +62,7 @@
      <div class="ui" id="photoDetail" @click="hideImage" style="text-align: center;">
        <div class="hi" style="position: relative; width: 100%; height: 100%; text-align: center; display: inline-block;">
          <i class="angle large left icon album" @click="previousImage"></i>
-         <img id="photoDetailImage" class="ui middle aligned image" :src="selectedPhoto.s" style="display: inline-block; position: relative; top: 50%; transform: translateY(-50%); max-width: 80%; max-height: 80%; text-align:center;">
+         <img id="photoDetailImage" class="ui middle aligned image" :src="selectedPhoto.s" >
          <i class="angle large right icon album" @click="nextImage"></i>
        </div>
     </div>
@@ -604,6 +599,7 @@ export default {
     background-size: 100% 100%;
   }
 
+
 	.yellow.rectangle{
 		width: 219px;
 		height: 48px;
@@ -680,6 +676,17 @@ export default {
   		font-size: 25px;
   		font-weight: bold;
   	}
+    #photoDetailImage{
+      display: inline-block;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 30%;
+      max-height: 80%;
+      width: 70% !important;
+      height: auto !important;
+      text-align:center;
+    }
   }
   @media (max-width: 600px){
     .column.album{
@@ -714,6 +721,17 @@ export default {
       background: rgba(0, 0, 0, 0.7);
       padding: 10px 10px;
   	}
+    #photoDetailImage{
+      display: inline-block;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 70% !important;
+      height: auto !important;
+      max-height: 80%;
+      max-width: 80%;
+      text-align: center;
+    }
   }
   @media (max-width: 435px){
     .title{
@@ -757,6 +775,8 @@ export default {
     position: absolute;
     background-color: rgba(0,0,0,0.6);
   }
+
+
 
 
 </style>

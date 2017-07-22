@@ -49,14 +49,7 @@ compiler.plugin('compilation', (compilation) => {
   });
 });
 
-// proxy api requests
-Object.keys(proxyTable).forEach((context) => {
-  let options = proxyTable[context];
-  if (typeof options === 'string') {
-    options = { target: options };
-  }
-  app.use(proxyMiddleware(options.filter || context, options));
-});
+
 
 
 const sessionArgs = {
@@ -395,6 +388,15 @@ new Promise(res => {
     // enable hot-reload and state-preserving
     // compilation error display
     app.use(hotMiddleware);
+
+    // proxy api requests
+    Object.keys(proxyTable).forEach((context) => {
+      let options = proxyTable[context];
+      if (typeof options === 'string') {
+        options = { target: options };
+      }
+      app.use(proxyMiddleware(options.filter || context, options));
+    });
 
     module.exports = app.listen(port, (err) => {
       if (err) {

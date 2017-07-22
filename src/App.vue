@@ -3,14 +3,14 @@
     <div class="ui fixed inverted large secondary pointing menu" id="menu_header" v-if="$route.path==='/' ? false : true">
       <div class="ui container">
         <div class="menu">
-          <router-link to="/aboutus" class="active" id="sparcs_logo"><img class="logo" src="./../static/logo-1@3x.png"/></router-link>
+          <router-link to="/aboutus" class="active" id="sparcs_logo" v-on:click.native="sparcs_logo_onclick($event)"><img class="logo" src="./../static/logo-1@3x.png"/></router-link>
         </div>
         <div class="right menu">
-          <router-link to="/aboutus" class="item" id="aboutus">ABOUT US</router-link>
-          <router-link to="/projects" class="item" id="projects">PROJECTS</router-link>
-          <router-link to="/seminars" class="item" id="seminars">SEMINARS</router-link>
-          <router-link to="/album" class="item" id="album">ALBUM</router-link>
-          <router-link to="/members" class="item" id="members">MEMBERS</router-link>
+          <router-link to="/aboutus" class="item" id="aboutus" v-on:click.native="sparcs_logo_onclick($event)">ABOUT US</router-link>
+          <router-link to="/projects" class="item" id="projects" v-on:click.native="right_menu_onclick($event)">PROJECTS</router-link>
+          <router-link to="/seminars" class="item" id="seminars" v-on:click.native="right_menu_onclick($event)">SEMINARS</router-link>
+          <router-link to="/album" class="item" id="album" v-on:click.native="right_menu_onclick($event)">ALBUM</router-link>
+          <router-link to="/members" class="item" id="members" v-on:click.native="right_menu_onclick($event)">MEMBERS</router-link>
           <div v-if=authenticated class="item" @click="logout">LOGOUT</div>
           <div v-else class="item" @click="login">LOGIN</div>
         </div>
@@ -40,32 +40,35 @@ export default {
     // },
   },
   updated() {
+    // $(window.document).ready(() => {
     const parser = document.createElement('a')
     parser.href = window.location.href
-    if (parser.pathname !== '/') {
-      const forEach = Array.prototype.forEach;
-      document.getElementById('sparcs_logo').onclick = function () {
-        document.getElementById('r_view').style.marginTop = '0px'
-        document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)'
-      }
-      document.querySelectorAll('.right.menu .item').forEach((item) => {
-        item.onclick = function () {
-          if (this.innerHTML !== 'ABOUT US') {
-            document.getElementById('r_view').style.marginTop = '85px'
-            document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
-          }
-          forEach.call(this.parentNode.children, (sibling) => {
-            sibling.classList.remove('active')
-          })
-          this.classList.add('active')
-        }
-      })
-      document.getElementById('sparcs_logo').onclick = function () {
-        document.querySelectorAll('.right.menu .item').forEach((item) => {
-          item.classList.remove('active')
-        })
-      }
-    }
+    console.log(parser.pathname);
+    // if (parser.pathname !== '/') {
+    //   const forEach = Array.prototype.forEach;
+    //   document.getElementById('sparcs_logo').onclick = function () {
+    //     console.log('sparcs_logo');
+    //     document.getElementById('r_view').style.marginTop = '0px'
+    //     document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)'
+    //     document.querySelectorAll('.right.menu .item').forEach((item) => {
+    //       item.classList.remove('active')
+    //     })
+    //   }
+    //   document.querySelectorAll('.right.menu .item').forEach((item) => {
+    //     item.onclick = function () {
+    //       console.log('hey');
+    //       if (this.innerHTML !== 'ABOUT US') {
+    //         document.getElementById('r_view').style.marginTop = '85px'
+    //         document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
+    //       }
+    //       forEach.call(this.parentNode.children, (sibling) => {
+    //         sibling.classList.remove('active')
+    //       })
+    //       this.classList.add('active')
+    //     }
+    //   })
+    // }
+    // });
   },
   methods: {
     login() {
@@ -73,6 +76,28 @@ export default {
     },
     logout() {
       window.location.href = 'http://localhost:8080/logout'
+    },
+    sparcs_logo_onclick() {
+      console.log('sparcs_logo');
+      document.getElementById('r_view').style.marginTop = '0px'
+      document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)'
+      document.querySelectorAll('.right.menu .item').forEach((item) => {
+        item.classList.remove('active')
+      })
+    },
+    right_menu_onclick(event) {
+      console.log(event);
+      const obj = event.target;
+      const forEach = Array.prototype.forEach;
+      console.log(obj.innerHTML);
+      if (obj.innerHTML !== 'ABOUT US') {
+        document.getElementById('r_view').style.marginTop = '85px'
+        document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
+      }
+      forEach.call(obj.parentNode.children, (sibling) => {
+        sibling.classList.remove('active')
+      })
+      obj.classList.add('active')
     },
   },
 };

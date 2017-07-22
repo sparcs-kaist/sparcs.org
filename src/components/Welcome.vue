@@ -8,7 +8,7 @@
         <h1 id="welcome_message" style="color: white; text-align: center">WE MAKE <span style="color: #f1951c">SERVICE</span>,<br>YOU JUST <span style="color: #f1951c">USE</span> IT.</h1>
       </div>
       <div id="goto">
-        <router-link to="/aboutus"><button class="ui inverted button" href="/aboutus">Go to page</button></router-link>
+        <router-link to="/aboutus"><button class="ui inverted button">Go to page</button></router-link>
       </div>
     </div>
     <div class="bottom">
