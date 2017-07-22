@@ -773,13 +773,24 @@ export default {
       display: inline-block;
       position: relative;
       top: 50%;
-      left: 50%;
+      left: 35%;
       transform: translate(-50%, -50%);
       width: 70% !important;
       height: auto !important;
       max-height: 80%;
       max-width: 80%;
       text-align: center;
+    }
+    #photoDetailIconRight{
+      display: inline-block;
+      z-index: 1300;
+      position: absolute;
+      color: #ffffff;
+      top: 50%;
+      right: -6%;
+      margin-right: 0;
+      font-size: 3em;
+      transform: translate(-50%, -50%);
     }
   }
   @media (max-width: 435px){
@@ -796,6 +807,17 @@ export default {
       background: rgba(0, 0, 0, 0.7);
       padding: 5px 5px;
   	}
+    #photoDetailIconRight{
+      display: inline-block;
+      z-index: 1300;
+      position: absolute;
+      color: #ffffff;
+      top: 50%;
+      right: -8%;
+      margin-right: 0;
+      font-size: 3em;
+      transform: translate(-50%, -50%);
+    }
   }
   @media (max-width: 350px){
     .title{
@@ -811,6 +833,17 @@ export default {
       background: rgba(0, 0, 0, 0.7);
       padding: 5px 5px;
   	}
+    #photoDetailIconRight{
+      display: inline-block;
+      z-index: 1300;
+      position: absolute;
+      color: #ffffff;
+      top: 50%;
+      right: -10%;
+      margin-right: 0;
+      font-size: 3em;
+      transform: translate(-50%, -50%);
+    }
   }
 
 
