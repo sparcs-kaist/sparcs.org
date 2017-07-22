@@ -60,10 +60,10 @@
      </div>
 
      <div class="ui" id="photoDetail" @click="hideImage" style="text-align: center;">
-       <div class="hi" style="position: relative; width: 100%; height: 100%; text-align: center; display: inline-block;">
-         <i class="angle large left icon album" @click="previousImage"></i>
+       <div id="photoDetailBG">
+         <i id="photoDetailIconLeft" class="angle large left icon" @click="previousImage"></i>
          <img id="photoDetailImage" class="ui middle aligned image" :src="selectedPhoto.s" >
-         <i class="angle large right icon album" @click="nextImage"></i>
+         <i id="photoDetailIconRight" class="angle large right icon" @click="nextImage"></i>
        </div>
     </div>
    </div>
@@ -624,10 +624,7 @@ export default {
 		float: left;
 		position: relative;
 	}
-  .icon.album{
-    z-index: 1300;
-    color: #ffffff;
-  }
+
 
 	.grey.rectangle{
 		width: 93px;
@@ -654,6 +651,46 @@ export default {
 		display: inline-block;
 		float: left;
 	}
+  #photoDetailIconLeft{
+    display: inline-block;
+    z-index: 1300;
+    position: absolute;
+    color: #ffffff;
+    top: 50%;
+    left: 0%;
+    font-size: 3em;
+    margin-left: 20px;
+    transform: translate(-50%, -50%);
+  }
+  #photoDetailIconRight{
+    display: inline-block;
+    z-index: 1300;
+    position: absolute;
+    color: #ffffff;
+    top: 50%;
+    right: -2%;
+    margin-right: 0;
+    font-size: 3em;
+    transform: translate(-50%, -50%);
+  }
+  #photoDetailBG{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: inline-block;
+  }
+  #photoDetail{
+    display: none;
+    width:100%;
+    height: 100%;
+    text-align: center;
+    top:0;
+    left:0;
+    z-index: 1600;
+    position: absolute;
+    background-color: rgba(0,0,0,0.85);
+  }
   @media (min-width: 600px){
     .column.album{
       padding-left: 0 !important;
@@ -678,15 +715,17 @@ export default {
   	}
     #photoDetailImage{
       display: inline-block;
-      position: relative;
+      position: absolute;
       top: 50%;
-      transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
       max-width: 30%;
       max-height: 80%;
       width: 70% !important;
       height: auto !important;
       text-align:center;
     }
+
   }
   @media (max-width: 600px){
     .column.album{
@@ -725,7 +764,8 @@ export default {
       display: inline-block;
       position: relative;
       top: 50%;
-      transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 70% !important;
       height: auto !important;
       max-height: 80%;
@@ -765,16 +805,7 @@ export default {
   }
 
 
-  #photoDetail{
-    display: none;
-    width:100%;
-    height: 100%;
-    text-align: center;
-    top:0;
-    left:0;
-    position: absolute;
-    background-color: rgba(0,0,0,0.6);
-  }
+
 
 
 
