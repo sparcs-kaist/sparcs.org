@@ -149,6 +149,7 @@ new Promise(res => {
           $setOnInsert: { year },
         },
         {
+          new: true,
           upsert: true,
           returnOriginal: false,
           returnNewDocument: true,
@@ -167,6 +168,7 @@ new Promise(res => {
                 $setOnInsert: { year, title: album, date: albumDate },
               },
               {
+                new: true,
                 upsert: true,
                 returnOriginal: false,
                 returnNewDocument: true,
@@ -218,6 +220,7 @@ new Promise(res => {
               $setOnInsert: { year },
             },
             {
+              new: true,
               upsert: true,
               returnOriginal: false,
               returnNewDocument: true,
@@ -236,52 +239,87 @@ new Promise(res => {
 
     app.post('/album/removeAlbum', (req, res) => {
       const { year, albumTitle } = req.body;
+      schema.Albums.find(
+        { year: year, title: albumTitle},
+        (err0, res0) => {
+          if (err0) {
+            res.send({ success: false, err: err0});
+            console.log(err0);
+          } else {
+            console.log(res0);
+            const photoNumber = res0[0].photos.length;
+            schema.Years.findOneAndUpdate(
+              { year: year },
+              {
+                $inc: { eventNumber: -1, photoNumber: -photoNumber },
+              },
+              {
+                new: true,
+                upsert: true,
+                returnNewDocument: true,
+              },
+              (err1, res1) => {
+                if (err1) {
+                  res.send({ success: false, err: err1 });
+                  console.log(err1);
+                } else {
+                  schema.Albums.remove(
+                    { year: year, title: albumTitle},
+                    (err2, res2) => {
+                      if (err2) {
+                        res.send({ success: false, err: err2 });
+                        console.log(err2);
+                      } else {
+                        res.send({ success: true, result1: res1, result2: res2 });
+                      }
+                    }
+                  )
+                }
+              }
+            );
+          }
+        }
+      )
+    });
+    app.post('/album/removePhoto', (req, res) => {
+      const { year, albumTitle, photoURL } = req.body;
       schema.Years.findOneAndUpdate(
         { year: year },
         {
-          $inc: { eventNumber: -1 },
+          $inc: { photoNumber: -1 },
         },
         {
+          new: true,
           upsert: true,
           returnNewDocument: true,
         },
-        (err1, res1) => {
-          if (err1) {
-            res.send({ success: false, err: err1 });
-            console.log(err1);
+        (err0, res0) => {
+          if (err0) {
+            res.send({ success: false, err: err0 });
+            console.log(err0);
           } else {
-            schema.Albums.remove(
+            schema.Albums.findOneAndUpdate(
               { year: year, title: albumTitle},
-              (err2, res2) => {
-                if (err2) {
-                  res.send({ success: false, err: err2});
-                  console.log(err2);
+              {
+                $pull: { photos: photoURL }
+              },
+              {
+                new: true,
+                upsert: true,
+                returnNewDocument: true,
+              },
+              (err1, res1) => {
+                if (err1) {
+                  res.send({ success: false, err: err1});
+                  console.log(err1);
                 } else {
-                  res.send({ success: true, result1: res2, result2: res2});
+                  res.send({ success: true, result0: res0, result1: res1});
                 }
               }
             )
           }
         }
       );
-    });
-
-    app.post('/album/removePhoto', (req, res) => {
-      const { year, albumTitle, photoURL } = req.body;
-      schema.Albums.findOneAndUpdate(
-        { year: year, title: albumTitle},
-        {
-          $pull: { photos: photoURL }
-        },
-        (err1, res1) => {
-          if (err1) {
-            res.send({ success: false, err: err1});
-            console.log(err1);
-          } else {
-            res.send({ success: true, result1: res1});
-          }
-        }
-      )
     });
 
     app.post('/db/seminars', (req, res) => {

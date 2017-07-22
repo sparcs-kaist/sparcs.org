@@ -120,7 +120,7 @@ export default {
 
 #menu_header {
   padding: 1em 1em;
-  z-index: 1002;
+  z-index: 1300;
   border: none !important;
   background-color: rgba(0,0,0,1);
 }
@@ -159,9 +159,6 @@ export default {
   font-weight: normal;
 }
 
-.menu_list {
-  border: none !important;
-}
 
 .ui.vertical.footer.segment {
   margin: 5em 0em 0em;

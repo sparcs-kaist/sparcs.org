@@ -6,40 +6,23 @@
   		<div class="ui container album">
   			<div id="album_list" class="ui three column grid">
         <!-- <div id="album_list" class="doubling stackable three column ui grid container"> -->
-  				<div class="column album" v-for="(year, index) in yearList" v-if="state === 'year' && index % 3 != 2" @click="showAlbum(year.year)">
-            <div v-if="index % 3 != 2">
+  				<div class="column album" v-for="(year, index) in yearList" v-if="state === 'year'" @click="showAlbum(year.year)">
+            <div>
               <img class="ui centered image album" src="./../../static/test1.jpg"/>
     					<div class="title">{{year.year}}</div>
     					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
     					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-    					<div class="year photo" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
-    					<div class="year photo" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+    					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
+    					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
             </div>
-            <div class="right" v-if="index % 3 == 2">
-    					<img class="ui centered image album" src="./../../static/test1.jpg"/>
-    					<div class="title">{{year.year}}</div>
-    					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
-    					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-    					<div class="year photo" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
-    					<div class="year photo" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-    				</div>
   				</div>
-  				<div class="column album" v-for="(album, index) in albumList" v-if="state === 'album' && index % 3 != 2" @click="showPhotos(album)">
-            <div v-if="index % 3 != 2">
+  				<div class="column album" v-for="(album, index) in albumList" v-if="state === 'album'" @click="showPhotos(album)">
+            <div>
               <i class="remove icon" @click="deleteAlbum(album)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
-              <img class="ui centered medium image" src="./../../static/test1.jpg"/>
+              <img class="ui centered image album" src="./../../static/test1.jpg"/>
     					<div class="title">{{album.title}}</div>
-    					<!-- <div class="year event" v-if="album.photoNumber > 1">{{album.date}}     {{album.photoNumber}} photos</div>
-    					<div class="year event" v-if="album.photoNumber <= 1">{{album.date}}     {{album.photoNumber}} photo</div> -->
               <div class="year event">{{album.date}} </div>
             </div>
-            <div class="right" v-if="index % 3 == 2" @click="showPhotos(album)">
-    					<img class="ui centered medium image" src="./../../static/test1.jpg"/>
-    					<div class="title">{{album.title}}</div>
-    					<!-- <div class="year event" v-if="album.photoNumber > 1">{{album.date}}     {{album.photoNumber}} photos</div>
-    					<div class="year event" v-if="album.photoNumber <= 1">{{album.date}}     {{album.photoNumber}} photo</div> -->
-              <div class="year event">{{album.date}} </div>
-    				</div>
   				</div>
   				<!-- <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo, index)">
             <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
@@ -51,7 +34,7 @@
   				</div> -->
           <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
-              <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
+              <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1240;"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
             </div>
           </div>
@@ -217,12 +200,16 @@ export default {
       const { years, albums } = response.data;
       this.yearList = this.deepcopy(years);
       this.albumRawList = this.deepcopy(albums);
+      console.log('here?');
       this.fixBreadCrumb();
     })
     .catch((error) => { console.log(error); });
     this.yearData = Array.range(d.getFullYear(), 1970, -1);
   },
   computed: {
+  },
+  updated() {
+    this.checkWindowSize();
   },
 
 
@@ -237,7 +224,11 @@ export default {
       callback();
     },
     checkWindowSize() {
-      const width = $(window).width();
+      let width = $(window).width();
+      console.log(width);
+      if (width < 580) {
+        width = 580;
+      }
       const diff = 1280 - width;
       const w = 219 - (diff / 5);
       $('.yellow.rectangle').css('width', w);
@@ -270,7 +261,11 @@ export default {
         if (data.success) {
           this.albumRawList.push(data.resultAlbum);
           this.uploadAlbumList.push(data.resultAlbum.title);
+          this.setYearList(data.resultYear);
           $('#addAlbumModal').hide();
+          if (this.breadcrumb.length >= 1) {
+            this.filterAlbum(this.breadcrumb[0], () => { });
+          }
         } else {
           console.log(data);
         }
@@ -356,13 +351,13 @@ export default {
       return {};
     },
     showUploadModal() {
+      this.uploadYear = '';
+      this.uploadPhoto = '';
+      this.uploadPhotoTitle = '';
+      this.uploadAlbum = '';
       $('#addNewPhoto').modal({
         onHide: () => {
           console.log('hi');
-          this.uploadYear = '';
-          this.uploadPhoto = '';
-          this.uploadPhotoTitle = '';
-          this.uploadAlbum = '';
           this.hideNewAlbumModal();
         },
       }).modal('show');
@@ -407,12 +402,19 @@ export default {
       .catch((error) => { console.log(error); });
     },
     showPhotos(album) {
-      this.breadcrumb.push(album);
-      this.photoList = [];
-      for (let i = 0; i < album.photos.length; i += 1) {
-        this.photoList.push(this.deepcopy(album.photos[i]));
-      }
+      let albumIter = '';
       this.state = 'photo';
+      for (let k = 0; k < this.albumRawList.length; k += 1) {
+        albumIter = this.albumRawList[k];
+        if (albumIter.year === album.year && albumIter.title === album.title) {
+          break;
+        }
+      }
+      this.breadcrumb.push(albumIter);
+      this.photoList = [];
+      for (let i = 0; i < albumIter.photos.length; i += 1) {
+        this.photoList.push(this.deepcopy(albumIter.photos[i]));
+      }
       this.fixBreadCrumb();
     },
     deletePhoto(photo) {
@@ -465,31 +467,6 @@ export default {
       this.uploadPhotoTitle = files[0].name;
       this.createImage(files[0]);
     },
-    uploadImage() {
-      const sendJson =
-        { year: this.uploadYear,
-          album: this.uploadAlbum,
-          albumDate: 'May, 2017',
-          photoList: [this.uploadPhoto] };
-      console.log(sendJson);
-      axios.post('http://localhost:8080/album/upload', sendJson)
-      .then((response) => {
-        const data = response.data;
-        if (data.success) {
-          console.log(data);
-          this.setYearList(data.result1);
-          this.setAlbumList(data.result2);
-          if (this.state === 'album') {
-            this.filterAlbum(this.breadcrumb[0], () => { this.state = 'album'; });
-          } else if (this.state === 'photo') {
-            this.showPhotos(this.breadcrumb[1]);
-          }
-        } else {
-          console.log(data);
-        }
-      })
-      .catch((error) => { console.log(error); });
-    },
     setYearList(newYear) {
       const year = newYear.year;
       for (let v = 0; this.yearList.length; v += 1) {
@@ -508,10 +485,42 @@ export default {
         if (this.albumRawList[v].year === year && this.albumRawList[v].title === title) {
           this.albumRawList[v].photoNumber = newAlbum.photoNumber;
           this.albumRawList[v].photos = newAlbum.photos;
-          return;
+          break;
         }
       }
-      this.albumRawList.push(newAlbum);
+      if (this.breadcrumb.length >= 2) {
+        const currentAlbum = this.breadcrumb[1];
+        this.breadcrumb = this.breadcrumb.slice(0, 1);
+        console.log(currentAlbum);
+        console.log(this.breadcrumb);
+        this.showPhotos(currentAlbum);
+      }
+    },
+    uploadImage() {
+      const sendJson =
+        { year: this.uploadYear,
+          album: this.uploadAlbum,
+          albumDate: 'May, 2017',
+          photoList: [this.uploadPhoto] };
+      console.log(sendJson);
+      console.log('letsss');
+      axios.post('http://localhost:8080/album/upload', sendJson)
+      .then((response) => {
+        console.log('letsss');
+        const data = response.data;
+        console.log(data.success);
+        if (data.success) {
+          console.log(data);
+          this.setYearList(data.result1);
+          this.setAlbumList(data.result2);
+          if (this.breadcrumb.length >= 1) {
+            this.filterAlbum(this.breadcrumb[0], () => { });
+          }
+        } else {
+          console.log('failed');
+        }
+      })
+      .catch((error) => { console.log(error); });
     },
     createImage(file) {
       const reader = new FileReader();
