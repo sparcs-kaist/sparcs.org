@@ -217,7 +217,7 @@ new Promise(res => {
             { year },
             {
               $inc: { eventNumber: 1 },
-              $setOnInsert: { year },
+              $setOnInsert: { year, photoNumber: 0 },
             },
             {
               new: true,

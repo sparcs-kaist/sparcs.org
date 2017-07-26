@@ -231,7 +231,8 @@ export default {
   },
   computed: {
     isSPARCS() {
-      return getSession('isSPARCS');
+      const a = getSession('isSPARCS');
+      return true || a;
     },
   },
   updated() {
@@ -268,6 +269,10 @@ export default {
     fitImageHeight() {
     },
     showAddAlbumModal() {
+      if (this.uploadYear === '') {
+        alert('set year first!');
+        return;
+      }
       $('#addAlbumModal').show();
     },
     hideNewAlbumModal() {
@@ -527,7 +532,7 @@ export default {
     },
     setYearList(newYear) {
       const year = newYear.year;
-      for (let v = 0; this.yearList.length; v += 1) {
+      for (let v = 0; v < this.yearList.length; v += 1) {
         if (this.yearList[v].year === year) {
           this.yearList[v].eventNumber = newYear.eventNumber;
           this.yearList[v].photoNumber = newYear.photoNumber;
@@ -539,12 +544,17 @@ export default {
     setAlbumList(newAlbum) {
       const year = newAlbum.year;
       const title = newAlbum.title;
-      for (let v = 0; this.albumRawList.length; v += 1) {
+      let success = false;
+      for (let v = 0; v < this.albumRawList.length; v += 1) {
         if (this.albumRawList[v].year === year && this.albumRawList[v].title === title) {
           this.albumRawList[v].photoNumber = newAlbum.photoNumber;
           this.albumRawList[v].photos = newAlbum.photos;
+          success = true;
           break;
         }
+      }
+      if (!success) {
+        this.albumRawList.push(this.deepcopy(newAlbum));
       }
       if (this.breadcrumb.length >= 2) {
         const currentAlbum = this.breadcrumb[1];
