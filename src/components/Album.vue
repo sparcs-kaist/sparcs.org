@@ -34,7 +34,7 @@
               <div class="year event">{{album.date}} </div>
             </div> -->
             <div class="ui fluid card">
-              <i id="albumRemoveIcon" class="remove icon" @click="deleteAlbum(album)"></i>
+              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="deleteAlbum(album)"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getAlbumImage(album) +')' }"></div>
               <div class="content">
                 <div class="header">{{album.title}}</div>
@@ -52,7 +52,7 @@
   				</div> -->
           <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
-              <i id="albumRemoveIcon" class="remove icon" @click="deletePhoto(photo)"></i>
+              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="deletePhoto(photo)"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
             </div>
           </div>
@@ -311,14 +311,21 @@ export default {
       const bcSection1 = document.createElement('a');
       const bcDivider = document.createElement('i');
       const bcSection2 = document.createElement('a');
-      const uploadButton = document.createElement('button');
+      let uploadButton = '';
 
-      uploadButton.classList.add('ui', 'red', 'attached', 'button', 'album');
-      uploadButton.id = 'newAlbum';
-      uploadButton.addEventListener('click', () => {
-        $('#addNewPhoto').modal('show');
-      });
-      uploadButton.innerHTML = 'Upload';
+      console.log(`bc is sparcs ${this.isSPARCS}`);
+
+      albumBreadcrumb.innerHTML = '';
+      if (this.isSPARCS) {
+        uploadButton = document.createElement('button');
+        uploadButton.classList.add('ui', 'red', 'attached', 'button', 'album');
+        uploadButton.id = 'newAlbum';
+        uploadButton.addEventListener('click', () => {
+          $('#addNewPhoto').modal('show');
+        });
+        uploadButton.innerHTML = 'Upload';
+        albumBreadcrumb.appendChild(uploadButton);
+      }
 
       bcYellowRec.classList.add('yellow', 'rectangle');
       bcYellowTri.classList.add('yellow', 'triangle');
@@ -330,11 +337,12 @@ export default {
         albumBreadcrumb.appendChild(bcYellowRec);
         albumBreadcrumb.appendChild(bcYellowTri);
         albumBreadcrumb.appendChild(uploadButton);
+        if (this.isSPARCS) {
+          albumBreadcrumb.appendChild(uploadButton);
+        }
       });
-      albumBreadcrumb.innerHTML = '';
       albumBreadcrumb.appendChild(bcYellowRec);
       albumBreadcrumb.appendChild(bcYellowTri);
-      albumBreadcrumb.appendChild(uploadButton);
 
       if (len > 0) {
         bcGreyRec.classList.add('grey', 'rectangle');
