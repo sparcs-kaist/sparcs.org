@@ -82,7 +82,7 @@
               <div id="yearDropdown" class="ui fluid search selection dropdown">
                 <input type="hidden" name="year">
                 <i class="dropdown icon"></i>
-                <div class="default text">Select Year</div>
+                <div id="yearText" class="default text">Select Year</div>
                 <div class="menu">
                   <div class="item" v-for="(year, index) in yearData" :data-value="year.year" >{{year}}</div>
                 </div>
@@ -93,7 +93,7 @@
               <div id="albumDropdown" class="ui fluid search selection dropdown">
                 <input type="hidden" name="album">
                 <i class="dropdown icon"></i>
-                <div class="default text">Select Album</div>
+                <div id="albumText" class="default text">Select Album</div>
                 <div class="menu">
                   <div class="item" v-for="(albumTitle, index) in uploadAlbumList" :data-value="albumTitle" >{{albumTitle}}</div>
                 </div>
@@ -102,7 +102,7 @@
             <div class="field">
               <label>사진 첨부 </label>
               <div class="ui file input action">
-                <input type="text" v-model="uploadPhotoTitle" readonly>
+                <input type="text" v-bind:value="uploadPhotoTitle" readonly>
                 <input type="file" id="photoUpload" ref="fileUploads" @change="onFileChangePhoto($event)" style="display: none">
                 <div class="ui button" @click="onSelectFileClick"> 파일 선택 </div>
               </div>
@@ -332,7 +332,7 @@ export default {
         uploadButton.classList.add('ui', 'red', 'attached', 'button', 'album');
         uploadButton.id = 'newAlbum';
         uploadButton.addEventListener('click', () => {
-          $('#addNewPhoto').modal('show');
+          this.showUploadModal();
         });
         uploadButton.innerHTML = 'Upload';
         albumBreadcrumb.appendChild(uploadButton);
@@ -400,7 +400,14 @@ export default {
       this.uploadYear = '';
       this.uploadPhoto = '';
       this.uploadPhotoTitle = '';
+      this.uploadAlbumList = [];
       this.uploadAlbum = '';
+      const albumText = document.getElementById('albumText');
+      albumText.classList.add('default');
+      albumText.innerHTML = 'Select Album';
+      const yearText = document.getElementById('yearText');
+      yearText.classList.add('default');
+      yearText.innerHTML = 'Select Year';
       $('#addNewPhoto').modal({
         onHide: () => {
           console.log('hi');
