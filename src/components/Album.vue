@@ -7,25 +7,39 @@
   			<div id="album_list" class="ui three column grid">
         <!-- <div id="album_list" class="doubling stackable three column ui grid container"> -->
   				<div class="column album" v-for="(year, index) in yearList" v-if="state === 'year'" @click="showAlbum(year.year)">
-            <div>
+            <!-- <div>
               <img class="ui centered image album" :src="getYearImage(year)"/>
     					<div class="title">{{year.year}}</div>
     					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
     					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
     					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
     					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-            </div>
-            <!-- <div class="ui fluid card">
-              <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1240;"></i>
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getYearImage(year) +')' }"></div>
             </div> -->
+            <div class="ui fluid card">
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getYearImage(year) +')' }"></div>
+              <div class="content">
+                <div class="header">{{year.year}}</div>
+      					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
+      					<div class="meta" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+      					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
+      					<div class="meta" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+              </div>
+            </div>
   				</div>
   				<div class="column album" v-for="(album, index) in albumList" v-if="state === 'album'" @click="showPhotos(album)">
-            <div>
+            <!-- <div>
               <i class="remove icon" @click="deleteAlbum(album)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
               <img class="ui centered image album" src="./../../static/test1.jpg"/>
     					<div class="title">{{album.title}}</div>
               <div class="year event">{{album.date}} </div>
+            </div> -->
+            <div class="ui fluid card">
+              <i id="albumRemoveIcon" class="remove icon" @click="deleteAlbum(album)"></i>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getAlbumImage(album) +')' }"></div>
+              <div class="content">
+                <div class="header">{{album.title}}</div>
+                <div class="meta">{{album.date}} </div>
+              </div>
             </div>
   				</div>
   				<!-- <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo, index)">
@@ -38,7 +52,7 @@
   				</div> -->
           <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
-              <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1240;"></i>
+              <i id="albumRemoveIcon" class="remove icon" @click="deletePhoto(photo)"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
             </div>
           </div>
@@ -724,6 +738,13 @@ export default {
     z-index: 1600;
     position: absolute;
     background-color: rgba(0,0,0,0.85);
+  }
+  #albumRemoveIcon{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #ffffff;
+    z-index: 1240;
   }
   @media (min-width: 600px){
     .column.album{
