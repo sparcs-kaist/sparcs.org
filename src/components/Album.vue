@@ -6,7 +6,7 @@
   		<div class="ui container album">
   			<div id="album_list" class="ui three column grid">
         <!-- <div id="album_list" class="doubling stackable three column ui grid container"> -->
-  				<div class="column album" v-for="(year, index) in yearList" v-if="state === 'year'" @click="showAlbum(year.year)">
+  				<div class="column album" v-for="(year, index) in yearList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'year'" @click="showAlbum(year.year)">
             <!-- <div>
               <img class="ui centered image album" :src="getYearImage(year)"/>
     					<div class="title">{{year.year}}</div>
@@ -17,7 +17,7 @@
             </div> -->
             <div class="ui fluid card">
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getYearImage(year) +')' }"></div>
-              <div class="content">
+              <div id="cardContent" class="content">
                 <div class="header">{{year.year}}</div>
       					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
       					<div class="meta" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
@@ -26,7 +26,7 @@
               </div>
             </div>
   				</div>
-  				<div class="column album" v-for="(album, index) in albumList" v-if="state === 'album'" @click="showPhotos(album)">
+  				<div class="column album" v-for="(album, index) in albumList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'album'" @click="showPhotos(album)">
             <!-- <div>
               <i class="remove icon" @click="deleteAlbum(album)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
               <img class="ui centered image album" src="./../../static/test1.jpg"/>
@@ -36,7 +36,7 @@
             <div class="ui fluid card">
               <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="deleteAlbum(album)"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getAlbumImage(album) +')' }"></div>
-              <div class="content">
+              <div id="cardContent" class="content">
                 <div class="header">{{album.title}}</div>
                 <div class="meta">{{album.date}} </div>
               </div>
@@ -50,7 +50,7 @@
             <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
             <img class="ui centered medium image album" :src="photo"/>
   				</div> -->
-          <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo, index)">
+          <div class="column album" v-for="(photo, index) in photoList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
               <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="deletePhoto(photo)"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
@@ -225,7 +225,9 @@ export default {
     })
     .catch((error) => { console.log(error); });
     this.yearData = Array.range(d.getFullYear(), 1970, -1);
-    console.log(this.isSPARCS);
+    // we gave marginTop of r_view when righ menu item is clicked, so reload doesn't take this action
+    document.getElementById('r_view').style.marginTop = '85px'
+    document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
   },
   computed: {
     isSPARCS() {
@@ -253,8 +255,10 @@ export default {
       if (width < 600) {
         width = 600;
         $('#newAlbum').hide();
+        $('.meta').hide();
       } else {
         $('#newAlbum').show();
+        $('.meta').show();
       }
       const diff = 1280 - width;
       const w = 219 - (diff / 5);
@@ -302,6 +306,7 @@ export default {
     fixBreadCrumb() {
       const len = this.breadcrumb.length;
       const albumBreadcrumb = document.getElementById('album_breadcrumb');
+      console.log(albumBreadcrumb);
       const bcYellowRec = document.createElement('div');
       const bcYellowTri = document.createElement('div');
       const bcGreyRec = document.createElement('div');
@@ -317,6 +322,7 @@ export default {
 
       albumBreadcrumb.innerHTML = '';
       if (this.isSPARCS) {
+        console.log('heyhey');
         uploadButton = document.createElement('button');
         uploadButton.classList.add('ui', 'red', 'attached', 'button', 'album');
         uploadButton.id = 'newAlbum';
@@ -652,6 +658,13 @@ export default {
     min-width: 100%;
     max-width: 100%;
   }
+  .header{
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
 
   #card_preview{
     width: 100%;
@@ -673,6 +686,7 @@ export default {
 		color: #000000;
 		line-height: 48px;
 		padding-right: 10px;
+    cursor: pointer;
 	}
 	.yellow.triangle{
 	  width: 0;
@@ -702,6 +716,7 @@ export default {
 		z-index: 100;
 		position: relative;
 		padding-right: 10px;
+    cursor: pointer;
 	}
 	.grey.triangle{
 	  width: 0;
@@ -763,12 +778,18 @@ export default {
   }
   @media (min-width: 600px){
     .column.album{
-      padding-left: 0 !important;
-      padding-right: 28px !important;
       padding-top: 0 !important;
     }
-    .right{
+    .left{
       padding-left: 0 !important;
+      padding-right: 18px !important;
+    }
+    .center{
+      padding-left: 9px !important;
+      padding-right: 9px !important;
+    }
+    .right{
+      padding-left: 18px !important;
       padding-right: 0 !important;
     }
   	.year.event{
@@ -799,8 +820,6 @@ export default {
   }
   @media (max-width: 600px){
     .column.album{
-      padding-left: 0 !important;
-      padding-right: 3px !important;
       padding-top: 0 !important;
       padding-bottom: 2px !important;
     }
@@ -808,11 +827,17 @@ export default {
         width: 33.33333333%;
         height: 33.3333333% !important;
     }
-    .right{
+    .left{
       padding-left: 0 !important;
+      padding-right: 2px !important;
+    }
+    .center{
+      padding-left: 1px !important;
+      padding-right: 1px !important;
+    }
+    .right{
+      padding-left: 2px !important;
       padding-right: 0 !important;
-      padding-top: 0 !important;
-      padding-bottom: 2px !important;
     }
   	.year.event{
       display: none;
@@ -853,6 +878,9 @@ export default {
       font-size: 3em;
       transform: translate(-50%, -50%);
     }
+    #cardContent{
+      padding: 0.8em !important;
+    }
   }
   @media (max-width: 435px){
     .title{
@@ -878,6 +906,9 @@ export default {
       margin-right: 0;
       font-size: 3em;
       transform: translate(-50%, -50%);
+    }
+    #cardContent{
+      padding: 0.6em !important;
     }
   }
   @media (max-width: 350px){
