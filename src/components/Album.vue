@@ -136,6 +136,7 @@
 
 <script>
 import axios from 'axios';
+import { getSession } from '../utils';
 
 const d = new Date();
 const host = 'http://localhost:8080'
@@ -224,8 +225,12 @@ export default {
     })
     .catch((error) => { console.log(error); });
     this.yearData = Array.range(d.getFullYear(), 1970, -1);
+    console.log(this.isSPARCS);
   },
   computed: {
+    isSPARCS() {
+      return getSession('isSPARCS');
+    },
   },
   updated() {
     this.checkWindowSize();

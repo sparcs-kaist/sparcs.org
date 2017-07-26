@@ -29,15 +29,17 @@
 </template>
 
 <script>
-// import { getSession } from './utils'
+import { getSession } from './utils'
 
 export default {
   name: 'app',
   data: () => ({}),
   computed: {
-    // authenticated() {
-    //   return getSession('authenticated')
-    // },
+    authenticated() {
+      const session = getSession('isSPARCS');
+      console.log(`isSPARCS : ${session}`);
+      return session;
+    },
   },
   updated() {
     // $(window.document).ready(() => {
