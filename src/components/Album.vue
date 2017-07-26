@@ -8,13 +8,17 @@
         <!-- <div id="album_list" class="doubling stackable three column ui grid container"> -->
   				<div class="column album" v-for="(year, index) in yearList" v-if="state === 'year'" @click="showAlbum(year.year)">
             <div>
-              <img class="ui centered image album" src="./../../static/test1.jpg"/>
+              <img class="ui centered image album" :src="getYearImage(year)"/>
     					<div class="title">{{year.year}}</div>
     					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
     					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
     					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
     					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
             </div>
+            <!-- <div class="ui fluid card">
+              <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1240;"></i>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getYearImage(year) +')' }"></div>
+            </div> -->
   				</div>
   				<div class="column album" v-for="(album, index) in albumList" v-if="state === 'album'" @click="showPhotos(album)">
             <div>
@@ -120,6 +124,8 @@
 import axios from 'axios';
 
 const d = new Date();
+const host = 'http://localhost:8080'
+const defaultImage = `${host}/static/test1.jpg`
 
 Array.range = (a, b, step) => {
   const A = [a];
@@ -195,12 +201,11 @@ export default {
         this.uploadAlbum = value;
       },
     });
-    axios.get('http://localhost:8080/album/getAlbum')
+    axios.get(`${host}/album/getAlbum`)
     .then((response) => {
       const { years, albums } = response.data;
       this.yearList = this.deepcopy(years);
       this.albumRawList = this.deepcopy(albums);
-      console.log('here?');
       this.fixBreadCrumb();
     })
     .catch((error) => { console.log(error); });
@@ -226,8 +231,11 @@ export default {
     checkWindowSize() {
       let width = $(window).width();
       console.log(width);
-      if (width < 580) {
-        width = 580;
+      if (width < 600) {
+        width = 600;
+        $('#newAlbum').hide();
+      } else {
+        $('#newAlbum').show();
       }
       const diff = 1280 - width;
       const w = 219 - (diff / 5);
@@ -255,7 +263,7 @@ export default {
           albumTitle: newAlbumName,
           albumDate: 'May, 2017' };
       console.log(sendJson);
-      axios.post('http://localhost:8080/album/newAlbum', sendJson)
+      axios.post(`${host}/album/newAlbum`, sendJson)
       .then((response) => {
         const data = response.data;
         if (data.success) {
@@ -383,6 +391,23 @@ export default {
       }
       event.stopPropagation();
     },
+    getYearImage(year) {
+      let photo = defaultImage;
+      for (let i = 0; i < this.albumRawList.length; i += 1) {
+        const album = this.albumRawList[i];
+        if (album.year === year.year && album.photos.length > 0) {
+          photo = album.photos[0];
+        }
+      }
+      return photo;
+    },
+    getAlbumImage(album) {
+      let photo = defaultImage;
+      if (album.photos.length > 0) {
+        photo = album.photos[0];
+      }
+      return photo;
+    },
     showAlbum(year) {
       this.breadcrumb.push(year);
       this.filterAlbum(year, () => { this.state = 'album'; });
@@ -390,7 +415,7 @@ export default {
     },
     deleteAlbum(album) {
       const sendJson = { year: album.year, albumTitle: album.title }
-      axios.post('http://localhost:8080/album/removeAlbum', sendJson)
+      axios.post(`${host}/album/removeAlbum`, sendJson)
       .then((response) => {
         const data = response.data;
         if (data.success) {
@@ -420,7 +445,7 @@ export default {
     deletePhoto(photo) {
       const album = this.breadcrumb[1];
       const sendJson = { year: album.year, albumTitle: album.title, photoURL: photo }
-      axios.post('http://localhost:8080/album/removePhoto', sendJson)
+      axios.post(`${host}/album/removePhoto`, sendJson)
       .then((response) => {
         const data = response.data;
         if (data.success) {
@@ -504,7 +529,7 @@ export default {
           photoList: [this.uploadPhoto] };
       console.log(sendJson);
       console.log('letsss');
-      axios.post('http://localhost:8080/album/upload', sendJson)
+      axios.post(`${host}/album/upload`, sendJson)
       .then((response) => {
         console.log('letsss');
         const data = response.data;
