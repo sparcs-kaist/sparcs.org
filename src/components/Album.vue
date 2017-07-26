@@ -735,7 +735,8 @@ export default {
     transform: translate(-50%, -50%);
   }
   #photoDetailBG{
-    position: relative;
+    position: absolute;
+    left: 0;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -744,12 +745,13 @@ export default {
   #photoDetail{
     display: none;
     width:100%;
-    height: 100%;
+    height: calc(100vh - 133px);
+    margin-top: 133px;
     text-align: center;
     top:0;
     left:0;
     z-index: 1600;
-    position: absolute;
+    position: fixed;
     background-color: rgba(0,0,0,0.85);
   }
   #albumRemoveIcon{
