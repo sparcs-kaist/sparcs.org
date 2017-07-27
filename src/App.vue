@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:class="{ transformed: menuShow }" @click="background_clicked">
     <div class="ui fixed inverted large secondary pointing menu" id="menu_header" v-if="$route.path==='/' ? false : true">
-        <div v-if=menuShow class="ui vertical inverted sidebar menu right uncover visible">
+        <div id="rightResponsibleMenu" v-if="menuShow" class="ui vertical inverted sidebar menu right uncover visible">
           <router-link to="/aboutus" class="item" id="aboutus" v-on:click.native="sparcs_logo_onclick($event)">ABOUT US</router-link>
           <router-link to="/projects" class="item" id="projects" v-on:click.native="right_menu_onclick($event)">PROJECTS</router-link>
           <router-link to="/seminars" class="item" id="seminars" v-on:click.native="right_menu_onclick($event)">SEMINARS</router-link>
@@ -22,17 +22,17 @@
           <router-link to="/seminars" class="item" id="seminars" v-on:click.native="right_menu_onclick($event)">SEMINARS</router-link>
           <router-link to="/album" class="item" id="album" v-on:click.native="right_menu_onclick($event)">ALBUM</router-link>
           <router-link to="/members" class="item" id="members" v-on:click.native="right_menu_onclick($event)">MEMBERS</router-link>
-          <div v-if=authenticated class="item" @click="logout">LOGOUT</div>
+          <div v-if="authenticated" class="item" @click="logout">LOGOUT</div>
           <div v-else class="item" @click="login">LOGIN</div>
         </div>
-        <div class="hamburger" @click="menu_clicked">
+        <div class="hamburger" @click="menu_clicked($event)">
           <i class="sidebar icon" style="color:white"></i>
         </div>
       </div>
     </div>
-    <div v-bind:class="{ transformed: menuShow }" @click="background_clicked">
-      <router-view id="r_view"></router-view>
-    </div>
+    <!-- <div v-bind:class="{ transformed: menuShow }" @click="background_clicked"> -->
+      <router-view id="r_view"  ></router-view>
+    <!-- </div> -->
     <div id="footer" class="ui inverted vertical footer segment" v-if="$route.path==='/' ? false : true">
       <div class="ui center aligned container">
         <div class="ui horizontal inverted small divided link list">
@@ -111,16 +111,22 @@ export default {
       const forEach = Array.prototype.forEach;
       console.log(obj.innerHTML);
       if (obj.innerHTML !== 'ABOUT US') {
-        document.getElementById('r_view').style.marginTop = '85px'
-        document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
+        const width = $(window).width();
+        if (width <= 600) {
+          document.getElementById('r_view').style.marginTop = '49px';
+        } else {
+          document.getElementById('r_view').style.marginTop = '85px';
+        }
+        document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
       }
       forEach.call(obj.parentNode.children, (sibling) => {
         sibling.classList.remove('active')
       })
       obj.classList.add('active')
     },
-    menu_clicked() {
+    menu_clicked(event) {
       this.menuShow = !this.menuShow;
+      event.stopPropagation();
     },
     background_clicked() {
       if (this.menuShow) {
@@ -204,6 +210,10 @@ export default {
   //   background-color:#000;
   //   opacity: 0.8;
   // }
+  #rightResponsibleMenu{
+    -webkit-transform: translate3d(260px, 0, 0);
+    transform: translate3d(260px, 0, 0);
+  }
 
   .transformed {
     -webkit-transform: translate3d(-260px, 0, 0);
