@@ -102,7 +102,7 @@
             <div class="field">
               <label>사진 첨부 </label>
               <div class="ui file input action">
-                <input type="text" v-bind:value="uploadPhotoTitle" readonly>
+                <input type="text" v-bind:value="uploadPhotoTitle" name="image" readonly>
                 <input type="file" id="photoUpload" ref="fileUploads" @change="onFileChangePhoto($event)" style="display: none">
                 <div class="ui button" @click="onSelectFileClick"> 파일 선택 </div>
               </div>
@@ -120,7 +120,7 @@
       <div id="addAlbumModal" class="ui small modal">
         <div class="header">Add New Album <i class="close icon" style="float:right; cursor: pointer; cursor: hand;" @click="hideNewAlbumModal"></i> </div>
      	  <div class="content">
-          <div class="ui form">
+          <div id="newAlbumDiv" class="ui form">
             <input id="newAlbumName" type="text" name="year" placeholder="New Album Name">
           </div>
      	  </div>
@@ -203,6 +203,7 @@ export default {
         this.uploadYear = year;
         this.uploadAlbumList = [];
         this.newAlbumList = [];
+        $('#albumDropdown').popup('destroy');
         for (let i = 0; i < this.albumRawList.length; i += 1) {
           if (this.albumRawList[i].year === parseInt(year, 10)) {
             this.uploadAlbumList.push(this.albumRawList[i].title);
@@ -212,6 +213,13 @@ export default {
         $('#albumDropdown').dropdown('restore defaults');
       },
     });
+    // $('.ui.form').form({
+    //   fields: {
+    //     year: 'empty',
+    //     album: 'empty',
+    //     image: 'empty',
+    //   },
+    // });
     // window.onresize = () => {
     //   const width = $(window).width();
     //   const diff = 1280 - width;
@@ -240,6 +248,7 @@ export default {
     .then((response) => {
       const { years, albums } = response.data;
       this.yearList = this.deepcopy(years);
+      this.yearList = this.yearList.sort((a, b) => b.year - a.year);
       this.albumRawList = this.deepcopy(albums);
       this.fixBreadCrumb();
     })
@@ -252,7 +261,7 @@ export default {
   computed: {
     isSPARCS() {
       const a = getSession('isSPARCS');
-      return true || a;
+      return a;
     },
   },
   updated() {
@@ -297,7 +306,9 @@ export default {
     },
     showAddAlbumModal() {
       if (this.uploadYear === '') {
-        alert('set year first!');
+        $('#albumDropdown').attr('data-html', 'set year first!');
+        $('#albumDropdown').popup('destroy');
+        $('#albumDropdown').popup('show');
         return;
       }
       $('#addAlbumModal').show();
@@ -307,16 +318,25 @@ export default {
     },
     addNewAlbum() {
       const newAlbumName = $('#newAlbumName').val();
+      if (newAlbumName === '') {
+        $('#newAlbumDiv').attr('data-html', 'empty album name!');
+        $('#newAlbumDiv').popup('show');
+        return;
+      }
       for (let v = 0; v < this.uploadAlbumList.length; v += 1) {
         if (this.uploadAlbumList[v] === newAlbumName) {
-          console.log('album already exists!');
+          $('#newAlbumDiv').attr('data-html', 'album already exists!');
+          $('#newAlbumDiv').popup('show');
           return;
         }
       }
+      $('#newAlbumDiv').popup('destroy');
+      const dateList = d.toString().split(' ');
+      const albumD = `${dateList[1]} ${dateList[2]}, ${dateList[3]}`;
       const sendJson =
         { year: this.uploadYear,
           albumTitle: newAlbumName,
-          albumDate: 'May, 2017' };
+          albumDate: albumD };
       console.log(sendJson);
       axios.post(`${host}/album/newAlbum`, sendJson)
       .then((response) => {
@@ -621,10 +641,15 @@ export default {
       }
     },
     uploadImage() {
+      if (this.uploadYear === '' || this.uploadAlbum === '' || this.uploadPhoto === '') {
+        return;
+      }
+      const dateList = d.toString().split(' ');
+      const albumD = `${dateList[1]} ${dateList[2]}, ${dateList[3]}`;
       const sendJson =
         { year: this.uploadYear,
           album: this.uploadAlbum,
-          albumDate: 'May, 2017',
+          albumDate: albumD,
           photoList: [this.uploadPhoto] };
       console.log(sendJson);
       console.log('letsss');
@@ -664,6 +689,10 @@ export default {
   .album.overlay{
     position: relative;
     min-height: 500px;
+  }
+  .ui.popup{
+    padding-left: 15px !important;
+    z-index: 3500;
   }
 
 	.button.album{
