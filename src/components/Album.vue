@@ -34,7 +34,7 @@
               <div class="year event">{{album.date}} </div>
             </div> -->
             <div class="ui fluid card">
-              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="deleteAlbum(album)"></i>
+              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, album)"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getAlbumImage(album) +')' }"></div>
               <div id="cardContent" class="content">
                 <div class="header">{{album.title}}</div>
@@ -52,7 +52,7 @@
   				</div> -->
           <div class="column album" v-for="(photo, index) in photoList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
-              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="deletePhoto(photo)"></i>
+              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, photo)"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
             </div>
           </div>
@@ -131,6 +131,25 @@
           </div>
         </div>
    	 </div>
+     <div id="deleteConfirmModal" class="ui basic modal">
+      <div class="ui icon header">
+        <i class="archive icon"></i>
+        Archive Old Messages
+      </div>
+      <div class="content">
+        <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+      </div>
+      <div class="actions">
+        <div class="ui red basic cancel inverted button">
+          <i class="remove icon"></i>
+          No
+        </div>
+        <div class="ui green ok inverted button" @click="deleteConfirm">
+          <i class="checkmark icon"></i>
+          Yes
+        </div>
+      </div>
+    </div>
 	</div>
 </template>
 
@@ -172,6 +191,7 @@ export default {
     uploadPhotoTitle: '',
     uploadPhoto: '',
     selectedPhoto: '',
+    deleteObject: '',
   }),
   ready: () => {
   },
@@ -267,6 +287,13 @@ export default {
       $('.image').css('height', $('#card_preview').width());
     },
     fitImageHeight() {
+    },
+    showDeleteConfirmModal(event, obj) {
+      console.log(event);
+      console.log(obj);
+      this.deleteObject = obj;
+      $('#deleteConfirmModal').modal('show');
+      event.stopPropagation();
     },
     showAddAlbumModal() {
       if (this.uploadYear === '') {
@@ -458,13 +485,31 @@ export default {
       this.filterAlbum(year, () => { this.state = 'album'; });
       this.fixBreadCrumb();
     },
+    deleteConfirm() {
+      if (this.state === 'album') {
+        this.deleteAlbum(this.deleteObject);
+      } else {
+        this.deletePhoto(this.deleteObject);
+      }
+    },
     deleteAlbum(album) {
       const sendJson = { year: album.year, albumTitle: album.title }
       axios.post(`${host}/album/removeAlbum`, sendJson)
       .then((response) => {
         const data = response.data;
         if (data.success) {
-          console.log(data);
+          this.setYearList(data.result1);
+          for (let i = 0; i < this.albumRawList.length; i += 1) {
+            const albumIter = this.albumRawList[i];
+            if (albumIter.year === album.year && albumIter.title === album.title) {
+              console.log(i);
+              this.albumRawList.splice(i, 1);
+              break;
+            }
+          }
+          if (this.breadcrumb.length >= 1) {
+            this.filterAlbum(this.breadcrumb[0], () => { });
+          }
         } else {
           console.log(data);
         }
@@ -494,7 +539,11 @@ export default {
       .then((response) => {
         const data = response.data;
         if (data.success) {
-          console.log(data);
+          this.setYearList(data.result0);
+          this.setAlbumList(data.result1);
+          if (this.breadcrumb.length >= 1) {
+            this.filterAlbum(this.breadcrumb[0], () => { });
+          }
         } else {
           console.log(data);
         }
