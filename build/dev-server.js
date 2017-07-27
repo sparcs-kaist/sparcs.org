@@ -129,7 +129,9 @@ new Promise(res => {
     function saveImageSync(base64Data) {
       const strImage = base64Data.replace(/^data:image\/[a-z]+;base64,/, '');
       const imageBuffer = new Buffer(strImage, 'base64');
-      const fileName = `img_${Date.now()}.jpg`;
+      const semicolon = base64Data.indexOf(';');
+      const extension = base64Data.substring(11, semicolon);
+      const fileName = `img_${Date.now()}.${extension}`;
       const filePath = joinPath(__dirname, '/..', imgPath, fileName);
       console.log(filePath);
       fs.writeFileSync(filePath, imageBuffer);

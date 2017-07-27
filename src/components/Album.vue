@@ -103,7 +103,7 @@
               <label>사진 첨부 </label>
               <div class="ui file input action">
                 <input type="text" v-bind:value="uploadPhotoTitle" name="image" readonly>
-                <input type="file" id="photoUpload" ref="fileUploads" @change="onFileChangePhoto($event)" style="display: none">
+                <input type="file" id="photoUpload" ref="fileUploads" @change="onFileChangePhoto($event)" style="display: none" multiple>
                 <div class="ui button" @click="onSelectFileClick"> 파일 선택 </div>
               </div>
             </div>
@@ -602,16 +602,24 @@ export default {
     },
     onFileChangePhoto(e) {
       const files = e.target.files || e.dataTransfer.files;
+      console.log(files);
       if (!files.length) return;
       this.uploadPhotoTitle = files[0].name;
-      this.createImage(files[0]);
+      if (files.length > 1) {
+        this.uploadPhotoTitle += ` 외 ${files.length - 1}개`;
+      }
+      this.createImage(files);
     },
     setYearList(newYear) {
       const year = newYear.year;
       for (let v = 0; v < this.yearList.length; v += 1) {
         if (this.yearList[v].year === year) {
-          this.yearList[v].eventNumber = newYear.eventNumber;
-          this.yearList[v].photoNumber = newYear.photoNumber;
+          if (newYear.eventNumber === 0) {
+            this.yearList.splice(v, 1);
+          } else {
+            this.yearList[v].eventNumber = newYear.eventNumber;
+            this.yearList[v].photoNumber = newYear.photoNumber;
+          }
           return;
         }
       }
@@ -650,7 +658,7 @@ export default {
         { year: this.uploadYear,
           album: this.uploadAlbum,
           albumDate: albumD,
-          photoList: [this.uploadPhoto] };
+          photoList: this.uploadPhoto };
       console.log(sendJson);
       console.log('letsss');
       axios.post(`${host}/album/upload`, sendJson)
@@ -671,12 +679,21 @@ export default {
       })
       .catch((error) => { console.log(error); });
     },
-    createImage(file) {
+    readFile(files, index, fl) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        this.uploadPhoto = e.target.result;
-      };
+      if (index >= files.length) return;
+      const file = files[index];
+      const self = this.readFile;
+      reader.onload = function (e) {
+        // get file content
+        fl.push(e.target.result);
+        self(files, index + 1, fl);
+      }
       reader.readAsDataURL(file);
+    },
+    createImage(files) {
+      this.uploadPhoto = [];
+      this.readFile(files, 0, this.uploadPhoto);
     },
   },
 };
