@@ -182,6 +182,9 @@ export default {
       this.filtered = seminars;
     })
     .catch((error) => { console.log(error); });
+    // we gave marginTop of r_view when righ menu item is clicked, so reload doesn't take this action
+    document.getElementById('r_view').style.marginTop = '85px'
+    document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
   },
 };
 </script>

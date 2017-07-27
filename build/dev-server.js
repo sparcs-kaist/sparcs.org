@@ -217,7 +217,7 @@ new Promise(res => {
             { year },
             {
               $inc: { eventNumber: 1 },
-              $setOnInsert: { year },
+              $setOnInsert: { year, photoNumber: 0 },
             },
             {
               new: true,
@@ -270,7 +270,19 @@ new Promise(res => {
                         res.send({ success: false, err: err2 });
                         console.log(err2);
                       } else {
-                        res.send({ success: true, result1: res1, result2: res2 });
+                        if (res1.eventNumber == 0) {
+                          schema.Years.remove(
+                            { year },
+                            (err3, res3) => {
+                              if (err3) {
+                                res.send({ success: false, err: err3 });
+                                console.log(err3);
+                              } else {
+                                res.send({ success: true, result1: res1, result2: res2, result3: res3 });
+                              }
+                            }
+                          )
+                        }
                       }
                     }
                   )

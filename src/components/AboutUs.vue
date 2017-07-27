@@ -100,25 +100,9 @@
 export default {
   name: 'AboutUs',
   mounted() {
-    const scrollifyWrapper = require('./../utils/jquery.scrollify.min').default;
     document.getElementById('aboutus').classList.add('active');
     document.getElementById('r_view').style.marginTop = 0;
     document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)';
-    scrollifyWrapper();
-    $.scrollify({
-      section: '.section',
-      sectionName: 'section-name',
-      interstitialSection: '.footer',
-      easing: 'easeOutExpo',
-      scrollSpeed: 1100,
-      offset: 0,
-      scrollbars: true,
-      standardScrollElements: '',
-      setHeights: true,
-      overflowScroll: true,
-      updateHash: true,
-      touchScroll: true,
-    });
     const header = $('.main-window');
     //  const range = 600;
 
