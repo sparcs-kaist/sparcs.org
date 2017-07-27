@@ -9,7 +9,7 @@
           <router-link to="/members" class="item" id="members" v-on:click.native="right_menu_onclick($event)">MEMBERS</router-link>
           <div v-if=authenticated class="item" @click="logout">LOGOUT</div>
           <div v-else class="item" @click="login">LOGIN</div>
-        </div>         
+        </div>
 
       <div class="ui container" v-bind:class="{ transformed: menuShow }" >
         <div class="menu">
@@ -134,7 +134,7 @@ export default {
 <style lang="scss">
 // .ui.container {
 //   -webkit-transform: translate3d(260px, 0, 0);
-//   transform: translate3d(260px, 0, 0);  
+//   transform: translate3d(260px, 0, 0);
 // }
 
 #app {
@@ -198,10 +198,10 @@ export default {
 }
 
 @media (max-width: 600px) {
-  
+
   // for dark background when sidebar opened
   // .dimmed {
-  //   background-color:#000; 
+  //   background-color:#000;
   //   opacity: 0.8;
   // }
 
