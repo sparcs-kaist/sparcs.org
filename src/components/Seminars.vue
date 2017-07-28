@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="actions">
-        <div class="ui positive right labeled icon button" @click="upload()">
+        <div class="ui positive right labeled icon button" @click="uploadSeminar()">
           업로드
           <i class="cloud upload icon"></i>
         </div>
@@ -58,7 +58,7 @@
       </div>
 		</div>
     <div class="ui container">
-      <table class="ui single line center aligned table" id="seminar-list">
+      <table class="ui celled table" id="seminar-list">
         <thead>
           <tr>
             <th class="two wide">Date</th>
@@ -70,7 +70,10 @@
         <tbody>
 					<tr v-for="seminar in selected">
 						<td>{{seminar.date}}</td>
-						<td>{{seminar.title}}</td>
+						<td>
+              {{seminar.title}}
+              <a class="ui red label" style="float: right" @click="deleteSeminar()">삭제</a>
+            </td>
 						<td>
               <span v-for="source in seminar.sources">
                 <a :href="source" v-if="source.endsWith('.pptx') || source.endsWith('.ppt')">
@@ -119,7 +122,7 @@ export default {
   },
 
   methods: {
-    upload() {
+    uploadSeminar() {
       // TODO: if one of the key is not defined, return
       this.seminarInfo.date = Date.now();
       axios.post('http://localhost:8080/db/seminars', this.seminarInfo)
@@ -136,6 +139,10 @@ export default {
 
     showUploadModal() {
       $('#upload-modal').modal('show');
+    },
+
+    deleteSeminar() {
+      axios.post('http://localhost:8080/db/seminars/delete', {})
     },
 
     selectFile() {
