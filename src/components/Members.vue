@@ -85,6 +85,14 @@ export default {
         this.classList.add('active');
       };
     });
+    // we gave marginTop of r_view when righ menu item is clicked, so reload doesn't take this action
+    const width = $(window).width();
+    if (width <= 600) {
+      document.getElementById('r_view').style.marginTop = '49px';
+    } else {
+      document.getElementById('r_view').style.marginTop = '85px';
+    }
+    document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
   },
 };
 </script>

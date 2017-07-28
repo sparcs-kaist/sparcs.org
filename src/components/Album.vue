@@ -6,26 +6,40 @@
   		<div class="ui container album">
   			<div id="album_list" class="ui three column grid">
         <!-- <div id="album_list" class="doubling stackable three column ui grid container"> -->
-  				<div class="column album" v-for="(year, index) in yearList" v-if="state === 'year'" @click="showAlbum(year.year)">
-            <div>
+  				<div class="column album" v-for="(year, index) in yearList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'year'" @click="showAlbum(year.year)">
+            <!-- <div>
               <img class="ui centered image album" :src="getYearImage(year)"/>
     					<div class="title">{{year.year}}</div>
     					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
     					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
     					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
     					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-            </div>
-            <!-- <div class="ui fluid card">
-              <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1240;"></i>
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getYearImage(year) +')' }"></div>
             </div> -->
+            <div class="ui fluid card">
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getYearImage(year) +')' }"></div>
+              <div id="cardContent" class="content">
+                <div class="header">{{year.year}}</div>
+      					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
+      					<div class="meta" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+      					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
+      					<div class="meta" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+              </div>
+            </div>
   				</div>
-  				<div class="column album" v-for="(album, index) in albumList" v-if="state === 'album'" @click="showPhotos(album)">
-            <div>
+  				<div class="column album" v-for="(album, index) in albumList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'album'" @click="showPhotos(album)">
+            <!-- <div>
               <i class="remove icon" @click="deleteAlbum(album)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
               <img class="ui centered image album" src="./../../static/test1.jpg"/>
     					<div class="title">{{album.title}}</div>
               <div class="year event">{{album.date}} </div>
+            </div> -->
+            <div class="ui fluid card">
+              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, album)"></i>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getAlbumImage(album) +')' }"></div>
+              <div id="cardContent" class="content">
+                <div class="header">{{album.title}}</div>
+                <div class="meta">{{album.date}} </div>
+              </div>
             </div>
   				</div>
   				<!-- <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo, index)">
@@ -36,9 +50,9 @@
             <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
             <img class="ui centered medium image album" :src="photo"/>
   				</div> -->
-          <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo'" @click="showImage(photo, index)">
+          <div class="column album" v-for="(photo, index) in photoList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
-              <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1240;"></i>
+              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, photo)"></i>
               <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
             </div>
           </div>
@@ -68,7 +82,7 @@
               <div id="yearDropdown" class="ui fluid search selection dropdown">
                 <input type="hidden" name="year">
                 <i class="dropdown icon"></i>
-                <div class="default text">Select Year</div>
+                <div id="yearText" class="default text">Select Year</div>
                 <div class="menu">
                   <div class="item" v-for="(year, index) in yearData" :data-value="year.year" >{{year}}</div>
                 </div>
@@ -79,7 +93,7 @@
               <div id="albumDropdown" class="ui fluid search selection dropdown">
                 <input type="hidden" name="album">
                 <i class="dropdown icon"></i>
-                <div class="default text">Select Album</div>
+                <div id="albumText" class="default text">Select Album</div>
                 <div class="menu">
                   <div class="item" v-for="(albumTitle, index) in uploadAlbumList" :data-value="albumTitle" >{{albumTitle}}</div>
                 </div>
@@ -88,8 +102,8 @@
             <div class="field">
               <label>사진 첨부 </label>
               <div class="ui file input action">
-                <input type="text" v-model="uploadPhotoTitle" readonly>
-                <input type="file" id="photoUpload" ref="fileUploads" @change="onFileChangePhoto($event)" style="display: none">
+                <input type="text" v-bind:value="uploadPhotoTitle" name="image" readonly>
+                <input type="file" id="photoUpload" ref="fileUploads" @change="onFileChangePhoto($event)" style="display: none" multiple>
                 <div class="ui button" @click="onSelectFileClick"> 파일 선택 </div>
               </div>
             </div>
@@ -106,7 +120,7 @@
       <div id="addAlbumModal" class="ui small modal">
         <div class="header">Add New Album <i class="close icon" style="float:right; cursor: pointer; cursor: hand;" @click="hideNewAlbumModal"></i> </div>
      	  <div class="content">
-          <div class="ui form">
+          <div id="newAlbumDiv" class="ui form">
             <input id="newAlbumName" type="text" name="year" placeholder="New Album Name">
           </div>
      	  </div>
@@ -117,11 +131,31 @@
           </div>
         </div>
    	 </div>
+     <div id="deleteConfirmModal" class="ui basic modal">
+      <div class="ui icon header">
+        <i class="archive icon"></i>
+        Archive Old Messages
+      </div>
+      <div class="content">
+        <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+      </div>
+      <div class="actions">
+        <div class="ui red basic cancel inverted button">
+          <i class="remove icon"></i>
+          No
+        </div>
+        <div class="ui green ok inverted button" @click="deleteConfirm">
+          <i class="checkmark icon"></i>
+          Yes
+        </div>
+      </div>
+    </div>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
+import { getSession } from '../utils';
 
 const d = new Date();
 const host = 'http://localhost:8080'
@@ -157,6 +191,7 @@ export default {
     uploadPhotoTitle: '',
     uploadPhoto: '',
     selectedPhoto: '',
+    deleteObject: '',
   }),
   ready: () => {
   },
@@ -168,6 +203,7 @@ export default {
         this.uploadYear = year;
         this.uploadAlbumList = [];
         this.newAlbumList = [];
+        $('#albumDropdown').popup('destroy');
         for (let i = 0; i < this.albumRawList.length; i += 1) {
           if (this.albumRawList[i].year === parseInt(year, 10)) {
             this.uploadAlbumList.push(this.albumRawList[i].title);
@@ -177,6 +213,13 @@ export default {
         $('#albumDropdown').dropdown('restore defaults');
       },
     });
+    // $('.ui.form').form({
+    //   fields: {
+    //     year: 'empty',
+    //     album: 'empty',
+    //     image: 'empty',
+    //   },
+    // });
     // window.onresize = () => {
     //   const width = $(window).width();
     //   const diff = 1280 - width;
@@ -205,13 +248,26 @@ export default {
     .then((response) => {
       const { years, albums } = response.data;
       this.yearList = this.deepcopy(years);
+      this.yearList = this.yearList.sort((a, b) => b.year - a.year);
       this.albumRawList = this.deepcopy(albums);
       this.fixBreadCrumb();
     })
     .catch((error) => { console.log(error); });
     this.yearData = Array.range(d.getFullYear(), 1970, -1);
+    // we gave marginTop of r_view when righ menu item is clicked, so reload doesn't take this action
+    const width = $(window).width();
+    if (width <= 600) {
+      document.getElementById('r_view').style.marginTop = '49px';
+    } else {
+      document.getElementById('r_view').style.marginTop = '85px';
+    }
+    document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
   },
   computed: {
+    isSPARCS() {
+      const a = getSession('isSPARCS');
+      return a;
+    },
   },
   updated() {
     this.checkWindowSize();
@@ -231,11 +287,13 @@ export default {
     checkWindowSize() {
       let width = $(window).width();
       console.log(width);
-      if (width < 600) {
+      if (width <= 600) {
         width = 600;
         $('#newAlbum').hide();
+        $('.meta').hide();
       } else {
         $('#newAlbum').show();
+        $('.meta').show();
       }
       const diff = 1280 - width;
       const w = 219 - (diff / 5);
@@ -244,7 +302,20 @@ export default {
     },
     fitImageHeight() {
     },
+    showDeleteConfirmModal(event, obj) {
+      console.log(event);
+      console.log(obj);
+      this.deleteObject = obj;
+      $('#deleteConfirmModal').modal('show');
+      event.stopPropagation();
+    },
     showAddAlbumModal() {
+      if (this.uploadYear === '') {
+        $('#albumDropdown').attr('data-html', 'set year first!');
+        $('#albumDropdown').popup('destroy');
+        $('#albumDropdown').popup('show');
+        return;
+      }
       $('#addAlbumModal').show();
     },
     hideNewAlbumModal() {
@@ -252,16 +323,25 @@ export default {
     },
     addNewAlbum() {
       const newAlbumName = $('#newAlbumName').val();
+      if (newAlbumName === '') {
+        $('#newAlbumDiv').attr('data-html', 'empty album name!');
+        $('#newAlbumDiv').popup('show');
+        return;
+      }
       for (let v = 0; v < this.uploadAlbumList.length; v += 1) {
         if (this.uploadAlbumList[v] === newAlbumName) {
-          console.log('album already exists!');
+          $('#newAlbumDiv').attr('data-html', 'album already exists!');
+          $('#newAlbumDiv').popup('show');
           return;
         }
       }
+      $('#newAlbumDiv').popup('destroy');
+      const dateList = d.toString().split(' ');
+      const albumD = `${dateList[1]} ${dateList[2]}, ${dateList[3]}`;
       const sendJson =
         { year: this.uploadYear,
           albumTitle: newAlbumName,
-          albumDate: 'May, 2017' };
+          albumDate: albumD };
       console.log(sendJson);
       axios.post(`${host}/album/newAlbum`, sendJson)
       .then((response) => {
@@ -283,6 +363,7 @@ export default {
     fixBreadCrumb() {
       const len = this.breadcrumb.length;
       const albumBreadcrumb = document.getElementById('album_breadcrumb');
+      console.log(albumBreadcrumb);
       const bcYellowRec = document.createElement('div');
       const bcYellowTri = document.createElement('div');
       const bcGreyRec = document.createElement('div');
@@ -292,14 +373,22 @@ export default {
       const bcSection1 = document.createElement('a');
       const bcDivider = document.createElement('i');
       const bcSection2 = document.createElement('a');
-      const uploadButton = document.createElement('button');
+      let uploadButton = '';
 
-      uploadButton.classList.add('ui', 'red', 'attached', 'button', 'album');
-      uploadButton.id = 'newAlbum';
-      uploadButton.addEventListener('click', () => {
-        $('#addNewPhoto').modal('show');
-      });
-      uploadButton.innerHTML = 'Upload';
+      console.log(`bc is sparcs ${this.isSPARCS}`);
+
+      albumBreadcrumb.innerHTML = '';
+      if (this.isSPARCS) {
+        console.log('heyhey');
+        uploadButton = document.createElement('button');
+        uploadButton.classList.add('ui', 'red', 'attached', 'button', 'album');
+        uploadButton.id = 'newAlbum';
+        uploadButton.addEventListener('click', () => {
+          this.showUploadModal();
+        });
+        uploadButton.innerHTML = 'Upload';
+        albumBreadcrumb.appendChild(uploadButton);
+      }
 
       bcYellowRec.classList.add('yellow', 'rectangle');
       bcYellowTri.classList.add('yellow', 'triangle');
@@ -311,11 +400,12 @@ export default {
         albumBreadcrumb.appendChild(bcYellowRec);
         albumBreadcrumb.appendChild(bcYellowTri);
         albumBreadcrumb.appendChild(uploadButton);
+        if (this.isSPARCS) {
+          albumBreadcrumb.appendChild(uploadButton);
+        }
       });
-      albumBreadcrumb.innerHTML = '';
       albumBreadcrumb.appendChild(bcYellowRec);
       albumBreadcrumb.appendChild(bcYellowTri);
-      albumBreadcrumb.appendChild(uploadButton);
 
       if (len > 0) {
         bcGreyRec.classList.add('grey', 'rectangle');
@@ -362,7 +452,14 @@ export default {
       this.uploadYear = '';
       this.uploadPhoto = '';
       this.uploadPhotoTitle = '';
+      this.uploadAlbumList = [];
       this.uploadAlbum = '';
+      const albumText = document.getElementById('albumText');
+      albumText.classList.add('default');
+      albumText.innerHTML = 'Select Album';
+      const yearText = document.getElementById('yearText');
+      yearText.classList.add('default');
+      yearText.innerHTML = 'Select Year';
       $('#addNewPhoto').modal({
         onHide: () => {
           console.log('hi');
@@ -413,13 +510,31 @@ export default {
       this.filterAlbum(year, () => { this.state = 'album'; });
       this.fixBreadCrumb();
     },
+    deleteConfirm() {
+      if (this.state === 'album') {
+        this.deleteAlbum(this.deleteObject);
+      } else {
+        this.deletePhoto(this.deleteObject);
+      }
+    },
     deleteAlbum(album) {
       const sendJson = { year: album.year, albumTitle: album.title }
       axios.post(`${host}/album/removeAlbum`, sendJson)
       .then((response) => {
         const data = response.data;
         if (data.success) {
-          console.log(data);
+          this.setYearList(data.result1);
+          for (let i = 0; i < this.albumRawList.length; i += 1) {
+            const albumIter = this.albumRawList[i];
+            if (albumIter.year === album.year && albumIter.title === album.title) {
+              console.log(i);
+              this.albumRawList.splice(i, 1);
+              break;
+            }
+          }
+          if (this.breadcrumb.length >= 1) {
+            this.filterAlbum(this.breadcrumb[0], () => { });
+          }
         } else {
           console.log(data);
         }
@@ -449,7 +564,11 @@ export default {
       .then((response) => {
         const data = response.data;
         if (data.success) {
-          console.log(data);
+          this.setYearList(data.result0);
+          this.setAlbumList(data.result1);
+          if (this.breadcrumb.length >= 1) {
+            this.filterAlbum(this.breadcrumb[0], () => { });
+          }
         } else {
           console.log(data);
         }
@@ -488,16 +607,24 @@ export default {
     },
     onFileChangePhoto(e) {
       const files = e.target.files || e.dataTransfer.files;
+      console.log(files);
       if (!files.length) return;
       this.uploadPhotoTitle = files[0].name;
-      this.createImage(files[0]);
+      if (files.length > 1) {
+        this.uploadPhotoTitle += ` 외 ${files.length - 1}개`;
+      }
+      this.createImage(files);
     },
     setYearList(newYear) {
       const year = newYear.year;
-      for (let v = 0; this.yearList.length; v += 1) {
+      for (let v = 0; v < this.yearList.length; v += 1) {
         if (this.yearList[v].year === year) {
-          this.yearList[v].eventNumber = newYear.eventNumber;
-          this.yearList[v].photoNumber = newYear.photoNumber;
+          if (newYear.eventNumber === 0) {
+            this.yearList.splice(v, 1);
+          } else {
+            this.yearList[v].eventNumber = newYear.eventNumber;
+            this.yearList[v].photoNumber = newYear.photoNumber;
+          }
           return;
         }
       }
@@ -506,12 +633,17 @@ export default {
     setAlbumList(newAlbum) {
       const year = newAlbum.year;
       const title = newAlbum.title;
-      for (let v = 0; this.albumRawList.length; v += 1) {
+      let success = false;
+      for (let v = 0; v < this.albumRawList.length; v += 1) {
         if (this.albumRawList[v].year === year && this.albumRawList[v].title === title) {
           this.albumRawList[v].photoNumber = newAlbum.photoNumber;
           this.albumRawList[v].photos = newAlbum.photos;
+          success = true;
           break;
         }
+      }
+      if (!success) {
+        this.albumRawList.push(this.deepcopy(newAlbum));
       }
       if (this.breadcrumb.length >= 2) {
         const currentAlbum = this.breadcrumb[1];
@@ -522,11 +654,16 @@ export default {
       }
     },
     uploadImage() {
+      if (this.uploadYear === '' || this.uploadAlbum === '' || this.uploadPhoto === '') {
+        return;
+      }
+      const dateList = d.toString().split(' ');
+      const albumD = `${dateList[1]} ${dateList[2]}, ${dateList[3]}`;
       const sendJson =
         { year: this.uploadYear,
           album: this.uploadAlbum,
-          albumDate: 'May, 2017',
-          photoList: [this.uploadPhoto] };
+          albumDate: albumD,
+          photoList: this.uploadPhoto };
       console.log(sendJson);
       console.log('letsss');
       axios.post(`${host}/album/upload`, sendJson)
@@ -547,12 +684,21 @@ export default {
       })
       .catch((error) => { console.log(error); });
     },
-    createImage(file) {
+    readFile(files, index, fl) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        this.uploadPhoto = e.target.result;
-      };
+      if (index >= files.length) return;
+      const file = files[index];
+      const self = this.readFile;
+      reader.onload = function (e) {
+        // get file content
+        fl.push(e.target.result);
+        self(files, index + 1, fl);
+      }
       reader.readAsDataURL(file);
+    },
+    createImage(files) {
+      this.uploadPhoto = [];
+      this.readFile(files, 0, this.uploadPhoto);
     },
   },
 };
@@ -565,6 +711,10 @@ export default {
   .album.overlay{
     position: relative;
     min-height: 500px;
+  }
+  .ui.popup{
+    padding-left: 15px !important;
+    z-index: 3500;
   }
 
 	.button.album{
@@ -625,6 +775,13 @@ export default {
     min-width: 100%;
     max-width: 100%;
   }
+  .header{
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
 
   #card_preview{
     width: 100%;
@@ -646,6 +803,7 @@ export default {
 		color: #000000;
 		line-height: 48px;
 		padding-right: 10px;
+    cursor: pointer;
 	}
 	.yellow.triangle{
 	  width: 0;
@@ -675,6 +833,7 @@ export default {
 		z-index: 100;
 		position: relative;
 		padding-right: 10px;
+    cursor: pointer;
 	}
 	.grey.triangle{
 	  width: 0;
@@ -708,7 +867,8 @@ export default {
     transform: translate(-50%, -50%);
   }
   #photoDetailBG{
-    position: relative;
+    position: absolute;
+    left: 0;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -717,22 +877,36 @@ export default {
   #photoDetail{
     display: none;
     width:100%;
-    height: 100%;
+    height: calc(100vh - 133px);
+    margin-top: 133px;
     text-align: center;
     top:0;
     left:0;
     z-index: 1600;
-    position: absolute;
+    position: fixed;
     background-color: rgba(0,0,0,0.85);
+  }
+  #albumRemoveIcon{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #ffffff;
+    z-index: 1240;
   }
   @media (min-width: 600px){
     .column.album{
-      padding-left: 0 !important;
-      padding-right: 28px !important;
       padding-top: 0 !important;
     }
-    .right{
+    .left{
       padding-left: 0 !important;
+      padding-right: 18px !important;
+    }
+    .center{
+      padding-left: 9px !important;
+      padding-right: 9px !important;
+    }
+    .right{
+      padding-left: 18px !important;
       padding-right: 0 !important;
     }
   	.year.event{
@@ -763,8 +937,6 @@ export default {
   }
   @media (max-width: 600px){
     .column.album{
-      padding-left: 0 !important;
-      padding-right: 3px !important;
       padding-top: 0 !important;
       padding-bottom: 2px !important;
     }
@@ -772,11 +944,17 @@ export default {
         width: 33.33333333%;
         height: 33.3333333% !important;
     }
-    .right{
+    .left{
       padding-left: 0 !important;
+      padding-right: 2px !important;
+    }
+    .center{
+      padding-left: 1px !important;
+      padding-right: 1px !important;
+    }
+    .right{
+      padding-left: 2px !important;
       padding-right: 0 !important;
-      padding-top: 0 !important;
-      padding-bottom: 2px !important;
     }
   	.year.event{
       display: none;
@@ -817,6 +995,9 @@ export default {
       font-size: 3em;
       transform: translate(-50%, -50%);
     }
+    #cardContent{
+      padding: 0.8em !important;
+    }
   }
   @media (max-width: 435px){
     .title{
@@ -842,6 +1023,9 @@ export default {
       margin-right: 0;
       font-size: 3em;
       transform: translate(-50%, -50%);
+    }
+    #cardContent{
+      padding: 0.6em !important;
     }
   }
   @media (max-width: 350px){

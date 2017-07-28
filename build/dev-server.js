@@ -129,7 +129,9 @@ new Promise(res => {
     function saveImageSync(base64Data) {
       const strImage = base64Data.replace(/^data:image\/[a-z]+;base64,/, '');
       const imageBuffer = new Buffer(strImage, 'base64');
-      const fileName = `img_${Date.now()}.jpg`;
+      const semicolon = base64Data.indexOf(';');
+      const extension = base64Data.substring(11, semicolon);
+      const fileName = `img_${Date.now()}.${extension}`;
       const filePath = joinPath(__dirname, '/..', imgPath, fileName);
       console.log(filePath);
       fs.writeFileSync(filePath, imageBuffer);
@@ -217,7 +219,7 @@ new Promise(res => {
             { year },
             {
               $inc: { eventNumber: 1 },
-              $setOnInsert: { year },
+              $setOnInsert: { year, photoNumber: 0 },
             },
             {
               new: true,
@@ -270,7 +272,19 @@ new Promise(res => {
                         res.send({ success: false, err: err2 });
                         console.log(err2);
                       } else {
-                        res.send({ success: true, result1: res1, result2: res2 });
+                        if (res1.eventNumber == 0) {
+                          schema.Years.remove(
+                            { year },
+                            (err3, res3) => {
+                              if (err3) {
+                                res.send({ success: false, err: err3 });
+                                console.log(err3);
+                              } else {
+                                res.send({ success: true, result1: res1, result2: res2, result3: res3 });
+                              }
+                            }
+                          )
+                        }
                       }
                     }
                   )
