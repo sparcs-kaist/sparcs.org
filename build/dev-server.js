@@ -380,8 +380,6 @@ new Promise(res => {
 
       const state = getKey(req.query, 'state', 'queryState');
 
-      // console.log(stateBefore)
-      // console.log(state)
       if (stateBefore !== state) {
         throw new Error('TOKEN MISMATCH: session might be hijacked!');
       }
@@ -398,10 +396,6 @@ new Promise(res => {
           } else {
             sess.isSPARCS = false;
           }
-          // console.log('=========================');
-          // console.log(resp);
-          // console.log('=========================');
-          // console.log(req.session);
 
           let next;
           if (Object.prototype.hasOwnProperty.call(sess, 'next')) {

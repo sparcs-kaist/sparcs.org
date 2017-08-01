@@ -59,7 +59,7 @@ export default {
     users: [],
   }),
   created() {
-    axios.get('http://localhost:8080/users/')
+    axios.get('http://localhost:12345/users/')
       .then(res => {
         this.users = res.data
       })
