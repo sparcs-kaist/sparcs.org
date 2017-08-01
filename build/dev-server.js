@@ -38,18 +38,17 @@ const devMiddleware = require('webpack-dev-middleware')(compiler, {
 });
 
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
-  log: () => {},
+  log: () => {
+  },
 });
 
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', (compilation) => {
   compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {
-    hotMiddleware.publish({ action: 'reload' });
+    hotMiddleware.publish({action: 'reload'});
     cb();
   });
 });
-
-
 
 
 const sessionArgs = {
@@ -63,7 +62,7 @@ const sessionArgs = {
 }
 
 // Database
-const { dbUser, dbPassword } = localConfig
+const {dbUser, dbPassword} = localConfig
 const dbAuth = dbUser ? `${dbUser}:${dbPassword}@` : ''
 const mongoUrl = `mongodb://${dbAuth}${localConfig.dbHost}/${localConfig.dbName}`
 
@@ -72,7 +71,7 @@ new Promise(res => {
     .then(() => {
       console.log('Successed in connecting to mongod server')
       const mongoStore = require('connect-mongo')(session)
-      sessionArgs.store = new mongoStore({ url: mongoUrl })
+      sessionArgs.store = new mongoStore({url: mongoUrl})
       res()
     })
     .catch(err => {
@@ -98,8 +97,8 @@ new Promise(res => {
     // serve pure static assets
     const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
     app.use(staticPath, express.static('./static'));
-    app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-    app.use(bodyParser.json({ limit: '50mb' }));
+    app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+    app.use(bodyParser.json({limit: '50mb'}));
 
     const uri = `http://localhost:${port}`;
     const imgPath = `${staticPath}/images/`;
@@ -121,7 +120,7 @@ new Promise(res => {
         if (err) console.log(`some error occured.. ${err}`);
         else {
           console.log('successfully saved screenshot!');
-          res.send({ success: true });
+          res.send({success: true});
         }
       });
     });
@@ -138,17 +137,18 @@ new Promise(res => {
       const url = uri + imgPath + fileName;
       return url;
     }
+
     app.post('/album/upload', (req, res) => {
-      const { year, album, albumDate, photoList } = req.body;
+      const {year, album, albumDate, photoList} = req.body;
       const photoNumber = photoList.length;
       for (let i = 0; i < photoNumber; i += 1) {
         photoList[i] = saveImageSync(photoList[i]);
       }
       schema.Years.findOneAndUpdate(
-        { year },
+        {year},
         {
-          $inc: { photoNumber },
-          $setOnInsert: { year },
+          $inc: {photoNumber},
+          $setOnInsert: {year},
         },
         {
           new: true,
@@ -158,16 +158,16 @@ new Promise(res => {
         },
         (err1, res1) => {
           if (err1) {
-            res.send({ success: false });
+            res.send({success: false});
             console.log(err1);
           } else {
             console.log(res1);
             schema.Albums.findOneAndUpdate(
-              { title: album },
+              {title: album},
               {
-                $inc: { photoNumber },
-                $pushAll: { photos: photoList },
-                $setOnInsert: { year, title: album, date: albumDate },
+                $inc: {photoNumber},
+                $pushAll: {photos: photoList},
+                $setOnInsert: {year, title: album, date: albumDate},
               },
               {
                 new: true,
@@ -177,12 +177,12 @@ new Promise(res => {
               },
               (err2, res2) => {
                 if (err2) {
-                  res.send({ success: false });
+                  res.send({success: false});
                   console.log(err2);
                 } else {
                   console.log('succeed in uploading photo');
                   console.log(res2);
-                  res.send({ success: true, result1: res1, result2: res2 });
+                  res.send({success: true, result1: res1, result2: res2});
                 }
               });
           }
@@ -191,17 +191,17 @@ new Promise(res => {
 
     app.get('/album/getAlbum', (req, res) => {
       schema.Years.find({}, (err1, years) => {
-        if (err1) res.send({ years: [] });
+        if (err1) res.send({years: []});
         else {
           schema.Albums.find({}, (err2, albums) => {
-            if (err2) res.send({ years });
-            res.send({ years, albums });
+            if (err2) res.send({years});
+            res.send({years, albums});
           });
         }
       });
     });
     app.post('/album/newAlbum', (req, res) => {
-      const { year, albumTitle, albumDate } = req.body;
+      const {year, albumTitle, albumDate} = req.body;
       const album = new schema.Albums({
         year,
         title: albumTitle,
@@ -212,14 +212,14 @@ new Promise(res => {
       console.log(album);
       album.save((err1, res1) => {
         if (err1) {
-          res.send({ success: false, err: err1 });
+          res.send({success: false, err: err1});
           console.log(err1);
         } else {
           schema.Years.findOneAndUpdate(
-            { year },
+            {year},
             {
-              $inc: { eventNumber: 1 },
-              $setOnInsert: { year, photoNumber: 0 },
+              $inc: {eventNumber: 1},
+              $setOnInsert: {year, photoNumber: 0},
             },
             {
               new: true,
@@ -229,10 +229,10 @@ new Promise(res => {
             },
             (err2, res2) => {
               if (err2) {
-                res.send({ success: false, err: err2 });
+                res.send({success: false, err: err2});
                 console.log(err2);
               } else {
-                res.send({ success: true, resultAlbum: res1, resultYear: res2 });
+                res.send({success: true, resultAlbum: res1, resultYear: res2});
               }
             });
         }
@@ -240,20 +240,20 @@ new Promise(res => {
     });
 
     app.post('/album/removeAlbum', (req, res) => {
-      const { year, albumTitle } = req.body;
+      const {year, albumTitle} = req.body;
       schema.Albums.find(
-        { year: year, title: albumTitle},
+        {year: year, title: albumTitle},
         (err0, res0) => {
           if (err0) {
-            res.send({ success: false, err: err0});
+            res.send({success: false, err: err0});
             console.log(err0);
           } else {
             console.log(res0);
             const photoNumber = res0[0].photos.length;
             schema.Years.findOneAndUpdate(
-              { year: year },
+              {year: year},
               {
-                $inc: { eventNumber: -1, photoNumber: -photoNumber },
+                $inc: {eventNumber: -1, photoNumber: -photoNumber},
               },
               {
                 new: true,
@@ -262,25 +262,25 @@ new Promise(res => {
               },
               (err1, res1) => {
                 if (err1) {
-                  res.send({ success: false, err: err1 });
+                  res.send({success: false, err: err1});
                   console.log(err1);
                 } else {
                   schema.Albums.remove(
-                    { year: year, title: albumTitle},
+                    {year: year, title: albumTitle},
                     (err2, res2) => {
                       if (err2) {
-                        res.send({ success: false, err: err2 });
+                        res.send({success: false, err: err2});
                         console.log(err2);
                       } else {
                         if (res1.eventNumber == 0) {
                           schema.Years.remove(
-                            { year },
+                            {year},
                             (err3, res3) => {
                               if (err3) {
-                                res.send({ success: false, err: err3 });
+                                res.send({success: false, err: err3});
                                 console.log(err3);
                               } else {
-                                res.send({ success: true, result1: res1, result2: res2, result3: res3 });
+                                res.send({success: true, result1: res1, result2: res2, result3: res3});
                               }
                             }
                           )
@@ -296,11 +296,11 @@ new Promise(res => {
       )
     });
     app.post('/album/removePhoto', (req, res) => {
-      const { year, albumTitle, photoURL } = req.body;
+      const {year, albumTitle, photoURL} = req.body;
       schema.Years.findOneAndUpdate(
-        { year: year },
+        {year: year},
         {
-          $inc: { photoNumber: -1 },
+          $inc: {photoNumber: -1},
         },
         {
           new: true,
@@ -309,13 +309,13 @@ new Promise(res => {
         },
         (err0, res0) => {
           if (err0) {
-            res.send({ success: false, err: err0 });
+            res.send({success: false, err: err0});
             console.log(err0);
           } else {
             schema.Albums.findOneAndUpdate(
-              { year: year, title: albumTitle},
+              {year: year, title: albumTitle},
               {
-                $pull: { photos: photoURL }
+                $pull: {photos: photoURL}
               },
               {
                 new: true,
@@ -324,10 +324,10 @@ new Promise(res => {
               },
               (err1, res1) => {
                 if (err1) {
-                  res.send({ success: false, err: err1});
+                  res.send({success: false, err: err1});
                   console.log(err1);
                 } else {
-                  res.send({ success: true, result0: res0, result1: res1});
+                  res.send({success: true, result0: res0, result1: res1});
                 }
               }
             )
@@ -337,7 +337,7 @@ new Promise(res => {
     });
 
     app.post('/db/seminars', (req, res) => {
-      const { title, speaker, date, content } = req.body;
+      const {title, speaker, date, content} = req.body;
 
       const strContent = content.replace(/^data:application\/pdf;base64,/, '');
       const buffer = new Buffer(strContent, 'base64');
@@ -348,7 +348,7 @@ new Promise(res => {
       fs.writeFileSync(filePath, buffer);
 
       const sources = [url];
-      const tuple = new schema.Seminars({ title, speaker, date, sources });
+      const tuple = new schema.Seminars({title, speaker, date, sources});
       tuple.save((err) => {
         if (err) {
           console.log(err);
@@ -362,6 +362,16 @@ new Promise(res => {
         if (err) res.send({ seminars: [] });
         else res.send({ seminars });
       });
+    });
+
+    app.get('/db/seminars/delete', (req, res) => {
+      const {title, speaker} = req.body;
+      schema.Seminars.remove({title, speaker}, (err) => {
+        if (err) {
+          console.log(err);
+          res.send({ success: false });
+        } else res.send({ success: true })
+      })
     });
 
     app.get('/login', (req, res) => {
@@ -445,7 +455,7 @@ new Promise(res => {
     Object.keys(proxyTable).forEach((context) => {
       let options = proxyTable[context];
       if (typeof options === 'string') {
-        options = { target: options };
+        options = {target: options};
       }
       app.use(proxyMiddleware(options.filter || context, options));
     });

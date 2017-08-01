@@ -9,7 +9,7 @@
 
     <div class="ui modal" id="upload-modal">
       <i class="close icon"></i>
-      <div class="header">
+      <div class="header" v-if="isSPARCS">
         세미나 업로드하기
       </div>
       <div class="content">
@@ -72,7 +72,7 @@
 						<td>{{seminar.date}}</td>
 						<td>
               {{seminar.title}}
-              <a class="ui red label" style="float: right" @click="deleteSeminar()">삭제</a>
+              <a class="ui red label" style="float: right" v-if="isSPARCS" @click="deleteSeminar(seminar)">삭제</a>
             </td>
 						<td>
               <span v-for="source in seminar.sources">
@@ -94,6 +94,7 @@
 <script>
 import axios from 'axios';
 import * as hangul from 'hangul-js';
+import getSession from "../utils/getSession";
 
 const isFreshman = seminar => seminar.title.includes('신입생');
 const isWheel = seminar => seminar.title.toLowerCase().includes('wheel') || seminar.title.includes('휠');
@@ -119,6 +120,9 @@ export default {
         hangul.search(normal(seminar.title), normal(this.searchQuery)) >= 0 ||
         hangul.search(normal(seminar.speaker), normal(this.searchQuery)) >= 0);
     },
+    isSPARCS() {
+      return getSession('isSPARCS');
+    }
   },
 
   methods: {
@@ -141,8 +145,16 @@ export default {
       $('#upload-modal').modal('show');
     },
 
-    deleteSeminar() {
-      axios.post('http://localhost:8080/db/seminars/delete', {})
+    deleteSeminar(seminar) {
+      axios.post('http://localhost:8080/db/seminars/delete', seminar)
+        .then((response) => {
+        const { success } = response.data;
+        if (success) {
+          // TODO: On success...
+        } else {
+          // TODO: On failure...
+        }
+      })
     },
 
     selectFile() {
