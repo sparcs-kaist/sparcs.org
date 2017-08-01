@@ -1,11 +1,11 @@
 <template>
-	<div>
-		<div class="ui vertical masthead center aligned basic segment">
+  <div>
+    <div id="seminar-header" class="ui vertical masthead center aligned basic segment">
       <div class="ui text container">
         <h1 class="ui header">Seminars</h1>
         <h2>Made in SPARCS, SPARCS의 세미나 자료를 공개합니다.</h2>
       </div>
-		</div>
+    </div>
 
     <div class="ui modal" id="upload-modal">
       <i class="close icon"></i>
@@ -42,39 +42,39 @@
       </div>
     </div>
 
-		<div class="ui inverted large attached menu" id="submenu">
-			<div class="ui container">
-				<a class="active yellow item" @click="filtered = seminars">All</a>
-				<a class="yellow item" @click="filtered = freshman">Freshman</a>
-				<a class="yellow item" @click="filtered = wheel">Wheel</a>
-				<a class="yellow item" @click="filtered = etc">Etc.</a>
+    <div class="ui inverted large attached menu" id="submenu">
+      <div class="ui container">
+        <a class="active yellow item" @click="filtered = seminars">All</a>
+        <a class="yellow item" @click="filtered = freshman">Freshman</a>
+        <a class="yellow item" @click="filtered = wheel">Wheel</a>
+        <a class="yellow item" @click="filtered = etc">Etc.</a>
         <div class="ui small search right item">
           <div class="ui icon input">
-            <input class="prompt" type="text" placeholder="Search slides..." v-model="searchQuery">
+            <input class="prompt" placeholder="Search slides..." v-model="searchQuery">
             <i class="search icon"></i>
           </div>
         </div>
         <button class="ui red attached button" @click="showUploadModal()">Upload</button>
       </div>
-		</div>
+    </div>
     <div class="ui container">
       <table class="ui celled table" id="seminar-list">
         <thead>
-          <tr>
-            <th class="two wide">Date</th>
-            <th class="ten wide">Topic</th>
-            <th class="two wide">File</th>
-            <th class="two wide">Speaker</th>
-          </tr>
+        <tr>
+          <th class="two wide">Date</th>
+          <th class="ten wide">Topic</th>
+          <th class="two wide">File</th>
+          <th class="two wide">Speaker</th>
+        </tr>
         </thead>
         <tbody>
-					<tr v-for="seminar in selected">
-						<td>{{seminar.date}}</td>
-						<td>
-              {{seminar.title}}
-              <a class="ui red label" style="float: right" v-if="isSPARCS" @click="deleteSeminar(seminar)">삭제</a>
-            </td>
-						<td>
+        <tr v-for="seminar in selected">
+          <td>{{seminar.date}}</td>
+          <td>
+            {{seminar.title}}
+            <a class="ui red label" style="float: right" v-if="isSPARCS" @click="deleteSeminar(seminar)">삭제</a>
+          </td>
+          <td>
               <span v-for="source in seminar.sources">
                 <a :href="source" v-if="source.endsWith('.pptx') || source.endsWith('.ppt')">
                   <i class="file powerpoint outline icon"></i>
@@ -83,139 +83,155 @@
                   <i class="file pdf outline icon" href="source"></i>
                 </a>
               </span>
-						<td>{{seminar.speaker}}</td>
-					</tr>
+          <td>{{seminar.speaker}}</td>
+        </tr>
         </tbody>
       </table>
     </div>
-	</div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
-import * as hangul from 'hangul-js';
-import getSession from "../utils/getSession";
+  import axios from 'axios';
+  import * as hangul from 'hangul-js';
+  import getSession from '../utils/getSession';
 
-const isFreshman = seminar => seminar.title.includes('신입생');
-const isWheel = seminar => seminar.title.toLowerCase().includes('wheel') || seminar.title.includes('휠');
-const normal = str => str.replace(/\s/gi, '').toLowerCase();
+  const isFreshman = seminar => seminar.title.includes('신입생');
+  const isWheel = seminar => seminar.title.toLowerCase().includes('wheel') || seminar.title.includes('휠');
+  const normal = str => str.replace(/\s/gi, '').toLowerCase();
 
-export default {
-  name: 'Seminars',
+  export default {
+    name: 'Seminars',
 
-  data: () => ({
-    seminars: [],
-    filtered: [],
-    searchQuery: '',
-    fileName: '',
-    seminarInfo: {},
-  }),
+    data: () => ({
+      seminars: [],
+      filtered: [],
+      searchQuery: '',
+      fileName: '',
+      seminarInfo: {},
+    }),
 
-  computed: {
-    freshman() { return this.seminars.filter(isFreshman); },
-    wheel() { return this.seminars.filter(isWheel); },
-    etc() { return this.seminars.filter(s => !isFreshman(s) && !isWheel(s)); },
-    selected() {
-      return this.filtered.filter(seminar =>
-        hangul.search(normal(seminar.title), normal(this.searchQuery)) >= 0 ||
-        hangul.search(normal(seminar.speaker), normal(this.searchQuery)) >= 0);
-    },
-    isSPARCS() {
-      return getSession('isSPARCS');
-    }
-  },
-
-  methods: {
-    uploadSeminar() {
-      // TODO: if one of the key is not defined, return
-      this.seminarInfo.date = Date.now();
-      axios.post('http://localhost:8080/db/seminars', this.seminarInfo)
-      .then((response) => {
-        const { success } = response.data;
-        if (success) {
-          // TODO: On success..
-        } else {
-          // TODO: On failure...
-        }
-      })
-      .catch((error) => { console.log(error); });
+    computed: {
+      freshman() {
+        return this.seminars.filter(isFreshman);
+      },
+      wheel() {
+        return this.seminars.filter(isWheel);
+      },
+      etc() {
+        return this.seminars.filter(s => !isFreshman(s) && !isWheel(s));
+      },
+      selected() {
+        return this.filtered.filter(seminar =>
+          hangul.search(normal(seminar.title), normal(this.searchQuery)) >= 0 ||
+          hangul.search(normal(seminar.speaker), normal(this.searchQuery)) >= 0);
+      },
+      isSPARCS() {
+        return getSession('isSPARCS');
+      },
     },
 
-    showUploadModal() {
-      $('#upload-modal').modal('show');
+    methods: {
+      uploadSeminar() {
+        // TODO: if one of the key is not defined, return
+        this.seminarInfo.date = Date.now();
+        axios.post('http://localhost:8080/db/seminars', this.seminarInfo)
+          .then((response) => {
+            const { success } = response.data;
+            if (success) {
+              // TODO: On success..
+            } else {
+              // TODO: On failure...
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+
+      showUploadModal() {
+        $('#upload-modal').modal('show');
+      },
+
+      deleteSeminar(seminar) {
+        axios.post('http://localhost:8080/db/seminars/delete', seminar)
+          .then((response) => {
+            const { success } = response.data;
+            if (success) {
+              // TODO: On success...
+            } else {
+              // TODO: On failure...
+            }
+          })
+      },
+
+      selectFile() {
+        const fileUpload = document.getElementById('file-upload');
+        fileUpload.accept = 'application/pdf';
+        fileUpload.click();
+      },
+
+      changeFile(e) {
+        const files = e.target.files || e.dataTransfer.files;
+        if (!files.length) return;
+
+        const file = files[0];
+        this.fileName = file.name;
+        this.readFile(file);
+      },
+
+      readFile(file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+          this.seminarInfo.content = e.target.result;
+        };
+      },
     },
 
-    deleteSeminar(seminar) {
-      axios.post('http://localhost:8080/db/seminars/delete', seminar)
-        .then((response) => {
-        const { success } = response.data;
-        if (success) {
-          // TODO: On success...
-        } else {
-          // TODO: On failure...
-        }
-      })
-    },
-
-    selectFile() {
-      const fileUpload = document.getElementById('file-upload');
-      fileUpload.accept = 'application/pdf';
-      fileUpload.click();
-    },
-
-    changeFile(e) {
-      const files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-
-      const file = files[0];
-      this.fileName = file.name;
-      this.readFile(file);
-    },
-
-    readFile(file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (e) => { this.seminarInfo.content = e.target.result; };
-    },
-  },
-
-  mounted() {
-    const forEach = Array.prototype.forEach;
-    document.getElementById('seminars').classList.add('active');
-    document.querySelectorAll('#submenu .yellow.item').forEach((item) => {
-      item.onclick = function () {
-        forEach.call(this.parentNode.children, (sibling) => {
-          sibling.classList.remove('active');
-        });
-        this.classList.add('active');
-      };
-    });
-
-    axios.get('http://localhost:8080/db/seminars')
-    .then((response) => {
-      const { seminars } = response.data;
-      seminars.forEach((seminar) => {
-        seminar.date = seminar.date.split('T')[0];
+    mounted() {
+      const forEach = Array.prototype.forEach;
+      document.getElementById('seminars').classList.add('active');
+      document.querySelectorAll('#submenu .yellow.item').forEach((item) => {
+        item.onclick = function () {
+          forEach.call(this.parentNode.children, (sibling) => {
+            sibling.classList.remove('active');
+          });
+          this.classList.add('active');
+        };
       });
-      this.seminars = seminars;
-      this.filtered = seminars;
-    })
-    .catch((error) => { console.log(error); });
-    // we gave marginTop of r_view when righ menu item is clicked, so reload doesn't take this action
-    const width = $(window).width();
-    if (width <= 600) {
-      document.getElementById('r_view').style.marginTop = '49px';
-    } else {
-      document.getElementById('r_view').style.marginTop = '85px';
-    }
-    document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
-  },
-};
+
+      axios.get('http://localhost:8080/db/seminars')
+        .then((response) => {
+          const { seminars } = response.data;
+          seminars.forEach((seminar) => {
+            seminar.date = seminar.date.split('T')[0];
+          });
+          this.seminars = seminars;
+          this.filtered = seminars;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // we gave marginTop of r_view when righ menu item is clicked, so reload doesn't take this action
+      const width = $(window).width();
+      if (width <= 600) {
+        document.getElementById('r_view').style.marginTop = '49px';
+      } else {
+        document.getElementById('r_view').style.marginTop = '85px';
+      }
+      document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
+    },
+  };
 </script>
 
 <style>
-#seminar-list {
-  margin-top: 3em;
-  margin-bottom: 3em;
-}
+  #seminar-header {
+    background-image: url('../../static/mesh05.png');
+  }
+
+  #seminar-list {
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
 </style>
