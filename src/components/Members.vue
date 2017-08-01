@@ -24,7 +24,7 @@
 
         <div class="card" v-for="member in selectedUsers">
           <div class="middle aligned content">
-            <img class="left floated large ui avatar image" src="./../../static/test1.jpg" />
+            <!--<img class="left floated large ui avatar image" src="./../../static/test1.jpg" />-->
             <div class="header">{{member.name}}</div>
             <div class="meta">
               <!--<template v-if="member.role.staff">-->
