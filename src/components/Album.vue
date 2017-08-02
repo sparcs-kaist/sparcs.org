@@ -265,8 +265,7 @@ export default {
   },
   computed: {
     isSPARCS() {
-      const a = getSession('isSPARCS');
-      return a;
+      return getSession('isSPARCS');
     },
   },
   updated() {

@@ -162,7 +162,7 @@ export default {
 
 <style>
 #projectHeader{
-  background-image: url('./../../static/Sparcs_mesh_03.png');
+  background-image: url('../../static/mesh03.png');
   color: #ffffff;
 }
 </style>

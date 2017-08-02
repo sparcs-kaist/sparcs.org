@@ -99,7 +99,7 @@ export default {
 
 <style>
 .HEADER {
-  background-image: url('./../../static/Sparcs_mesh_02.png') !important;
+  background-image: url('./../../static/mesh02.png') !important;
 }
 .linkedin.square.icon, .github.square.icon {
   font-size: 20px;
