@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="ui vertical masthead center aligned basic segment">
+		<div class="HEADER ui vertical masthead center aligned basic segment">
       <div class="ui text container">
         <h1 class="ui header">We Make Services</h1>
         <h2>SPARCS의 개발자와 디자이너를 소개합니다.</h2>
@@ -98,6 +98,9 @@ export default {
 </script>
 
 <style>
+.HEADER {
+  background-image: url('./../../static/Sparcs_mesh_02.png') !important;
+}
 .linkedin.square.icon, .github.square.icon {
   font-size: 20px;
   color: black;
