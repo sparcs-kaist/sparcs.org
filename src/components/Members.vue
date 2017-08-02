@@ -23,7 +23,7 @@
 			<div class="ui four doubling cards">
 
         <div class="card" v-for="member in selectedUsers">
-          <div class="middle aligned content">
+          <div class="middle aligned content"  @click="showUserDetail(member.id)">
             <!--<img class="left floated large ui avatar image" src="./../../static/test1.jpg" />-->
             <div class="header">{{member.name}}</div>
             <div class="meta">
@@ -46,20 +46,39 @@
         </div>
 			</div>
     </div>
+    <div class="user-detail-modal ui modal">
+      <i class="close icon"></i>
+      <div class="header">
+        멤버 상세 정보
+      </div>
+      <div class="content">
+        <div class="ui list">
+          <div class="item" v-for="(value, key) in detailUser">
+            {{key}} : {{value}}
+          </div>
+        </div>
+      </div>
+    </div>
 	</div>
 </template>
 
 <script>
 import axios from 'axios'
+import { getSession } from '../utils';
+
+const fetch = axios.create({
+  baseURL: 'http://localhost:8080/api',
+})
 
 export default {
   name: 'Members',
   data: () => ({
     roleFilter: 'all',
     users: [],
+    detailUser: {},
   }),
   created() {
-    axios.get('http://localhost:12345/users/')
+    fetch.get('/nugu/users')
       .then(res => {
         this.users = res.data
       })
@@ -93,6 +112,18 @@ export default {
       document.getElementById('r_view').style.marginTop = '85px';
     }
     document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
+  },
+
+  methods: {
+    showUserDetail(memberId) {
+      if (getSession('isSPARCS')) {
+        fetch.get(`/nugu/users/${memberId}`)
+          .then(res => {
+            this.detailUser = res.data
+            $('.user-detail-modal').modal('show')
+          })
+      }
+    },
   },
 };
 </script>

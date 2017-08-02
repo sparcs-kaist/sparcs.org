@@ -20,6 +20,7 @@ const bodyParser = require('body-parser');
 const schema = require('./schema.js');
 const session = require('express-session');
 const Client = require('./sparcsssov2');
+const registerNuguApi = require('./nugu-api');
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.dev.port;
@@ -373,6 +374,8 @@ new Promise(res => {
         } else res.send({ success: true })
       })
     });
+
+    registerNuguApi(app);
 
     app.get('/login', (req, res) => {
       const sess = req.session;
