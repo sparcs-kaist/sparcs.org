@@ -63,10 +63,9 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { getSession } from '../utils';
 
-const fetch = axios.create({
+const axios = require('axios').create({
   baseURL: 'http://localhost:8080/api',
 })
 
@@ -78,7 +77,7 @@ export default {
     detailUser: {},
   }),
   created() {
-    fetch.get('/nugu/users')
+    axios.get('/nugu/users')
       .then(res => {
         this.users = res.data
       })
@@ -117,7 +116,7 @@ export default {
   methods: {
     showUserDetail(memberId) {
       if (getSession('isSPARCS')) {
-        fetch.get(`/nugu/users/${memberId}`)
+        axios.get(`/nugu/users/${memberId}`)
           .then(res => {
             this.detailUser = res.data
             $('.user-detail-modal').modal('show')

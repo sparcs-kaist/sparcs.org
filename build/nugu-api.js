@@ -1,8 +1,7 @@
-const axios = require('axios');
 const localConfig = require('../localconfig')
 const sparcsRequired = require('./sparcsrequired')
 
-const fetch = axios.create({
+const axios = require('axios').create({
   baseURL: localConfig.nuguEndpoint,
   auth: {
     username: localConfig.nuguId,
@@ -11,7 +10,7 @@ const fetch = axios.create({
 })
 
 const getUsers = (req, res) => {
-  fetch.get(`/users`)
+  axios.get(`/users`)
     .then(result => {
       res.status(200).send(result.data)
     })
@@ -22,7 +21,7 @@ const getUsers = (req, res) => {
 
 const getUserDetail = sparcsRequired((req, res) => {
   const { user_id } = req.params
-  fetch.get(`/users/${user_id}`)
+  axios.get(`/users/${user_id}`)
     .then(result => {
       res.status(200).send(result.data)
     })
