@@ -56,108 +56,28 @@ export default {
   }),
   computed: {
     authenticated() {
-      const session = getSession('isSPARCS');
-      console.log(`isSPARCS : ${session}`);
-      return session;
+      return getSession('authenticated');
     },
   },
   updated() {
-    // $(window.document).ready(() => {
     const parser = document.createElement('a')
     parser.href = window.location.href
-    console.log(parser.pathname);
-    // if (parser.pathname !== '/') {
-    //   const forEach = Array.prototype.forEach;
-    //   document.getElementById('sparcs_logo').onclick = function () {
-    //     console.log('sparcs_logo');
-    //     document.getElementById('r_view').style.marginTop = '0px'
-    //     document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)'
-    //     document.querySelectorAll('.right.menu .item').forEach((item) => {
-    //       item.classList.remove('active')
-    //     })
-    //   }
-    //   document.querySelectorAll('.right.menu .item').forEach((item) => {
-    //     item.onclick = function () {
-    //       console.log('hey');
-    //       if (this.innerHTML !== 'ABOUT US') {
-    //         document.getElementById('r_view').style.marginTop = '85px'
-    //         document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
-    //       }
-    //       forEach.call(this.parentNode.children, (sibling) => {
-    //         sibling.classList.remove('active')
-    //       })
-    //       this.classList.add('active')
-    //     }
-    //   })
-    // }
-    // });
   },
   methods: {
     login() {
       window.location.href = 'http://localhost:8080/login'
     },
-    updated() {
-      // $(window.document).ready(() => {
-      const parser = document.createElement('a')
-      parser.href = window.location.href
-      console.log(parser.pathname);
-      // if (parser.pathname !== '/') {
-      //   const forEach = Array.prototype.forEach;
-      //   document.getElementById('sparcs_logo').onclick = function () {
-      //     console.log('sparcs_logo');
-      //     document.getElementById('r_view').style.marginTop = '0px'
-      //     document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)'
-      //     document.querySelectorAll('.right.menu .item').forEach((item) => {
-      //       item.classList.remove('active')
-      //     })
-      //   }
-      //   document.querySelectorAll('.right.menu .item').forEach((item) => {
-      //     item.onclick = function () {
-      //       console.log('hey');
-      //       if (this.innerHTML !== 'ABOUT US') {
-      //         document.getElementById('r_view').style.marginTop = '85px'
-      //         document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
-      //       }
-      //       forEach.call(this.parentNode.children, (sibling) => {
-      //         sibling.classList.remove('active')
-      //       })
-      //       this.classList.add('active')
-      //     }
-      //   })
-      // }
-      // });
+    logout() {
+      window.location.href = 'http://localhost:8080/logout'
     },
-    methods: {
-      login() {
-        window.location.href = 'http://localhost:8080/login'
-      },
-      logout() {
-        window.location.href = 'http://localhost:8080/logout'
-      },
-      sparcs_logo_onclick() {
-        console.log('sparcs_logo');
-        document.getElementById('r_view').style.marginTop = '0px'
-        document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)'
-        document.querySelectorAll('.right.menu .item').forEach((item) => {
-          item.classList.remove('active')
-        })
-      },
-      right_menu_onclick(event) {
-        console.log(event);
-        const obj = event.target;
-        const forEach = Array.prototype.forEach;
-        console.log(obj.innerHTML);
-        if (obj.innerHTML !== 'ABOUT US') {
-          document.getElementById('r_view').style.marginTop = '85px'
-          document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)'
-        }
-        forEach.call(obj.parentNode.children, (sibling) => {
-          sibling.classList.remove('active')
-        })
-        obj.classList.add('active')
-      },
+    sparcs_logo_onclick() {
+      console.log('sparcs_logo');
+      document.getElementById('r_view').style.marginTop = '0px'
+      document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,0)'
+      document.querySelectorAll('.right.menu .item').forEach((item) => {
+        item.classList.remove('active')
+      })
     },
-
     right_menu_onclick(event) {
       console.log(event);
       const obj = event.target;
