@@ -2,7 +2,7 @@ const axios = require('axios');
 const localConfig = require('../localconfig')
 
 const fetch = axios.create({
-  baseURL: 'http://localhost:12345',
+  baseURL: localConfig.nuguEndpoint,
   auth: {
     username: localConfig.nuguId,
     password: localConfig.nuguPassword,
