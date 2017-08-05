@@ -63,9 +63,9 @@ const sessionArgs = {
 }
 
 // Database
-const {dbUser, dbPassword} = localConfig
+const {dbUser, dbPassword, dbPort} = localConfig
 const dbAuth = dbUser ? `${dbUser}:${dbPassword}@` : ''
-const mongoUrl = `mongodb://${dbAuth}${localConfig.dbHost}/${localConfig.dbName}`
+const mongoUrl = `mongodb://${dbAuth}${localConfig.dbHost}:${dbPort}/${localConfig.dbName}`
 
 new Promise(res => {
   mongoose.connect(mongoUrl)
