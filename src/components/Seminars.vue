@@ -77,10 +77,10 @@
           <td>
               <span v-for="source in seminar.sources">
                 <a :href="source" v-if="source.endsWith('.pptx') || source.endsWith('.ppt')">
-                  <i class="file powerpoint outline icon"></i>
+                  <i class="file powerpoint outline black icon"></i>
                 </a>
                 <a :href="source" v-else-if="source.endsWith('.pdf')">
-                  <i class="file pdf outline icon" href="source"></i>
+                  <i class="file pdf outline black icon" href="source"></i>
                 </a>
               </span>
           <td>{{seminar.speaker}}</td>
@@ -140,6 +140,19 @@
             const { success } = response.data;
             if (success) {
               // TODO: On success..
+              axios.get('http://localhost:8080/db/seminars')
+                .then((response2) => {
+                  console.log(response2);
+                  const { seminars } = response2.data;
+                  seminars.forEach((seminar) => {
+                    seminar.date = seminar.date.split('T')[0];
+                  });
+                  this.seminars = seminars;
+                  this.filtered = seminars;
+                })
+                .catch((error2) => {
+                  console.log(error2);
+                });
             } else {
               // TODO: On failure...
             }
@@ -159,6 +172,19 @@
             const { success } = response.data;
             if (success) {
               // TODO: On success...
+              axios.get('http://localhost:8080/db/seminars')
+                .then((response2) => {
+                  console.log(response2);
+                  const { seminars } = response2.data;
+                  seminars.forEach((seminar2) => {
+                    seminar2.date = seminar2.date.split('T')[0];
+                  });
+                  this.seminars = seminars;
+                  this.filtered = seminars;
+                })
+                .catch((error2) => {
+                  console.log(error2);
+                });
             } else {
               // TODO: On failure...
             }

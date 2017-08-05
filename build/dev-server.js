@@ -343,7 +343,8 @@ new Promise(res => {
       const strContent = content.replace(/^data:application\/pdf;base64,/, '');
       const buffer = new Buffer(strContent, 'base64');
       const titleWithUnderscores = title.replace(' ', '_');
-      const fileName = `${speaker}_${titleWithUnderscores}.pdf`;
+      // const fileName = `${speaker}_${titleWithUnderscores}.pdf`;
+      const fileName = `${speaker}_${Date.now()}.pdf`;
       const filePath = joinPath(__dirname, '/..', seminarPath, fileName);
       const url = uri + seminarPath + fileName;
       fs.writeFileSync(filePath, buffer);
@@ -365,7 +366,7 @@ new Promise(res => {
       });
     });
 
-    app.get('/db/seminars/delete', (req, res) => {
+    app.post('/db/seminars/delete', (req, res) => {
       const {title, speaker} = req.body;
       schema.Seminars.remove({title, speaker}, (err) => {
         if (err) {
