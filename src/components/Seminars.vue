@@ -96,6 +96,8 @@
   import * as hangul from 'hangul-js';
   import getSession from '../utils/getSession';
 
+  const host = 'http://sparcs.org:15693'
+
   const isFreshman = seminar => seminar.title.includes('신입생');
   const isWheel = seminar => seminar.title.toLowerCase().includes('wheel') || seminar.title.includes('휠');
   const normal = str => str.replace(/\s/gi, '').toLowerCase();
@@ -135,12 +137,12 @@
       uploadSeminar() {
         // TODO: if one of the key is not defined, return
         this.seminarInfo.date = Date.now();
-        axios.post('http://localhost:8080/db/seminars', this.seminarInfo)
+        axios.post(`http://${host}/db/seminars`, this.seminarInfo)
           .then((response) => {
             const { success } = response.data;
             if (success) {
               // TODO: On success..
-              axios.get('http://localhost:8080/db/seminars')
+              axios.get(`http://${host}/db/seminars`)
                 .then((response2) => {
                   console.log(response2);
                   const { seminars } = response2.data;
@@ -167,12 +169,12 @@
       },
 
       deleteSeminar(seminar) {
-        axios.post('http://localhost:8080/db/seminars/delete', seminar)
+        axios.post(`http://${host}/db/seminars/delete`, seminar)
           .then((response) => {
             const { success } = response.data;
             if (success) {
               // TODO: On success...
-              axios.get('http://localhost:8080/db/seminars')
+              axios.get(`http://${host}/db/seminars`)
                 .then((response2) => {
                   console.log(response2);
                   const { seminars } = response2.data;
@@ -227,7 +229,7 @@
         };
       });
 
-      axios.get('http://localhost:8080/db/seminars')
+      axios.get(`http://${host}/db/seminars`)
         .then((response) => {
           const { seminars } = response.data;
           seminars.forEach((seminar) => {
