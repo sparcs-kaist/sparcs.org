@@ -49,6 +49,8 @@
 <script>
 import { getSession } from './utils'
 
+const host = 'http://sparcs.org:15693'
+
 export default {
   name: 'app',
   data: () => ({
@@ -65,10 +67,10 @@ export default {
   },
   methods: {
     login() {
-      window.location.href = 'http://localhost:8080/login'
+      window.location.href = `${host}/login`
     },
     logout() {
-      window.location.href = 'http://localhost:8080/logout'
+      window.location.href = `${host}/logout`
     },
     sparcs_logo_onclick() {
       console.log('sparcs_logo');

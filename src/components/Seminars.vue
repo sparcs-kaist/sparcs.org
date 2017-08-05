@@ -137,12 +137,12 @@
       uploadSeminar() {
         // TODO: if one of the key is not defined, return
         this.seminarInfo.date = Date.now();
-        axios.post(`http://${host}/db/seminars`, this.seminarInfo)
+        axios.post(`${host}/db/seminars`, this.seminarInfo)
           .then((response) => {
             const { success } = response.data;
             if (success) {
               // TODO: On success..
-              axios.get(`http://${host}/db/seminars`)
+              axios.get(`${host}/db/seminars`)
                 .then((response2) => {
                   console.log(response2);
                   const { seminars } = response2.data;
@@ -169,12 +169,12 @@
       },
 
       deleteSeminar(seminar) {
-        axios.post(`http://${host}/db/seminars/delete`, seminar)
+        axios.post(`${host}/db/seminars/delete`, seminar)
           .then((response) => {
             const { success } = response.data;
             if (success) {
               // TODO: On success...
-              axios.get(`http://${host}/db/seminars`)
+              axios.get(`${host}/db/seminars`)
                 .then((response2) => {
                   console.log(response2);
                   const { seminars } = response2.data;
@@ -229,7 +229,7 @@
         };
       });
 
-      axios.get(`http://${host}/db/seminars`)
+      axios.get(`${host}/db/seminars`)
         .then((response) => {
           const { seminars } = response.data;
           seminars.forEach((seminar) => {
