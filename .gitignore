@@ -166,7 +166,7 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/webstorm,node,macos,windows
 
-dist/
+#dist/
 .idea/
 #semantic/
 static/images/
