@@ -64,7 +64,8 @@
 
 <script>
 import { getSession } from '../utils';
-const host = 'http://sparcs.org:15693'
+
+const host = 'http://sparcs.org:15693';
 
 const axios = require('axios').create({
   baseURL: `${host}/api`,
