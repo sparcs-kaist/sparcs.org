@@ -288,6 +288,7 @@ export default {
       console.log(width);
       if (width <= 600) {
         width = 600;
+        document.getElementById('r_view').style.marginTop = '49px';
         $('#newAlbum').hide();
         $('.meta').hide();
       } else {
