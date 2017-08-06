@@ -158,7 +158,7 @@ import axios from 'axios';
 import { getSession } from '../utils';
 
 const d = new Date();
-const host = 'http://sparcs.org:15693'
+const host = 'http://localhost:8080'
 const defaultImage = `${host}/static/test1.jpg`
 
 Array.range = (a, b, step) => {

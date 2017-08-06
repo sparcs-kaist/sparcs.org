@@ -49,7 +49,7 @@
 <script>
 import { getSession } from './utils'
 
-const host = 'http://sparcs.org:15693'
+const host = 'http://localhost:8080'
 
 export default {
   name: 'app',
