@@ -936,6 +936,10 @@ export default {
 
   }
   @media (max-width: 600px){
+    #album_list{
+      padding-top: 3px;
+      padding-bottom: 3em;
+    }
     .column.album{
       padding-top: 0 !important;
       padding-bottom: 2px !important;
@@ -972,6 +976,18 @@ export default {
       background: rgba(0, 0, 0, 0.7);
       padding: 10px 10px;
   	}
+    #photoDetail{
+      display: none;
+      width:100%;
+      height: calc(100vh - 97px);
+      margin-top: 97px;
+      text-align: center;
+      top:0;
+      left:0;
+      z-index: 1600;
+      position: fixed;
+      background-color: rgba(0,0,0,0.85);
+    }
     #photoDetailImage{
       display: inline-block;
       position: relative;
