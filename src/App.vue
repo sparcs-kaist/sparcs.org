@@ -2,7 +2,7 @@
 
   <div id="app" v-bind:class="{ transformed: menuShow }" @click="background_clicked">
     <div class="ui fixed inverted large secondary pointing menu" id="menu_header" v-if="$route.path==='/' ? false : true">
-        <div id="rightResponsibleMenu" v-if="menuShow" class="ui vertical inverted sidebar menu right uncover visible">
+        <div id="rightResponsibleMenu" class="ui vertical inverted sidebar menu right uncover visible"  @click="do_nothing">
           <router-link to="/aboutus" class="item" id="aboutus" v-on:click.native="sparcs_logo_onclick($event)">ABOUT US</router-link>
           <router-link to="/projects" class="item" id="projects" v-on:click.native="right_menu_onclick($event)">PROJECTS</router-link>
           <router-link to="/seminars" class="item" id="seminars" v-on:click.native="right_menu_onclick($event)">SEMINARS</router-link>
@@ -12,7 +12,7 @@
           <div v-else class="item" @click="login">LOGIN</div>
         </div>
 
-      <div class="ui container" v-bind:class="{ transformed: menuShow }" >
+      <div class="ui container">
         <div class="menu">
           <router-link to="/aboutus" class="active" id="sparcs_logo" v-on:click.native="sparcs_logo_onclick($event)">
             <img class="logo" src="./../static/logo-1@3x.png"/></router-link>
@@ -49,8 +49,8 @@
 <script>
 import { getSession } from './utils'
 
-const host = 'http://sparcs.org:15693'
-
+// const host = 'http://sparcs.org:15693'
+const host = 'http://localhost:8080'
 export default {
   name: 'app',
   data: () => ({
@@ -104,19 +104,22 @@ export default {
       event.stopPropagation();
     },
     background_clicked() {
+      // if (e.target.classList !== 'blind') {
+      //   alert(e.target.classList);
+      //   return;
+      // }
+      // alert(e.target.classList);
       if (this.menuShow) {
         this.menuShow = !this.menuShow;
       }
+    },
+    do_nothing() {
     },
   },
 };
 </script>
 
 <style lang="scss">
-// .ui.container {
-//   -webkit-transform: translate3d(260px, 0, 0);
-//   transform: translate3d(260px, 0, 0);
-// }
 
 #app {
   font-family: 'Noto Sans', 'Avenir', Helvetica, Arial, sans-serif;
@@ -173,7 +176,7 @@ export default {
   font-size: 1rem;
 }
 
-.ui.vertical.inverted.sidebar.menu.left,
+.ui.vertical.inverted.sidebar.menu.right,
 .hamburger {
   display: none;
 }
@@ -188,14 +191,24 @@ export default {
   #rightResponsibleMenu{
     -webkit-transform: translate3d(260px, 0, 0);
     transform: translate3d(260px, 0, 0);
+    position: fixed !important;
+    top: 0;
+    // right: 0px !important ;
+ }
+
+  #app {
+    -webkit-transition: transform 0.5s;
+    transition: transform 0.5s;
+    // position: fixed;
   }
 
   .transformed {
+    // right: 260px !important;
     -webkit-transform: translate3d(-260px, 0, 0);
     transform: translate3d(-260px, 0, 0);
   }
 
-  .ui.vertical.inverted.sidebar.menu.left,
+  .ui.vertical.inverted.sidebar.menu.right,
   .hamburger {
     display: block !important;
     z-index: 1700;
@@ -205,6 +218,10 @@ export default {
     width: 100%;
   }
 
+  #menu_header {
+    position: fixed;
+  }
+  
   #sparcs_logo {
     position: fixed;
     left: 50%;

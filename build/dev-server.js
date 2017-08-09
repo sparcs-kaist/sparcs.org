@@ -101,7 +101,8 @@ new Promise(res => {
     app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
     app.use(bodyParser.json({limit: '50mb'}));
 
-    const uri = `http://sparcs.org:${port}`;
+    // const uri = `http://sparcs.org:${port}`;
+    const uri = `http://localhost:8080`;
     const imgPath = `${staticPath}/images/`;
     const seminarPath = `${staticPath}/seminars/`;
 
