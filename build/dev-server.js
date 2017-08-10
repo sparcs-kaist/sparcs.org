@@ -408,6 +408,14 @@ new Promise(res => {
           if (resp.sparcs_id) {
             sess.sparcsId = resp.sparcs_id;
             sess.isSPARCS = true;
+            console.log('here');
+            schema.Admins.find({}, (err, adminList) => {
+              if (err) console.error(err);
+              console.log(adminList);
+              if (schema.Admins.includes(resp.sparcs_id)) {
+                sess.isAdmin = true;
+              }
+            });
           } else {
             sess.isSPARCS = false;
           }
@@ -422,6 +430,7 @@ new Promise(res => {
           const sess2 = _.cloneDeep(sess)
           delete sess2.cookie
           res.cookie('session', JSON.stringify(sess2))
+          console.log(sess)
           return res.redirect(next)
         });
     });

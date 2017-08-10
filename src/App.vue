@@ -1,16 +1,16 @@
 <template>
 
-  <div id="app" v-bind:class="{ transformed: menuShow }" @click="background_clicked">
+  <div id="app">
     <div class="ui fixed inverted large secondary pointing menu" id="menu_header" v-if="$route.path==='/' ? false : true">
-        <div id="rightResponsibleMenu" class="ui vertical inverted sidebar menu right uncover visible"  @click="do_nothing">
-          <router-link to="/aboutus" class="item" id="aboutus" v-on:click.native="sparcs_logo_onclick($event)">ABOUT US</router-link>
-          <router-link to="/projects" class="item" id="projects" v-on:click.native="right_menu_onclick($event)">PROJECTS</router-link>
-          <router-link to="/seminars" class="item" id="seminars" v-on:click.native="right_menu_onclick($event)">SEMINARS</router-link>
-          <router-link to="/album" class="item" id="album" v-on:click.native="right_menu_onclick($event)">ALBUM</router-link>
-          <router-link to="/members" class="item" id="members" v-on:click.native="right_menu_onclick($event)">MEMBERS</router-link>
-          <div v-if=authenticated class="item" @click="logout">LOGOUT</div>
-          <div v-else class="item" @click="login">LOGIN</div>
-        </div>
+      <div id="rightResponsibleMenu" class="ui right sidebar inverted vertical menu">
+        <router-link to="/aboutus" class="item" id="aboutus" v-on:click.native="sparcs_logo_onclick($event)">ABOUT US</router-link>
+        <router-link to="/projects" class="item" id="projects" v-on:click.native="right_menu_onclick($event)">PROJECTS</router-link>
+        <router-link to="/seminars" class="item" id="seminars" v-on:click.native="right_menu_onclick($event)">SEMINARS</router-link>
+        <router-link to="/album" class="item" id="album" v-on:click.native="right_menu_onclick($event)">ALBUM</router-link>
+        <router-link to="/members" class="item" id="members" v-on:click.native="right_menu_onclick($event)">MEMBERS</router-link>
+        <div v-if=authenticated class="item" @click="logout">LOGOUT</div>
+        <div v-else class="item" @click="login">LOGIN</div>
+      </div>
 
       <div class="ui container">
         <div class="menu">
@@ -27,14 +27,14 @@
           <div v-if="authenticated" class="item" @click="logout">LOGOUT</div>
           <div v-else class="item" @click="login">LOGIN</div>
         </div>
-        <div class="hamburger" @click="menu_clicked($event)">
+        <div class="hamburger" @click="menu_clicked()">
           <i class="sidebar icon" style="color:white"></i>
         </div>
       </div>
     </div>
-    <!-- <div v-bind:class="{ transformed: menuShow }" @click="background_clicked"> -->
-      <router-view id="r_view"  ></router-view>
-    <!-- </div> -->
+
+    <router-view id="r_view"  ></router-view>
+
     <div id="footer" class="ui inverted vertical footer segment" v-if="$route.path==='/' ? false : true">
       <div class="ui center aligned container">
         <div class="ui horizontal inverted small divided link list">
@@ -99,21 +99,8 @@ export default {
       })
       obj.classList.add('active')
     },
-    menu_clicked(event) {
-      this.menuShow = !this.menuShow;
-      event.stopPropagation();
-    },
-    background_clicked() {
-      // if (e.target.classList !== 'blind') {
-      //   alert(e.target.classList);
-      //   return;
-      // }
-      // alert(e.target.classList);
-      if (this.menuShow) {
-        this.menuShow = !this.menuShow;
-      }
-    },
-    do_nothing() {
+    menu_clicked() {
+      $('.ui.sidebar').sidebar('toggle');
     },
   },
 };
@@ -183,35 +170,10 @@ export default {
 
 @media (max-width: 600px) {
 
-  // for dark background when sidebar opened
-  // .dimmed {
-  //   background-color:#000;
-  //   opacity: 0.8;
-  // }
-  #rightResponsibleMenu{
-    -webkit-transform: translate3d(260px, 0, 0);
-    transform: translate3d(260px, 0, 0);
-    position: fixed !important;
-    top: 0;
-    // right: 0px !important ;
- }
-
-  #app {
-    -webkit-transition: transform 0.5s;
-    transition: transform 0.5s;
-    // position: fixed;
-  }
-
-  .transformed {
-    // right: 260px !important;
-    -webkit-transform: translate3d(-260px, 0, 0);
-    transform: translate3d(-260px, 0, 0);
-  }
-
   .ui.vertical.inverted.sidebar.menu.right,
   .hamburger {
     display: block !important;
-    z-index: 1700;
+    z-index: 700;
   }
 
   .menu {

@@ -23,6 +23,11 @@ const seminarSchema = new Schema({
   sources: [String],
 });
 
+const adminSchema = new Schema({
+  adminList: [String],
+});
+
 exports.Years = mongoose.model('Years', yearSchema);
 exports.Albums = mongoose.model('Albums', albumSchema);
 exports.Seminars = mongoose.model('Seminars', seminarSchema);
+exports.Admins = mongoose.model('Admins', adminSchema);
