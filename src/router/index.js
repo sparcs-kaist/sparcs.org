@@ -8,6 +8,7 @@ import Projects from '@/components/Projects';
 import Rules from '@/components/Rules';
 import Seminars from '@/components/Seminars';
 import Welcome from '@/components/Welcome';
+import Admin from '@/components/Admin';
 
 Vue.use(Router);
 
@@ -21,5 +22,6 @@ export default new Router({
     { path: '/projects', name: 'projects', component: Projects },
     { path: '/rules', name: 'rules', component: Rules },
     { path: '/seminars', name: 'seminars', component: Seminars },
+    { path: '/admin', name: 'admin', component: Admin },
   ],
 });

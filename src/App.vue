@@ -11,7 +11,6 @@
         <div v-if=authenticated class="item" @click="logout">LOGOUT</div>
         <div v-else class="item" @click="login">LOGIN</div>
       </div>
-
       <div class="ui container">
         <div class="menu">
           <router-link to="/aboutus" class="active" id="sparcs_logo" v-on:click.native="sparcs_logo_onclick($event)">
@@ -40,6 +39,7 @@
         <div class="ui horizontal inverted small divided link list">
           <router-link to="/rules" class="item">회칙</router-link>
           <a class="item">만든 사람들</a>
+          <router-link to="/admin" class="item">관리자</router-link>
         </div>
       </div>
     </div>
@@ -100,7 +100,10 @@ export default {
       obj.classList.add('active')
     },
     menu_clicked() {
-      $('.ui.sidebar').sidebar('toggle');
+      $('.ui.sidebar')
+        .sidebar('setting', 'transition', 'overlay')
+        .sidebar('toggle')
+        ;
     },
   },
 };
@@ -169,6 +172,10 @@ export default {
 }
 
 @media (max-width: 600px) {
+
+  .ui.sidebar {
+    transition: overlay 0.5s;
+  }
 
   .ui.vertical.inverted.sidebar.menu.right,
   .hamburger {
