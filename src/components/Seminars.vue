@@ -119,6 +119,12 @@
           date: '1986-01-01',
           sources: ['sorry.pptx', 'sorry.pdf'],
         },
+        {
+          title: 'Please try again!',
+          speaker: 'A friendly advisor',
+          date: '1986-01-02',
+          sources: ['sorry.pdf'],
+        },
       ],
       searchQuery: '',
       fileName: '',
@@ -160,6 +166,11 @@
                   const { seminars } = response2.data;
                   seminars.forEach((seminar) => {
                     seminar.date = seminar.date.split('T')[0];
+                  });
+                  seminars.sort((a, b) => {
+                    if (a.date < b.date) return -1;
+                    if (a.date > b.date) return 1;
+                    return 0;
                   });
                   this.seminars = seminars;
                   this.filtered = seminars;
@@ -246,6 +257,11 @@
           const { seminars } = response.data;
           seminars.forEach((seminar) => {
             seminar.date = seminar.date.split('T')[0];
+          });
+          seminars.sort((a, b) => {
+            if (a.date < b.date) return 1;
+            if (a.date > b.date) return -1;
+            return 0;
           });
           this.seminars = seminars;
           this.filtered = seminars;
