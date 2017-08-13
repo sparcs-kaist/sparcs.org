@@ -54,7 +54,7 @@
             <i class="search icon"></i>
           </div>
         </div>
-        <button class="ui red attached button desktop-only" @click="showUploadModal()">Upload</button>
+        <button v-if="!isMobile" class="ui red attached button" @click="showUploadModal()">Upload</button>
       </div>
     </div>
     <div class="ui container">
@@ -88,7 +88,6 @@
             <span class="desktop-only">{{seminar.speaker}}</span>
             <span class="mobile-only">Seminar by <b>{{seminar.speaker}}</b></span>
           </td>
-          <td> </td>
         </tr>
         </tbody>
       </table>
@@ -189,6 +188,8 @@
 
       showUploadModal() {
         $('#upload-modal').modal('show');
+        this.seminarInfo = {};
+        this.fileName = '';
       },
 
       deleteSeminar(seminar) {
@@ -298,10 +299,6 @@
 
     .ui.table:not(.unstackable) thead.desktop-only {
       display: none;
-    }
-
-    .ui.attached.button.desktop-only {
-      display:none;
     }
   }
 
