@@ -165,7 +165,10 @@ new Promise(res => {
           } else {
             console.log(res1);
             schema.Albums.findOneAndUpdate(
-              {title: album},
+              {
+                year: year,
+                title: album
+              },
               {
                 $inc: {photoNumber},
                 $pushAll: {photos: photoList},
