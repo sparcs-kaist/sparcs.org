@@ -98,7 +98,7 @@ new Promise(res => {
     // serve pure static assets
     const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
     app.use(staticPath, express.static('./static'));
-    app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+    app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     app.use(bodyParser.json({limit: '50mb'}));
 
     // const uri = `http://sparcs.org:${port}`;
@@ -412,10 +412,11 @@ new Promise(res => {
             sess.sparcsId = resp.sparcs_id;
             sess.isSPARCS = true;
             console.log('here');
-            schema.Admins.find({}, (err, adminList) => {
+            schema.Admins.find({}, (err, admins) => {
               if (err) console.error(err);
-              console.log(adminList);
-              if (schema.Admins.includes(resp.sparcs_id)) {
+              console.log(admins);
+              // adminList == List of admin users
+              if (admins.adminList.includes(resp.sparcs_id)) {
                 sess.isAdmin = true;
               }
             });
