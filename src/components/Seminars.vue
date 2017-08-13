@@ -54,12 +54,12 @@
             <i class="search icon"></i>
           </div>
         </div>
-        <button class="ui red attached button" @click="showUploadModal()">Upload</button>
+        <button class="ui red attached button desktop-only" @click="showUploadModal()">Upload</button>
       </div>
     </div>
     <div class="ui container">
       <table class="ui celled table" id="seminar-list">
-        <thead>
+        <thead class="desktop-only">
         <tr>
           <th class="two wide">Date</th>
           <th class="ten wide">Topic</th>
@@ -75,15 +75,20 @@
             <a class="ui red label" style="float: right" v-if="isSPARCS" @click="deleteSeminar(seminar)">삭제</a>
           </td>
           <td>
-              <span v-for="source in seminar.sources">
-                <a :href="source" v-if="source.endsWith('.pptx') || source.endsWith('.ppt')">
-                  <i class="file powerpoint outline black icon"></i>
-                </a>
-                <a :href="source" v-else-if="source.endsWith('.pdf')">
-                  <i class="file pdf outline black icon" href="source"></i>
-                </a>
-              </span>
-          <td>{{seminar.speaker}}</td>
+            <span v-for="source in seminar.sources">
+              <a :href="source" v-if="source.endsWith('.pptx') || source.endsWith('.ppt')">
+                <i class="file powerpoint outline black icon"></i>
+              </a>
+              <a :href="source" v-else-if="source.endsWith('.pdf')">
+                <i class="file pdf outline black icon" href="source"></i>
+              </a>
+            </span>
+          </td>
+          <td>
+            <span class="desktop-only">{{seminar.speaker}}</span>
+            <span class="mobile-only">Seminar by <b>{{seminar.speaker}}</b></span>
+          </td>
+          <td> </td>
         </tr>
         </tbody>
       </table>
@@ -107,7 +112,14 @@
 
     data: () => ({
       seminars: [],
-      filtered: [],
+      filtered: [
+        {
+          title: 'Sorry, failed to load seminars.',
+          speaker: 'SPARCS',
+          date: '1986-01-01',
+          sources: ['sorry.pptx', 'sorry.pdf'],
+        },
+      ],
       searchQuery: '',
       fileName: '',
       seminarInfo: {},
@@ -261,5 +273,25 @@
   #seminar-list {
     margin-top: 3em;
     margin-bottom: 3em;
+  }
+
+  @media only screen and (max-width: 767px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .ui.table:not(.unstackable) thead.desktop-only {
+      display: none;
+    }
+
+    .ui.attached.button.desktop-only {
+      display:none;
+    }
+  }
+
+  @media only screen and (min-width: 768px) {
+    .mobile-only {
+      display: none;
+    }
   }
 </style>
