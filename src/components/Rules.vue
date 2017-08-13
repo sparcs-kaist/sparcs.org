@@ -1,7 +1,7 @@
 <template>
   <div class="ui container">
     <div class="ui active tab">
-      <div class="ui main container" style="margin-top: 2em">
+      <div id="ruleContainer" class="ui main container" style="margin-top: 2em">
         <h2 class="ui dividing header">SPARCS 회칙</h2>
         <h3 class="ui header">제 1 장 총칙</h3>
         <p>
@@ -307,9 +307,9 @@
         </p>
       <h2 class="ui dividing header">참고</h2>
       <ul>
-        <li><a href="http://sparcs.org/media/files/20090504-rules.pdf">2009년 5월 4일 회칙 개정 내역</a></li>
-        <li><a href="http://sparcs.org/media/files/20100927-rules.pdf">2010년 9월 27일 회칙 개정 내역</a></li>
-        <li><a href="http://sparcs.org/media/files/20130429-rules.pdf">2013년 4월 29일 회칙 개정 내역</a></li>
+        <li><a class="rules" href="http://sparcs.org/media/files/20090504-rules.pdf">2009년 5월 4일 회칙 개정 내역</a></li>
+        <li><a class="rules" href="http://sparcs.org/media/files/20100927-rules.pdf">2010년 9월 27일 회칙 개정 내역</a></li>
+        <li><a class="rules" href="http://sparcs.org/media/files/20130429-rules.pdf">2013년 4월 29일 회칙 개정 내역</a></li>
       </ul>
       </div>
     </div>
@@ -323,10 +323,10 @@ export default {
 </script>
 
 <style>
-#app{
-   margin-top: 85px; 
+#ruleContainer{
+   padding-top: 95px;
 }
-a {
+.rules {
   color: black !important;
 }
 </style>
