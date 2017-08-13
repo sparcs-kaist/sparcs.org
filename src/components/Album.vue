@@ -137,10 +137,10 @@
      <div id="deleteConfirmModal" class="ui basic modal">
       <div class="ui icon header">
         <i class="archive icon"></i>
-        Archive Old Messages
+        Deleting Your Memory in SPARCS..
       </div>
       <div class="content">
-        <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+        <p>Are you really sure that you want to delete all these wonderful and precious memories in SPARCS?</p>
       </div>
       <div class="actions">
         <div class="ui red basic cancel inverted button">
@@ -344,6 +344,7 @@ export default {
         $('#newAlbum').hide();
         $('.meta').hide();
       } else {
+        document.getElementById('r_view').style.marginTop = '85px';
         $('#newAlbum').show();
         $('.meta').show();
       }
@@ -442,6 +443,7 @@ export default {
       bcYellowRec.addEventListener('click', () => {
         this.breadcrumb = [];
         this.state = 'year';
+        this.hideImage();
         albumBreadcrumb.innerHTML = '';
         albumBreadcrumb.appendChild(bcYellowRec);
         albumBreadcrumb.appendChild(bcYellowTri);
@@ -459,6 +461,7 @@ export default {
         bcGreyRec.innerHTML = this.breadcrumb[0];
         bcGreyRec.addEventListener('click', () => {
           const year = this.breadcrumb[0];
+          this.hideImage();
           this.breadcrumb = this.breadcrumb.slice(0, 0);
           this.showAlbum(year);
         });
@@ -473,6 +476,7 @@ export default {
         bcSection1.innerHTML = this.breadcrumb[1].title;
         bcSection1.addEventListener('click', () => {
           const album = this.breadcrumb[1];
+          this.hideImage();
           this.breadcrumb = this.breadcrumb.slice(0, 1);
           this.showPhotos(album);
         });
@@ -777,6 +781,10 @@ export default {
 		text-align: center;
 		padding-left: 10px;
 	}
+
+  .ui.dimmer.modals.page{
+    z-index: 3500 !important;
+  }
 
   #ui_breadcrumb{
     height: 48px;
