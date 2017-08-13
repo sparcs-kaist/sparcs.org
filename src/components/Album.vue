@@ -69,18 +69,18 @@
     </div>
    </div>
 
-    <div id="addNewPhoto" class="ui modal" style="min-width: 680px;">
-      <i class="close icon"></i>
-      <div class="header">
-        Share your wonderful memory in SPARCS
-      </div>
-      <div class="content">
-          <div class="ui form">
+     <div id="addNewPhoto" class="ui modal" style="min-width: 680px;">
+        <i class="close icon"></i>
+        <div class="header">
+          Share your wonderful memory in SPARCS
+        </div>
+          <div class="content">
+          <form id="newPhotoForm" class="ui form">
             <div class="field">
               <label>연도 </label>
               <!-- <input class="fluid" v-model="uploadYear"></input> -->
               <div id="yearDropdown" class="ui fluid search selection dropdown">
-                <input type="hidden" name="year">
+                <input id="yearDropdownInput" type="hidden" name="year">
                 <i class="dropdown icon"></i>
                 <div id="yearText" class="default text">Select Year</div>
                 <div class="menu">
@@ -107,26 +107,29 @@
                 <div class="ui button" @click="onSelectFileClick"> 파일 선택 </div>
               </div>
             </div>
+          </form>
+          </div>
+          <div class="actions" style="clear:both;">
+            <div class="ui black button deny">Cancel</div>
+            <div class="ui positive right labeled icon button approve" @click="uploadImage">
+              Upload <i class="checkmark icon"></i>
+            </div>
           </div>
         </div>
-        <div class="actions" style="clear:both;">
-          <div class="ui black button deny">Cancel</div>
-          <div class="ui positive right labeled icon button approve" @click="uploadImage">
-            Upload <i class="checkmark icon"></i>
-          </div>
-        </div>
-      </div>
-
       <div id="addAlbumModal" class="ui small modal">
         <div class="header">Add New Album <i class="close icon" style="float:right; cursor: pointer; cursor: hand;" @click="hideNewAlbumModal"></i> </div>
-     	  <div class="content">
-          <div id="newAlbumDiv" class="ui form">
-            <input id="newAlbumName" type="text" name="year" placeholder="New Album Name">
-          </div>
-     	  </div>
+          <div class="content">
+            <form id="newAlbumForm" class="ui form">
+              <div id="newAlbumDiv" class="field">
+                <label>새 앨범 이름 </label>
+                <input id="newAlbumName" type="text" name="newalbum" placeholder="New Album Name">
+              </div>
+              <div class="ui error message"></div>
+            </form>
+       	  </div>
         <div class="actions">
           <div class="ui black button" @click="hideNewAlbumModal">Cancel</div>
-          <div class="ui positive right labeled icon black button" @click="addNewAlbum">
+          <div class="ui positive right labeled icon black primary button" @click="addNewAlbum">
             Add <i class="checkmark icon"></i>
           </div>
         </div>
@@ -134,10 +137,10 @@
      <div id="deleteConfirmModal" class="ui basic modal">
       <div class="ui icon header">
         <i class="archive icon"></i>
-        Archive Old Messages
+        Deleting Your Memory in SPARCS..
       </div>
       <div class="content">
-        <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+        <p>Are you really sure that you want to delete all these wonderful and precious memories in SPARCS?</p>
       </div>
       <div class="actions">
         <div class="ui red basic cancel inverted button">
@@ -158,7 +161,7 @@ import axios from 'axios';
 import { getSession } from '../utils';
 
 const d = new Date();
-const host = 'http://sparcs.org:15693'
+const host = 'http://localhost:8080'
 const defaultImage = `${host}/static/test1.jpg`
 
 Array.range = (a, b, step) => {
@@ -196,8 +199,18 @@ export default {
   ready: () => {
   },
   mounted() {
+    $.fn.form.settings.rules.redundant = (value) => {
+      if (value === '') {
+        return true;
+      }
+      return !this.uploadAlbumList.includes(value);
+    };
+
     document.getElementById('album').classList.add('active');
     $('#yearDropdown').dropdown({
+      onShow: () => {
+        $('#yearDropdown').dropdown('restore defaults');
+      },
       onChange: (year) => {
         // custom action
         this.uploadYear = year;
@@ -213,13 +226,51 @@ export default {
         $('#albumDropdown').dropdown('restore defaults');
       },
     });
-    // $('.ui.form').form({
-    //   fields: {
-    //     year: 'empty',
-    //     album: 'empty',
-    //     image: 'empty',
-    //   },
-    // });
+    $('#newPhotoForm').form(
+      {
+        fields: {
+          year: 'empty',
+          album: 'empty',
+          image: 'empty',
+        },
+        onInvalid: () => {
+          console.log('onInvalid');
+          return false;
+        },
+        onSuccess: (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        },
+      },
+    );
+    $('#newAlbumForm').form(
+      {
+        fields: {
+          newalbum: {
+            rules: [
+              {
+                type: 'empty',
+                prompt: '{name}을 정해주세요!',
+              },
+              {
+                type: 'redundant',
+                prompt: '{name}이 이미 존재합니다!',
+              },
+            ],
+          },
+        },
+        onInvalid: () => {
+          console.log(`redundant[${this.uploadAlbumList}]`);
+          console.log('onInvalid');
+          return false;
+        },
+        onSuccess: (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          return true;
+        },
+      },
+    );
     // window.onresize = () => {
     //   const width = $(window).width();
     //   const diff = 1280 - width;
@@ -265,7 +316,8 @@ export default {
   },
   computed: {
     isSPARCS() {
-      return getSession('isSPARCS');
+      const a = getSession('isSPARCS');
+      return a || true;
     },
   },
   updated() {
@@ -292,6 +344,7 @@ export default {
         $('#newAlbum').hide();
         $('.meta').hide();
       } else {
+        document.getElementById('r_view').style.marginTop = '85px';
         $('#newAlbum').show();
         $('.meta').show();
       }
@@ -310,6 +363,7 @@ export default {
       event.stopPropagation();
     },
     showAddAlbumModal() {
+      $('#newAlbumName').val('');
       if (this.uploadYear === '') {
         $('#albumDropdown').attr('data-html', 'set year first!');
         $('#albumDropdown').popup('destroy');
@@ -322,18 +376,11 @@ export default {
       $('#addAlbumModal').hide();
     },
     addNewAlbum() {
+      console.log('addNewAlbum');
+      $('#newAlbumForm').submit();
       const newAlbumName = $('#newAlbumName').val();
-      if (newAlbumName === '') {
-        $('#newAlbumDiv').attr('data-html', 'empty album name!');
-        $('#newAlbumDiv').popup('show');
+      if (newAlbumName === '' || this.uploadAlbumList.includes(newAlbumName)) {
         return;
-      }
-      for (let v = 0; v < this.uploadAlbumList.length; v += 1) {
-        if (this.uploadAlbumList[v] === newAlbumName) {
-          $('#newAlbumDiv').attr('data-html', 'album already exists!');
-          $('#newAlbumDiv').popup('show');
-          return;
-        }
       }
       $('#newAlbumDiv').popup('destroy');
       const dateList = d.toString().split(' ');
@@ -396,6 +443,7 @@ export default {
       bcYellowRec.addEventListener('click', () => {
         this.breadcrumb = [];
         this.state = 'year';
+        this.hideImage();
         albumBreadcrumb.innerHTML = '';
         albumBreadcrumb.appendChild(bcYellowRec);
         albumBreadcrumb.appendChild(bcYellowTri);
@@ -413,6 +461,7 @@ export default {
         bcGreyRec.innerHTML = this.breadcrumb[0];
         bcGreyRec.addEventListener('click', () => {
           const year = this.breadcrumb[0];
+          this.hideImage();
           this.breadcrumb = this.breadcrumb.slice(0, 0);
           this.showAlbum(year);
         });
@@ -427,6 +476,7 @@ export default {
         bcSection1.innerHTML = this.breadcrumb[1].title;
         bcSection1.addEventListener('click', () => {
           const album = this.breadcrumb[1];
+          this.hideImage();
           this.breadcrumb = this.breadcrumb.slice(0, 1);
           this.showPhotos(album);
         });
@@ -462,8 +512,11 @@ export default {
       yearText.innerHTML = 'Select Year';
       $('#addNewPhoto').modal({
         onHide: () => {
-          console.log('hi');
           this.hideNewAlbumModal();
+        },
+        onApprove: () => {
+          $('#newPhotoForm').submit();
+          return false;
         },
       }).modal('show');
     },
@@ -678,6 +731,7 @@ export default {
           if (this.breadcrumb.length >= 1) {
             this.filterAlbum(this.breadcrumb[0], () => { });
           }
+          $('#addNewPhoto').modal('hide');
         } else {
           console.log('failed');
         }
@@ -727,6 +781,10 @@ export default {
 		text-align: center;
 		padding-left: 10px;
 	}
+
+  .ui.dimmer.modals.page{
+    z-index: 3500 !important;
+  }
 
   #ui_breadcrumb{
     height: 48px;

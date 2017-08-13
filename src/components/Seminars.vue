@@ -101,7 +101,7 @@
   import * as hangul from 'hangul-js';
   import getSession from '../utils/getSession';
 
-  const host = 'http://sparcs.org:15693'
+  const host = 'http://localhost:8080'
 
   const isFreshman = seminar => seminar.title.includes('신입생');
   const isWheel = seminar => seminar.title.toLowerCase().includes('wheel') || seminar.title.includes('휠');
