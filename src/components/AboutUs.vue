@@ -111,7 +111,6 @@ export default {
       const height = header.outerHeight();
       const offset = $('#menu_header').outerHeight();
       const calc = ((scrollTop) / height);
-      console.log(scrollTop);
 
       //  document.getElementById('menu_header').style.backgroundColor = `rgba(0,0,0, ${calc})`;
       document.getElementsByClassName('blind')[0].style.backgroundColor = `rgba(0,0,0, ${calc})`;
