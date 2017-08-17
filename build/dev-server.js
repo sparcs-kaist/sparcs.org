@@ -63,7 +63,7 @@ const sessionArgs = {
 }
 
 // Database
-const {dbUser, dbPassword, dbPort} = localConfig
+const { dbUser, dbPassword, dbPort } = localConfig
 const dbAuth = dbUser ? `${dbUser}:${dbPassword}@` : ''
 const mongoUrl = `mongodb://${dbAuth}${localConfig.dbHost}:${dbPort}/${localConfig.dbName}`
 
@@ -72,7 +72,7 @@ new Promise(res => {
     .then(() => {
       console.log('Successed in connecting to mongod server')
       const mongoStore = require('connect-mongo')(session)
-      sessionArgs.store = new mongoStore({url: mongoUrl})
+      sessionArgs.store = new mongoStore({ url: mongoUrl })
       res()
     })
     .catch(err => {
@@ -411,7 +411,6 @@ new Promise(res => {
           if (resp.sparcs_id) {
             sess.sparcsId = resp.sparcs_id;
             sess.isSPARCS = true;
-            console.log('here');
             schema.Admins.find({}, (err, admins) => {
               if (err) console.error(err);
               console.log(admins);
