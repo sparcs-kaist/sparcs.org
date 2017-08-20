@@ -121,7 +121,9 @@ export default {
         axios.get(`/nugu/users/${memberId}`)
           .then(res => {
             this.detailUser = res.data
-            $('.user-detail-modal').modal('show')
+            window.setTimeout(() => {
+              $('.user-detail-modal').modal('show')
+            }, 0) //  use setTimeout to wait modal for re-rendering by modified detailUser (for positioning)
           })
       }
     },
