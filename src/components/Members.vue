@@ -35,10 +35,10 @@
             </div>
             <div class="description">
               {{member.id}}
-              <a v-if="member.linkedin_url" :href="'https://www.linkedin.com/in/'+member.linkedin_url">
+              <a v-if="member.linkedin_url" @click.stop :href="'https://www.linkedin.com/in/'+member.linkedin_url">
                 <i class="right floated linkedin square icon"></i>
               </a>
-              <a v-if="member.github_id"  :href="'https://github.com/'+member.github_id">
+              <a v-if="member.github_id" @click.stop :href="'https://github.com/'+member.github_id">
                 <i class="right floated github square icon"></i>
               </a>
             </div>
