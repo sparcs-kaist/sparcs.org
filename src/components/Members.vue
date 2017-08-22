@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
 	<div>
 		<div class="HEADER ui vertical masthead center aligned basic segment">
       <div class="ui text container">
@@ -52,10 +52,10 @@
         멤버 상세 정보
       </div>
       <div class="content">
-        <div class="ui list">
-          <div class="item" v-for="(value, key) in detailUser">
-            {{key}} : {{value}}
-          </div>
+        <div class="ui list form">
+          <label class="editModalItem item" v-for="(value, key) in detailUser">
+            <div class="editModalLabel ui label">{{key}}</div><input disabled class="five wide field" v-bind:title="key" v-bind:value="value" />
+          </label>
         </div>
       </div>
     </div>
@@ -138,5 +138,11 @@ export default {
 .linkedin.square.icon, .github.square.icon {
   font-size: 20px;
   color: black;
+}
+.editModalItem {
+  display: flex !important;
+}
+.editModalLabel {
+  align-self: center;
 }
 </style>
