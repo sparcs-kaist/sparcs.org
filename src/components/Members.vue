@@ -1,4 +1,4 @@
-<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<template>
 	<div>
 		<div class="HEADER ui vertical masthead center aligned basic segment">
       <div class="ui text container">
@@ -54,7 +54,7 @@
       <div class="content">
         <div class="ui list form">
           <label class="editModalItem item" v-for="(value, key) in detailUser">
-            <div class="editModalLabel ui label">{{key}}</div><input disabled class="five wide field" v-bind:title="key" v-bind:value="value" />
+            <div class="editModalLabel ui label">{{key}}</div><input disabled class="five wide field" :title="key" :value="value" />
           </label>
         </div>
       </div>
