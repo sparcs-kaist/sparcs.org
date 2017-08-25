@@ -63,7 +63,7 @@ const sessionArgs = {
 }
 
 // Database
-const { dbUser, dbPassword, dbPort } = localConfig
+const { dbUser, dbPassword, dbPort, serverDomain, serverPort } = localConfig
 const dbAuth = dbUser ? `${dbUser}:${dbPassword}@` : ''
 const mongoUrl = `mongodb://${dbAuth}${localConfig.dbHost}:${dbPort}/${localConfig.dbName}`
 
@@ -101,8 +101,7 @@ new Promise(res => {
     app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     app.use(bodyParser.json({limit: '50mb'}));
 
-    // const uri = `http://sparcs.org:${port}`;
-    const uri = `http://localhost:8080`;
+    const uri = `${serverDomain}:${serverPort}`;
     const imgPath = `${staticPath}/images/`;
     const seminarPath = `${staticPath}/seminars/`;
 

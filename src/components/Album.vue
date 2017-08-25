@@ -159,9 +159,11 @@
 <script>
 import axios from 'axios';
 import { getSession } from '../utils';
+import { serverDomain, serverPort } from '../../localconfig';
+
 
 const d = new Date();
-const host = 'http://localhost:8080'
+const host = `${serverDomain}:${serverPort}`;
 const defaultImage = `${host}/static/test1.jpg`
 
 Array.range = (a, b, step) => {
@@ -370,6 +372,7 @@ export default {
         $('#albumDropdown').popup('show');
         return;
       }
+      console.log('wtf');
       $('#addAlbumModal').show();
     },
     hideNewAlbumModal() {
@@ -795,7 +798,7 @@ export default {
     padding-bottom: 3em;
   }
   #addAlbumModal{
-    z-index: 3000;
+    z-index: 4000;
     top: 40% !important;
   }
   #newAlbum{

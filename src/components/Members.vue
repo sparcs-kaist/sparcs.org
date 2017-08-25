@@ -64,8 +64,9 @@
 
 <script>
 import { getSession } from '../utils';
+import { serverDomain, serverPort } from '../../localconfig';
 
-const host = 'http://localhost:8080';
+const host = `${serverDomain}:${serverPort}`;
 
 const axios = require('axios').create({
   baseURL: `${host}/api`,

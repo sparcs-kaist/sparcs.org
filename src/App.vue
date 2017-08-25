@@ -48,9 +48,9 @@
 
 <script>
 import { getSession } from './utils'
+import { serverDomain, serverPort } from '../localconfig';
 
-// const host = 'http://sparcs.org:15693'
-const host = 'http://localhost:8080'
+const host = `${serverDomain}:${serverPort}`;
 export default {
   name: 'app',
   data: () => ({
@@ -201,7 +201,7 @@ export default {
   #menu_header {
     position: fixed;
   }
-  
+
   #sparcs_logo {
     position: fixed;
     left: 50%;

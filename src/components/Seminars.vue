@@ -99,8 +99,9 @@
   import axios from 'axios';
   import * as hangul from 'hangul-js';
   import getSession from '../utils/getSession';
+  import { serverDomain, serverPort } from '../../localconfig';
 
-  const host = 'http://localhost:8080'
+  const host = `${serverDomain}:${serverPort}`;
 
   const isFreshman = seminar => seminar.title.includes('신입생');
   const isWheel = seminar => seminar.title.toLowerCase().includes('wheel') || seminar.title.includes('휠');

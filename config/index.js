@@ -1,5 +1,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
+const localConfig = require('../localconfig')
+const { serverPort } = localConfig
 
 module.exports = {
   build: {
@@ -24,7 +26,7 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     // port: 15693,
-    port: 8080,
+    port: serverPort,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
