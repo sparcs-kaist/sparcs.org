@@ -414,8 +414,10 @@ new Promise(res => {
               if (err) console.error(err);
               console.log(admins);
               // adminList == List of admin users
-              if (admins.adminList.includes(resp.sparcs_id)) {
-                sess.isAdmin = true;
+              if (!admins) {
+                if (admins[0].adminList.includes(resp.sparcs_id)) {
+                  sess.isAdmin = true;
+                }
               }
             });
           } else {
