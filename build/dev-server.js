@@ -424,6 +424,8 @@ new Promise(res => {
                 if (admins[0].adminList.includes(resp.sparcs_id)) {
                   sess.isAdmin = true;
                 }
+              } else {
+                console.log('adminList is empty.')
               }
             });
           } else {
