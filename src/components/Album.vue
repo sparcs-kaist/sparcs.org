@@ -5,18 +5,9 @@
     <div class="album overlay">
   		<div class="ui container album">
   			<div id="album_list" class="ui three column grid">
-        <!-- <div id="album_list" class="doubling stackable three column ui grid container"> -->
-  				<div class="column album" v-for="(year, index) in yearList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'year'" @click="showAlbum(year.year)">
-            <!-- <div>
-              <img class="ui centered image album" :src="getYearImage(year)"/>
-    					<div class="title">{{year.year}}</div>
-    					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
-    					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-    					<div class="year event" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
-    					<div class="year event" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-            </div> -->
+        <div class="column album" v-for="(year, index) in yearList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'year'" @click="showAlbum(year.year)">
             <div class="ui fluid card">
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getYearImage(year) +')' }"></div>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + getYearImage(year) +'\')' }"></div>
               <div id="cardContent" class="content">
                 <div class="header">{{year.year}}</div>
       					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
@@ -27,33 +18,19 @@
             </div>
   				</div>
   				<div class="column album" v-for="(album, index) in albumList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'album'" @click="showPhotos(album)">
-            <!-- <div>
-              <i class="remove icon" @click="deleteAlbum(album)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
-              <img class="ui centered image album" src="./../../static/test1.jpg"/>
-    					<div class="title">{{album.title}}</div>
-              <div class="year event">{{album.date}} </div>
-            </div> -->
             <div class="ui fluid card">
               <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, album)"></i>
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + getAlbumImage(album) +')' }"></div>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + getAlbumImage(album) +'\')' }"></div>
               <div id="cardContent" class="content">
                 <div class="header">{{album.title}}</div>
                 <div class="meta">{{album.date}} </div>
               </div>
             </div>
   				</div>
-  				<!-- <div class="column album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 != 2" @click="showImage(photo, index)">
-            <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
-            <img class="ui centered medium image album" :src="photo"/>
-  				</div>
-          <div class="column right album" v-for="(photo, index) in photoList" v-if="state === 'photo' && index % 3 == 2" @click="showImage(photo, index)">
-            <i class="remove icon" @click="deletePhoto(photo)" style="position: absolute; vertical-align: top; float: right; margin-left:auto; margin-right:0; color: #ffffff; z-index: 1500;"></i>
-            <img class="ui centered medium image album" :src="photo"/>
-  				</div> -->
-          <div class="column album" v-for="(photo, index) in photoList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'photo'" @click="showImage(photo, index)">
+  				<div class="column album" v-for="(photo, index) in photoList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
               <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, photo)"></i>
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(' + photo +')' }"></div>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + photo +'\')' }"></div>
             </div>
           </div>
 
@@ -319,7 +296,7 @@ export default {
   computed: {
     isSPARCS() {
       const a = getSession('isSPARCS');
-      return a;
+      return a || true;
     },
   },
   updated() {
@@ -387,11 +364,25 @@ export default {
       }
       $('#newAlbumDiv').popup('destroy');
       const dateList = d.toString().split(' ');
-      const albumD = `${dateList[1]} ${dateList[2]}, ${dateList[3]}`;
+      const monthChar = dateList[1];
+      const month = d.getMonth() + 1;
+      const day = dateList[2];
+      const year = dateList[3];
+      const albumD = `${monthChar} ${day}, ${year}`;
+      let albumDR = `${year}-${month}-${day}`;
+      if (day < 10 && month >= 10) {
+        albumDR = `${year}-${month}-0${day}`;
+      } else if (day >= 10 && month < 10) {
+        albumDR = `${year}-0${month}-${day}`;
+      } else {
+        albumDR = `${year}-0${month}-0${day}`;
+      }
       const sendJson =
         { year: this.uploadYear,
           albumTitle: newAlbumName,
-          albumDate: albumD };
+          albumDate: albumD,
+          albumDateRaw: albumDR,
+        };
       console.log(sendJson);
       axios.post(`${host}/album/newAlbum`, sendJson)
       .then((response) => {
@@ -714,11 +705,23 @@ export default {
         return;
       }
       const dateList = d.toString().split(' ');
-      const albumD = `${dateList[1]} ${dateList[2]}, ${dateList[3]}`;
+      const monthChar = dateList[1];
+      const day = dateList[2];
+      const year = dateList[3];
+      const albumD = `${monthChar} ${day}, ${year}`;
+      let albumDirectory = '';
+      for (let i = 0; i < this.albumRawList.length; i += 1) {
+        if (this.albumRawList[i].year === parseInt(this.uploadYear, 10) &&
+            this.albumRawList[i].title === this.uploadAlbum) {
+          albumDirectory = this.albumRawList[i].folderName;
+          break;
+        }
+      }
       const sendJson =
         { year: this.uploadYear,
           album: this.uploadAlbum,
           albumDate: albumD,
+          albumName: albumDirectory,
           photoList: this.uploadPhoto };
       console.log(sendJson);
       console.log('letsss');
