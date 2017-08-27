@@ -63,7 +63,7 @@ const sessionArgs = {
 }
 
 // Database
-const {dbUser, dbPassword, dbPort} = localConfig
+const { dbUser, dbPassword, dbPort, serverDomain, serverPort } = localConfig
 const dbAuth = dbUser ? `${dbUser}:${dbPassword}@` : ''
 const mongoUrl = `mongodb://${dbAuth}${localConfig.dbHost}:${dbPort}/${localConfig.dbName}`
 
@@ -72,7 +72,7 @@ new Promise(res => {
     .then(() => {
       console.log('Successed in connecting to mongod server')
       const mongoStore = require('connect-mongo')(session)
-      sessionArgs.store = new mongoStore({url: mongoUrl})
+      sessionArgs.store = new mongoStore({ url: mongoUrl })
       res()
     })
     .catch(err => {
@@ -101,8 +101,13 @@ new Promise(res => {
     app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     app.use(bodyParser.json({limit: '50mb'}));
 
-    // const uri = `http://sparcs.org:${port}`;
-    const uri = `http://localhost:8080`;
+    app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
+
+    const uri = `${serverDomain}:${serverPort}`;
     const imgPath = `${staticPath}/images/`;
     const seminarPath = `${staticPath}/seminars/`;
 
@@ -127,24 +132,33 @@ new Promise(res => {
       });
     });
 
-    function saveImageSync(base64Data) {
+    function saveImageSync(base64Data, year, album) {
       const strImage = base64Data.replace(/^data:image\/[a-z]+;base64,/, '');
       const imageBuffer = new Buffer(strImage, 'base64');
       const semicolon = base64Data.indexOf(';');
       const extension = base64Data.substring(11, semicolon);
       const fileName = `img_${Date.now()}.${extension}`;
-      const filePath = joinPath(__dirname, '/..', imgPath, fileName);
-      console.log(filePath);
+      const filePathDirYear = joinPath(__dirname, '/..', imgPath, year);
+      console.log(filePathDirYear);
+      if (!fs.existsSync(filePathDirYear)){
+          fs.mkdirSync(filePathDirYear);
+      }
+      const filePathDirAlbum = joinPath(filePathDirYear, album);
+      if (!fs.existsSync(filePathDirAlbum)){
+          fs.mkdirSync(filePathDirAlbum);
+      }
+      const filePath = joinPath(filePathDirAlbum, fileName);
+      const filePathDir = `${year}/${album}/`;
       fs.writeFileSync(filePath, imageBuffer);
-      const url = uri + imgPath + fileName;
+      const url = uri + imgPath + filePathDir + fileName;
       return url;
     }
 
     app.post('/album/upload', (req, res) => {
-      const {year, album, albumDate, photoList} = req.body;
+      const {year, album, albumDate, albumName, photoList} = req.body;
       const photoNumber = photoList.length;
       for (let i = 0; i < photoNumber; i += 1) {
-        photoList[i] = saveImageSync(photoList[i]);
+        photoList[i] = saveImageSync(photoList[i], year, albumName);
       }
       schema.Years.findOneAndUpdate(
         {year},
@@ -206,11 +220,12 @@ new Promise(res => {
       });
     });
     app.post('/album/newAlbum', (req, res) => {
-      const {year, albumTitle, albumDate} = req.body;
+      const {year, albumTitle, albumDate, albumDateRaw} = req.body;
       const album = new schema.Albums({
         year,
         title: albumTitle,
         date: albumDate,
+        folderName: `${albumDateRaw} ${albumTitle}`,
         photoNumber: 0,
         photos: [],
       });
@@ -411,13 +426,16 @@ new Promise(res => {
           if (resp.sparcs_id) {
             sess.sparcsId = resp.sparcs_id;
             sess.isSPARCS = true;
-            console.log('here');
             schema.Admins.find({}, (err, admins) => {
               if (err) console.error(err);
               console.log(admins);
               // adminList == List of admin users
-              if (admins.adminList.includes(resp.sparcs_id)) {
-                sess.isAdmin = true;
+              if (!admins) {
+                if (admins[0].adminList.includes(resp.sparcs_id)) {
+                  sess.isAdmin = true;
+                }
+              } else {
+                console.log('adminList is empty.')
               }
             });
           } else {

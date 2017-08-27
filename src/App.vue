@@ -48,9 +48,9 @@
 
 <script>
 import { getSession } from './utils'
+import { serverDomain, serverPort } from '../localconfig';
 
-// const host = 'http://sparcs.org:15693'
-const host = 'http://localhost:8080'
+const host = `${serverDomain}:${serverPort}`;
 export default {
   name: 'app',
   data: () => ({
@@ -79,6 +79,13 @@ export default {
       document.querySelectorAll('.right.menu .item').forEach((item) => {
         item.classList.remove('active')
       })
+      const width = $(window).width();
+      if (width <= 600) {
+        $('.ui.sidebar')
+          .sidebar('setting', 'transition', 'overlay')
+          .sidebar('toggle')
+          ;
+      }
     },
     right_menu_onclick(event) {
       console.log(event);
@@ -89,6 +96,10 @@ export default {
         const width = $(window).width();
         if (width <= 600) {
           document.getElementById('r_view').style.marginTop = '49px';
+          $('.ui.sidebar')
+            .sidebar('setting', 'transition', 'overlay')
+            .sidebar('toggle')
+            ;
         } else {
           document.getElementById('r_view').style.marginTop = '85px';
         }
@@ -190,7 +201,7 @@ export default {
   #menu_header {
     position: fixed;
   }
-  
+
   #sparcs_logo {
     position: fixed;
     left: 50%;
