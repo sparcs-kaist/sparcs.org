@@ -1,11 +1,12 @@
+const baseAxios = require('axios')
 const localConfig = require('../localconfig')
 const sparcsRequired = require('./sparcsrequired')
 
-const axios = require('axios').create({
+const axios = baseAxios.create({
   baseURL: localConfig.nuguEndpoint,
 })
 
-const authAxios = require('axios').create({
+const authAxios = baseAxios.create({
   baseURL: localConfig.nuguEndpoint,
   auth: {
     username: localConfig.nuguId,
