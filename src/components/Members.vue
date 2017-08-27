@@ -13,7 +13,7 @@
 				<a class="yellow item" @click="roleFilter = 'is_developer'">Developers</a>
 				<a class="yellow item" @click="roleFilter = 'is_designer'">Designers</a>
 				<div class="ui right toggle checkbox item">
-					<input type="checkbox" name="under"/>
+					<input class="undergraduate" type="checkbox" @change="toggleUndergraduate" name="under"/>
 					<label>Undergrads only</label>
 				</div>
 			</div>
@@ -22,28 +22,31 @@
     <div class="ui container">
 			<div class="ui four doubling cards">
 
-        <div class="card" v-for="member in selectedUsers">
-          <div class="middle aligned content"  @click="showUserDetail(member.id)">
-            <!--<img class="left floated large ui avatar image" src="./../../static/test1.jpg" />-->
-            <div class="header">{{member.name}}</div>
-            <div class="meta">
-              <!--<template v-if="member.role.staff">-->
+        <template v-for="member in selectedUsers">
+          <div class="card">
+            <div class="middle aligned content"  @click="showUserDetail(member.id)">
+              <!--<img class="left floated large ui avatar image" src="./../../static/test1.jpg" />-->
+              <div class="header">{{member.name}}</div>
+              <div class="meta">
+                <!--<template v-if="member.role.staff">-->
                 <!--{{ member.role.staffTitle }},-->
-              <!--</template>-->
-              <template v-if="member.is_developer">Developer, </template>
-              <template v-if="member.is_designer">Designer, </template>
-            </div>
-            <div class="description">
-              {{member.id}}
-              <a v-if="member.linkedin_url" @click.stop :href="'https://www.linkedin.com/in/'+member.linkedin_url">
-                <i class="right floated linkedin square icon"></i>
-              </a>
-              <a v-if="member.github_id" @click.stop :href="'https://github.com/'+member.github_id">
-                <i class="right floated github square icon"></i>
-              </a>
+                <!--</template>-->
+                <template v-if="member.is_developer && !member.is_designer">Developer</template>
+                <template v-if="!member.is_developer && member.is_designer">Designer</template>
+                <template v-if="member.is_developer && member.is_designer">Developer, Designer</template>
+              </div>
+              <div class="description">
+                {{member.id}}
+                <a v-if="member.linkedin_url" @click.stop :href="'https://www.linkedin.com/in/'+member.linkedin_url">
+                  <i class="right floated linkedin square icon"></i>
+                </a>
+                <a v-if="member.github_id" @click.stop :href="'https://github.com/'+member.github_id">
+                  <i class="right floated github square icon"></i>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        </template>
 			</div>
     </div>
     <div class="user-detail-modal ui modal">
@@ -174,6 +177,7 @@ export default {
     users: [],
     currentUserId: null,
     detailUser: {},
+    onlyUndergraduate: false,
   }),
   created() {
     axios.get(`/nugu/${getSession('isSPARCS') ? 'users' : 'public_users'}`)
@@ -184,10 +188,18 @@ export default {
 
   computed: {
     selectedUsers() {
+      let users
+
       if (this.roleFilter === 'all') {
-        return this.users
+        users = this.users
+      } else {
+        users = this.users.filter(user => user[this.roleFilter])
       }
-      return this.users.filter(user => user[this.roleFilter])
+
+      if (this.onlyUndergraduate) {
+        return users.filter(user => user.is_undergraduate)
+      }
+      return users
     },
     signUserId() {
       return getSession('sparcsId')
@@ -237,6 +249,9 @@ export default {
             })
         })
     },
+    toggleUndergraduate(e) {
+      this.onlyUndergraduate = e.target.checked
+    },
   },
 };
 </script>
@@ -254,5 +269,9 @@ export default {
 }
 .editModalLabel {
   align-self: center;
+}
+.undergraduate {
+  top: 13px !important;
+  left: 17px !important;
 }
 </style>
