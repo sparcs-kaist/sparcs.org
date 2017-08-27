@@ -296,7 +296,7 @@ export default {
   computed: {
     isSPARCS() {
       const a = getSession('isSPARCS');
-      return a || true;
+      return a;
     },
   },
   updated() {
