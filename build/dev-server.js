@@ -132,16 +132,25 @@ new Promise(res => {
       });
     });
 
-    function saveImageSync(base64Data) {
+    function saveImageSync(base64Data, year, album) {
       const strImage = base64Data.replace(/^data:image\/[a-z]+;base64,/, '');
       const imageBuffer = new Buffer(strImage, 'base64');
       const semicolon = base64Data.indexOf(';');
       const extension = base64Data.substring(11, semicolon);
       const fileName = `img_${Date.now()}.${extension}`;
-      const filePath = joinPath(__dirname, '/..', imgPath, fileName);
-      console.log(filePath);
+      const filePathDirYear = joinPath(__dirname, '/..', imgPath, year);
+      console.log(filePathDirYear);
+      if (!fs.existsSync(filePathDirYear)){
+          fs.mkdirSync(filePathDirYear);
+      }
+      const filePathDirAlbum = joinPath(filePathDirYear, album);
+      if (!fs.existsSync(filePathDirAlbum)){
+          fs.mkdirSync(filePathDirAlbum);
+      }
+      const filePath = joinPath(filePathDirAlbum, fileName);
+      const filePathDir = `${year}/${album}/`;
       fs.writeFileSync(filePath, imageBuffer);
-      const url = uri + imgPath + fileName;
+      const url = uri + imgPath + filePathDir + fileName;
       return url;
     }
 
@@ -149,7 +158,7 @@ new Promise(res => {
       const {year, album, albumDate, photoList} = req.body;
       const photoNumber = photoList.length;
       for (let i = 0; i < photoNumber; i += 1) {
-        photoList[i] = saveImageSync(photoList[i]);
+        photoList[i] = saveImageSync(photoList[i], year, album);
       }
       schema.Years.findOneAndUpdate(
         {year},
