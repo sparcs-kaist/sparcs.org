@@ -12,6 +12,7 @@ const albumSchema = new Schema({
   year: Number,
   title: String,
   date: String,
+  folderName: String,
   photoNumber: Number,
   photos: [String],
 });

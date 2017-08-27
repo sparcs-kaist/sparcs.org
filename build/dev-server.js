@@ -155,10 +155,10 @@ new Promise(res => {
     }
 
     app.post('/album/upload', (req, res) => {
-      const {year, album, albumDate, photoList} = req.body;
+      const {year, album, albumDate, albumName, photoList} = req.body;
       const photoNumber = photoList.length;
       for (let i = 0; i < photoNumber; i += 1) {
-        photoList[i] = saveImageSync(photoList[i], year, album);
+        photoList[i] = saveImageSync(photoList[i], year, albumName);
       }
       schema.Years.findOneAndUpdate(
         {year},
@@ -220,11 +220,12 @@ new Promise(res => {
       });
     });
     app.post('/album/newAlbum', (req, res) => {
-      const {year, albumTitle, albumDate} = req.body;
+      const {year, albumTitle, albumDate, albumDateRaw} = req.body;
       const album = new schema.Albums({
         year,
         title: albumTitle,
         date: albumDate,
+        folderName: `${albumDateRaw} ${albumTitle}`,
         photoNumber: 0,
         photos: [],
       });
