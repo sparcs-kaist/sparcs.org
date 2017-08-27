@@ -80,7 +80,7 @@ export default {
     detailUser: {},
   }),
   created() {
-    axios.get('/nugu/users')
+    axios.get(`/nugu/${getSession('isSPARCS') ? 'users' : 'public_users'}`)
       .then(res => {
         this.users = res.data
       })
