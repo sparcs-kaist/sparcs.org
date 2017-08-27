@@ -7,7 +7,7 @@
   			<div id="album_list" class="ui three column grid">
         <div class="column album" v-for="(year, index) in yearList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'year'" @click="showAlbum(year.year)">
             <div class="ui fluid card">
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url("' + getYearImage(year) +'")' }"></div>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + getYearImage(year) +'\')' }"></div>
               <div id="cardContent" class="content">
                 <div class="header">{{year.year}}</div>
       					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
@@ -20,7 +20,7 @@
   				<div class="column album" v-for="(album, index) in albumList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'album'" @click="showPhotos(album)">
             <div class="ui fluid card">
               <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, album)"></i>
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url("' + getAlbumImage(album) +'")' }"></div>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + getAlbumImage(album) +'\')' }"></div>
               <div id="cardContent" class="content">
                 <div class="header">{{album.title}}</div>
                 <div class="meta">{{album.date}} </div>
@@ -30,7 +30,7 @@
   				<div class="column album" v-for="(photo, index) in photoList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'photo'" @click="showImage(photo, index)">
             <div class="ui fluid card">
               <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, photo)"></i>
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url("' + photo +'")' }"></div>
+              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + photo +'\')' }"></div>
             </div>
           </div>
 
