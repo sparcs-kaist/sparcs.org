@@ -712,7 +712,7 @@ export default {
       let albumDirectory = '';
       for (let i = 0; i < this.albumRawList.length; i += 1) {
         if (this.albumRawList[i].year === parseInt(year, 10) && this.albumRawList[i].title === this.uploadAlbum) {
-          albumDirectory = this.albumRawList[i].folderName;
+          albumDirectory = `${this.albumRawList[i].albumDateRaw} ${this.uploadAlbum}`;
           break;
         }
       }
