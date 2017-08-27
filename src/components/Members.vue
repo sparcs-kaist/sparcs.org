@@ -53,9 +53,104 @@
       </div>
       <div class="content">
         <div class="ui list form">
-          <label class="editModalItem item" v-for="(value, key) in detailUser">
-            <div class="editModalLabel ui label">{{key}}</div><input disabled class="five wide field" :title="key" :value="value" />
+          <!--<label class="editModalItem item" v-for="(value, key) in detailUser">-->
+            <!--<div class="editModalLabel ui label">{{key}}</div>-->
+            <!--<input :disabled="signUserId !== currentUserId || key === 'id'" class="five wide field" :title="key" v-model="value" />-->
+          <!--</label>-->
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">SPARCS ID</div>
+            <input disabled class="five wide field" title="id" :value="detailUser.id" />
           </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">이름</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="name" v-model="detailUser.name" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">외부 비공개</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="is_private" v-model="detailUser.is_private" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">개발자인가</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="is_developer" v-model="detailUser.is_developer" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">디자이너인가</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="is_designer" v-model="detailUser.is_designer" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">학부생인가</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="is_undergraduate" v-model="detailUser.is_undergraduate" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">학번</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="ent_year" v-model="detailUser.ent_year" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">소속</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="org" v-model="detailUser.org" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">이메일</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="email" v-model="detailUser.email" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">전화번호</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="phone" v-model="detailUser.phone" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">생일</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="birth" v-model="detailUser.birth" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">기숙사</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="dorm" v-model="detailUser.dorm" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">랩</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="lab" v-model="detailUser.lab" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">집주소</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="home_add" v-model="detailUser.home_add" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">Github ID</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="github_id" v-model="detailUser.github_id" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">LinkedIn URL</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="linkedin_url" v-model="detailUser.linkedin_url" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">Behance URL</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="behance_url" v-model="detailUser.behance_url" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">Facebook ID</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="facebook_id" v-model="detailUser.facebook_id" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">Twitter ID</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="twitter_id" v-model="detailUser.twitter_id" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">Battlenet ID</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="battlenet_id" v-model="detailUser.battlenet_id" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">홈페이지</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="website" v-model="detailUser.website" />
+          </label>
+          <label class="editModalItem item">
+            <div class="editModalLabel ui label">블로그</div>
+            <input :disabled="signUserId !== currentUserId" class="five wide field" title="blog" v-model="detailUser.blog" />
+          </label>
+          <div class="actions">
+            <div v-if="signUserId === currentUserId" class="ui positive left labeled icon button" @click="editUser(currentUserId)">
+              수정
+              <i class="cloud upload icon"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -77,6 +172,7 @@ export default {
   data: () => ({
     roleFilter: 'all',
     users: [],
+    currentUserId: null,
     detailUser: {},
   }),
   created() {
@@ -92,6 +188,9 @@ export default {
         return this.users
       }
       return this.users.filter(user => user[this.roleFilter])
+    },
+    signUserId() {
+      return getSession('sparcsId')
     },
   },
 
@@ -121,12 +220,22 @@ export default {
       if (getSession('isSPARCS')) {
         axios.get(`/nugu/users/${memberId}`)
           .then(res => {
+            this.currentUserId = memberId;
             this.detailUser = res.data
             window.setTimeout(() => {
               $('.user-detail-modal').modal('show')
             }, 0) //  use setTimeout to wait modal for re-rendering by modified detailUser (for positioning)
           })
       }
+    },
+    editUser(memberId) {
+      axios.put(`/nugu/users/${memberId}`, this.detailUser)
+        .then(() => {
+          axios.get(`/nugu/${getSession('isSPARCS') ? 'users' : 'public_users'}`)
+            .then(res => {
+              this.users = res.data
+            })
+        })
     },
   },
 };
