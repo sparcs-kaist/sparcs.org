@@ -54,7 +54,7 @@
             <i class="search icon"></i>
           </div>
         </div>
-        <button v-if="!isMobile" class="ui red attached button" @click="showUploadModal()">Upload</button>
+        <button v-if="isSPARCS && !isMobile" class="ui red attached button" @click="showUploadModal()">Upload</button>
       </div>
     </div>
     <div class="ui container">

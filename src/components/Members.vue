@@ -9,7 +9,7 @@
 		<div class="ui inverted large attached menu" id="submenu">
 			<div class="ui container">
 				<a class="active yellow item" @click="roleFilter = 'all'">All</a>
-				<a class="yellow item" @click="roleFilter = 'staff'">Staff</a>
+				<!--<a class="yellow item" @click="roleFilter = 'staff'">Staff</a>-->
 				<a class="yellow item" @click="roleFilter = 'is_developer'">Developers</a>
 				<a class="yellow item" @click="roleFilter = 'is_designer'">Designers</a>
 				<div class="ui right toggle checkbox item">

@@ -369,7 +369,7 @@ new Promise(res => {
       fs.writeFileSync(filePath, buffer);
 
       const sources = [url];
-      const tuple = new schema.Seminars({title, speaker, date, sources});
+      const tuple = new schema.Seminars({ title, speaker, date, sources });
       tuple.save((err) => {
         if (err) {
           console.log(err);
