@@ -82,6 +82,8 @@ new Promise(res => {
 })
   .then(() => {
     // Use express-session for save session
+    app.set('trust proxy', 'loopback')
+
     app.use(session(sessionArgs))
 
     // set for SSO connecting. for dev
