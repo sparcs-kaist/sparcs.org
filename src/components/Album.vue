@@ -135,13 +135,10 @@
 
 <script>
 import axios from 'axios';
-import { getSession } from '../utils';
-import { serverDomain, serverPort } from '../../localconfig';
-
+import { apiEndpoint, getSession } from '../utils';
 
 const d = new Date();
-const host = `${serverDomain}:${serverPort}`;
-const defaultImage = `${host}/static/test1.jpg`
+const defaultImage = `${apiEndpoint}/static/test1.jpg`
 
 Array.range = (a, b, step) => {
   const A = [a];
@@ -274,7 +271,7 @@ export default {
         this.uploadAlbum = value;
       },
     });
-    axios.get(`${host}/album/getAlbum`)
+    axios.get(`${apiEndpoint}/album/getAlbum`)
     .then((response) => {
       const { years, albums } = response.data;
       this.yearList = this.deepcopy(years);
@@ -384,7 +381,7 @@ export default {
           albumDateRaw: albumDR,
         };
       console.log(sendJson);
-      axios.post(`${host}/album/newAlbum`, sendJson)
+      axios.post(`${apiEndpoint}/album/newAlbum`, sendJson)
       .then((response) => {
         const data = response.data;
         if (data.success) {
@@ -566,7 +563,7 @@ export default {
     },
     deleteAlbum(album) {
       const sendJson = { year: album.year, albumTitle: album.title }
-      axios.post(`${host}/album/removeAlbum`, sendJson)
+      axios.post(`${apiEndpoint}/album/removeAlbum`, sendJson)
       .then((response) => {
         const data = response.data;
         if (data.success) {
@@ -607,7 +604,7 @@ export default {
     deletePhoto(photo) {
       const album = this.breadcrumb[1];
       const sendJson = { year: album.year, albumTitle: album.title, photoURL: photo }
-      axios.post(`${host}/album/removePhoto`, sendJson)
+      axios.post(`${apiEndpoint}/album/removePhoto`, sendJson)
       .then((response) => {
         const data = response.data;
         if (data.success) {
@@ -725,7 +722,7 @@ export default {
           photoList: this.uploadPhoto };
       console.log(sendJson);
       console.log('letsss');
-      axios.post(`${host}/album/upload`, sendJson)
+      axios.post(`${apiEndpoint}/album/upload`, sendJson)
       .then((response) => {
         console.log('letsss');
         const data = response.data;

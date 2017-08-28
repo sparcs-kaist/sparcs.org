@@ -161,14 +161,10 @@
 </template>
 
 <script>
-import { getSession } from '../utils';
-import { serverDomain, serverPort } from '../../localconfig';
-
-//const host = `${serverDomain}:${serverPort}`;
-const host = 'http://sparcs.org'
+import { apiEndpoint, getSession } from '../utils';
 
 const axios = require('axios').create({
-  baseURL: `${host}/api`,
+  baseURL: `${apiEndpoint}/api`,
 })
 
 export default {

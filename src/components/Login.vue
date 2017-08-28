@@ -5,13 +5,12 @@
 </template>
 
 <script>
-import { serverDomain, serverPort } from '../../localconfig';
+import { apiEndpoint } from '../utils';
 
-const host = `${serverDomain}:${serverPort}`;
 export default {
   name: 'app',
   mounted() {
-    window.location.href = `${host}/login`
+    window.location.href = `${apiEndpoint}/login`
   },
   methods: {
   },

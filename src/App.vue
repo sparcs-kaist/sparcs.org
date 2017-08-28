@@ -47,10 +47,8 @@
 </template>
 
 <script>
-import { getSession } from './utils'
-import { serverDomain, serverPort } from '../localconfig';
+import { apiEndpoint, getSession } from './utils'
 
-const host = `${serverDomain}:${serverPort}`;
 export default {
   name: 'app',
   data: () => ({
@@ -67,10 +65,10 @@ export default {
   },
   methods: {
     login() {
-      window.location.href = `${host}/login`
+      window.location.href = `${apiEndpoint}/login`
     },
     logout() {
-      window.location.href = `${host}/logout`
+      window.location.href = `${apiEndpoint}/logout`
     },
     sparcs_logo_onclick() {
       console.log('sparcs_logo');
