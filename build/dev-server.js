@@ -54,6 +54,7 @@ compiler.plugin('compilation', (compilation) => {
 
 const sessionArgs = {
   key: 'destroyKey',
+  proxy: true,
   resave: false,
   saveUninitialized: true,
   secret: localConfig.expressSessionSecret,
