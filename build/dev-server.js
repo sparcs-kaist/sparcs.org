@@ -21,6 +21,7 @@ const schema = require('./schema.js');
 const session = require('express-session');
 const Client = require('./sparcsssov2');
 const registerNuguApi = require('./nugu-api');
+const sparcsMiddleware = require('./sparcsmiddleware')
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.dev.port;
@@ -117,6 +118,8 @@ new Promise(res => {
     devMiddleware.waitUntilValid(() => {
       console.log(`> Listening at ${uri}\n`);
     });
+
+    app.use(imgPath, sparcsMiddleware)
 
     app.post('/album/newYear', (req, res) => {
       const json = req.body;
