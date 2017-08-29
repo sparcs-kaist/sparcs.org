@@ -1,6 +1,6 @@
 const baseAxios = require('axios')
 const localConfig = require('../localconfig')
-const sparcsRequired = require('./sparcsrequired')
+const sparcsMiddleware = require('./sparcsmiddleware')
 
 const axios = baseAxios.create({
   baseURL: localConfig.nuguEndpoint,
@@ -24,7 +24,7 @@ const getPublicUsers = (req, res) => {
     })
 }
 
-const getUsers = sparcsRequired((req, res) => {
+const getUsers = (req, res) => {
   authAxios.get(`/users`)
     .then(result => {
       res.status(200).send(result.data)
@@ -32,9 +32,9 @@ const getUsers = sparcsRequired((req, res) => {
     .catch(err => {
       res.status(500).send(err)
     })
-})
+}
 
-const getUser = sparcsRequired((req, res) => {
+const getUser = (req, res) => {
   const { user_id } = req.params
   authAxios.get(`/users/${user_id}`)
     .then(result => {
@@ -43,9 +43,9 @@ const getUser = sparcsRequired((req, res) => {
     .catch(err => {
       res.status(500).send(err)
     })
-})
+}
 
-const updateUser = sparcsRequired((req, res) => {
+const updateUser = (req, res) => {
   const { user_id } = req.params
   if (user_id !== req.session.sparcsId) {
     res.status(403).send('어디서 밑장빼기냐')
@@ -108,11 +108,11 @@ const updateUser = sparcsRequired((req, res) => {
         res.status(500).send(err)
       })
   }
-})
+}
 
 module.exports = app => {
   app.get('/api/nugu/public_users', getPublicUsers)
-  app.get('/api/nugu/users', getUsers)
-  app.get('/api/nugu/users/:user_id', getUser)
-  app.put('/api/nugu/users/:user_id', updateUser)
+  app.get('/api/nugu/users', sparcsMiddleware, getUsers)
+  app.get('/api/nugu/users/:user_id', sparcsMiddleware, getUser)
+  app.put('/api/nugu/users/:user_id', sparcsMiddleware, updateUser)
 }
