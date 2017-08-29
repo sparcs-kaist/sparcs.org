@@ -52,6 +52,14 @@ compiler.plugin('compilation', (compilation) => {
   });
 });
 
+app.get('/robots.txt', function (req, res) {
+  res.type('text/plain');
+  res.send(
+    "User-agent: *\n" +
+    "Disallow: /album/\n" +
+    "Disallow: /static/images/"
+  )
+})
 
 const sessionArgs = {
   key: 'destroyKey',
@@ -98,7 +106,7 @@ new Promise(res => {
       }
       return replacement;
     }
-    
+
     //  Redirect legacy static seminar urls to new ones
     //  ex) /seminar/attachment/x to /static/seminars/x
     app.get('/seminar/attachment/:file_name', (req, res) => {
