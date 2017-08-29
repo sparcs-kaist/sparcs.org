@@ -98,12 +98,19 @@ new Promise(res => {
       }
       return replacement;
     }
+    
+    //  Redirect legacy static seminar urls to new ones
+    //  ex) /seminar/attachment/x to /static/seminars/x
+    app.get('/seminar/attachment/:file_name', (req, res) => {
+      res.redirect(`/static/seminars/${req.params.file_name}`)
+    })
+
 
     // serve pure static assets
     const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
     const imgPath = `${staticPath}/images/`;
     const seminarPath = `${staticPath}/seminars/`;
-    
+
     app.use(imgPath, sparcsMiddleware)
     app.use(staticPath, express.static('./static'));
     app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
