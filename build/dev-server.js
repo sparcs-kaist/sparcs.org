@@ -101,6 +101,10 @@ new Promise(res => {
 
     // serve pure static assets
     const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
+    const imgPath = `${staticPath}/images/`;
+    const seminarPath = `${staticPath}/seminars/`;
+    
+    app.use(imgPath, sparcsMiddleware)
     app.use(staticPath, express.static('./static'));
     app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     app.use(bodyParser.json({limit: '50mb'}));
@@ -112,14 +116,9 @@ new Promise(res => {
     });
 
     const uri = `${serverDomain}:${serverPort}`;
-    const imgPath = `${staticPath}/images/`;
-    const seminarPath = `${staticPath}/seminars/`;
-
     devMiddleware.waitUntilValid(() => {
       console.log(`> Listening at ${uri}\n`);
     });
-
-    app.use(imgPath, sparcsMiddleware)
 
     app.post('/album/newYear', (req, res) => {
       const json = req.body;
