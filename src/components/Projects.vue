@@ -167,13 +167,21 @@
 						<img class="ui small centered image" src="./../../static/project-icon.png"/>
 						<h2 class="ui header">
 							Nugu
-							<div class="sub header">PM : -</div>
+							<div class="sub header">PM : luan</div>
 						</h2>
 						<br>
 						SPARCS 회원의 연락처를 쉽게 조회하고, 본인의 연락처를 등록시키는 도구입니다. 현재 명령줄 기반의 도구와 Slack bot 형태로 서비스되고 있습니다.
 						<br><br>
-						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
-						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
+            <a href="https://github.com/sparcs-kaist/nugu">
+              <div style="display:inline;">
+                <i class="big github alternate icon link icon" style="color:black;" ></i>
+              </div>
+            </a>
+            <a href="https://github.com/sparcs-kaist/nugu-api">
+              <div style="display:inline;">
+                <i class="big github alternate icon link icon" style="color:black;" ></i>
+              </div>
+            </a>
 					</div>
 				</div>
 				<div class="column">
