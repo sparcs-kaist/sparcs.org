@@ -1,6 +1,6 @@
 const baseAxios = require('axios')
 const localConfig = require('../localconfig')
-const sparcsMiddleware = require('./sparcsmiddleware')
+const sparcsRequired = require('./sparcsrequired')
 
 const axios = baseAxios.create({
   baseURL: localConfig.nuguEndpoint,
@@ -112,7 +112,7 @@ const updateUser = (req, res) => {
 
 module.exports = app => {
   app.get('/api/nugu/public_users', getPublicUsers)
-  app.get('/api/nugu/users', sparcsMiddleware, getUsers)
-  app.get('/api/nugu/users/:user_id', sparcsMiddleware, getUser)
-  app.put('/api/nugu/users/:user_id', sparcsMiddleware, updateUser)
+  app.get('/api/nugu/users', sparcsRequired, getUsers)
+  app.get('/api/nugu/users/:user_id', sparcsRequired, getUser)
+  app.put('/api/nugu/users/:user_id', sparcsRequired, updateUser)
 }

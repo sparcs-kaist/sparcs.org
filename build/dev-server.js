@@ -21,7 +21,7 @@ const schema = require('./schema.js');
 const session = require('express-session');
 const Client = require('./sparcsssov2');
 const registerNuguApi = require('./nugu-api');
-const sparcsMiddleware = require('./sparcsmiddleware')
+const sparcsRequired = require('./sparcsrequired')
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.dev.port;
@@ -119,7 +119,7 @@ new Promise(res => {
     const imgPath = `${staticPath}/images/`;
     const seminarPath = `${staticPath}/seminars/`;
 
-    app.use(imgPath, sparcsMiddleware)
+    app.use(imgPath, sparcsRequired)
     app.use(staticPath, express.static('./static'));
     app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     app.use(bodyParser.json({limit: '50mb'}));
