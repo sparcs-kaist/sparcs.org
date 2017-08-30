@@ -169,6 +169,7 @@ $RECYCLE.BIN/
 #dist/
 .idea/
 semantic/
+semantic.json
 static/images/
 static/seminars/
 localconfig.js
