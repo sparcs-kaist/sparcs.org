@@ -68,7 +68,7 @@
             <div class="editModalLabel ui label">이름</div>
             <input :disabled="signUserId !== currentUserId" class="seven wide field" title="name" v-model="detailUser.name" />
           </label>
-          <label class="editModalItem item">
+          <label v-if="signUserId === currentUserId" class="editModalItem item">
             <div class="editModalLabel ui label">외부 비공개</div>
             <input :disabled="signUserId !== currentUserId" class="seven wide field" title="is_private" v-model="detailUser.is_private" />
           </label>
