@@ -40,8 +40,14 @@
                 <a v-if="member.linkedin_url" @click.stop :href="'https://www.linkedin.com/in/'+member.linkedin_url">
                   <i class="right floated linkedin square icon"></i>
                 </a>
+                <a v-if="member.behance_url" @click.stop :href="'https://www.behance.net/'+member.behance_url">
+                  <i class="right floated behance square icon"></i>
+                </a>
                 <a v-if="member.github_id" @click.stop :href="'https://github.com/'+member.github_id">
                   <i class="right floated github square icon"></i>
+                </a>
+                <a v-if="member.website" @click.stop :href="member.website">
+                  <i class="right floated home icon"></i>
                 </a>
               </div>
             </div>
@@ -257,7 +263,7 @@ export default {
 .HEADER {
   background-image: url('./../../static/mesh02.png') !important;
 }
-.linkedin.square.icon, .github.square.icon {
+.linkedin.square.icon, .behance.square.icon, .github.square.icon, .home.icon {
   font-size: 20px;
   color: black;
 }
