@@ -2,8 +2,8 @@
 	<div>
 		<div class="HEADER ui vertical masthead center aligned basic segment">
       <div class="ui text container">
-        <h1 class="ui header">We Make Services</h1>
-        <h2>SPARCS의 개발자와 디자이너를 소개합니다.</h2>
+        <h1 class="tabTitle ui header">We Make Services</h1>
+        <h2 class="tabDescription">SPARCS의 개발자와 디자이너를 소개합니다.</h2>
       </div>
 		</div>
 		<div class="ui inverted large attached menu" id="submenu">
@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div style="margin: 20px"></div> <!-- To be deleted-->
-    <div class="ui container">
+    <div class="memberList ui container">
 			<div class="ui four doubling cards">
 
         <template v-for="member in selectedUsers">
@@ -36,19 +36,23 @@
                 <template v-if="member.is_developer && member.is_designer">Developer, Designer</template>
               </div>
               <div class="description">
-                {{member.id}}
-                <a v-if="member.linkedin_url" @click.stop :href="'https://www.linkedin.com/in/'+member.linkedin_url">
-                  <i class="right floated linkedin square icon"></i>
-                </a>
-                <a v-if="member.behance_url" @click.stop :href="'https://www.behance.net/'+member.behance_url">
-                  <i class="right floated behance square icon"></i>
-                </a>
-                <a v-if="member.github_id" @click.stop :href="'https://github.com/'+member.github_id">
-                  <i class="right floated github square icon"></i>
-                </a>
-                <a v-if="member.website" @click.stop :href="member.website">
-                  <i class="right floated home icon"></i>
-                </a>
+                <div class="id">
+                  {{member.id}}
+                </div>
+                <div class="icons">
+                  <a v-if="member.linkedin_url" @click.stop :href="'https://www.linkedin.com/in/'+member.linkedin_url">
+                    <i class="right floated linkedin square icon"></i>
+                  </a>
+                  <a v-if="member.behance_url" @click.stop :href="'https://www.behance.net/'+member.behance_url">
+                    <i class="right floated behance square icon"></i>
+                  </a>
+                  <a v-if="member.github_id" @click.stop :href="'https://github.com/'+member.github_id">
+                    <i class="right floated github square icon"></i>
+                  </a>
+                  <a v-if="member.website" @click.stop :href="member.website">
+                    <i class="right floated home icon"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -259,10 +263,18 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .HEADER {
   background-image: url('./../../static/mesh02.png') !important;
+
+  .tabTitle {
+    white-space: pre-line;
+  }
+  .tabDescription {
+    word-break: keep-all;
+  }
 }
+
 .linkedin.square.icon, .behance.square.icon, .github.square.icon, .home.icon {
   font-size: 20px;
   color: black;
@@ -277,4 +289,30 @@ export default {
   top: 13px !important;
   left: 17px !important;
 }
+.memberList {
+  margin-bottom: 15px;
+}
+.card .header {
+  margin-bottom: 5px;
+}
+.description {
+  line-height: 2;
+
+  .id {
+    display: inline;
+    position: relative;
+    top: -3px;
+  }
+  .icons {
+    display: inline-block;
+    float: right;
+
+    i {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
 </style>
