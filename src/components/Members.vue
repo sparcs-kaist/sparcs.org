@@ -7,13 +7,13 @@
       </div>
 		</div>
 		<div class="ui inverted large attached menu" id="submenu">
-			<div class="ui container">
+			<div class="selectors ui container">
 				<a class="active yellow item" @click="roleFilter = 'all'">All</a>
 				<!--<a class="yellow item" @click="roleFilter = 'staff'">Staff</a>-->
 				<a class="yellow item" @click="roleFilter = 'is_developer'">Developers</a>
 				<a class="yellow item" @click="roleFilter = 'is_designer'">Designers</a>
-				<div class="ui right toggle checkbox item">
-					<input class="undergraduate" type="checkbox" @change="toggleUndergraduate" name="under"/>
+				<div class="undergraduate ui right toggle checkbox item">
+					<input type="checkbox" @change="toggleUndergraduate" name="under"/>
 					<label>Undergrads only</label>
 				</div>
 			</div>
@@ -285,10 +285,21 @@ export default {
 .editModalLabel {
   align-self: center;
 }
-.undergraduate {
-  top: 13px !important;
-  left: 17px !important;
+
+.selectors {
+  overflow: auto;
+
+  .undergraduate {
+    input {
+      top: 13px !important;
+      left: 17px !important;
+    }
+    label {
+      color: white !important;
+    }
+  }
 }
+
 .memberList {
   margin-bottom: 15px;
 }
