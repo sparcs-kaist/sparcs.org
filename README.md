@@ -2,19 +2,10 @@
 
 ## DB Setup
 
-``` bash
-# install mongodb (macOS)
-brew install mongodb
-mkdir -p /data/db
-chown [username] /data/db
-
-# execute mongodb
-mongod
-
-# execute mongodb CLI
-mongo
-```
-
+- Install mongodb
+- Create database and user for authentication
+- Turn on auth mode in mongodb config
+- service mongodb start
 
 ## Build Setup
 
@@ -38,3 +29,8 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Deployment
+
+Use `npm run prod` in your local.
+Use forever with environment variables in production.
