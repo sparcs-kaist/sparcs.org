@@ -12,11 +12,11 @@
 					<div style="width:80%; margin:10%;">
 						<img class="ui small centered image" src="./../../static/project-icon.png"/>
 						<h2 class="ui header">
-							New Ara
-							<div class="sub header">PM : raon</div>
+							GenChem
+							<div class="sub header">PM : null</div>
 						</h2>
 						<br>
-						현재 운영 중인 학내 커뮤니티 Ara의 새로운 버전입니다. 기존의 Ara가 개발된 지 오랜 시간이 지나 레거시 코드가 많고, 업데이트가 힘들어져 새롭게 처음부터 개발할 예정입니다.
+						 화학과 과목들의 정보를 열람할 수 있는 gencheminkaist 사이트를 리뉴얼하는 프로젝트입니다. 기존 사이트의 사용성과 심미성을 향상시키는데 목표를 두고 있습니다.
 						<br><br>
 						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
 						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
@@ -26,39 +26,38 @@
 					<div style="width:80%; margin:10%;">
 						<img class="ui small centered image" src="./../../static/project-icon.png"/>
 						<h2 class="ui header">
-							SPARCS Homepage
+							넙죽이
 							<div class="sub header">PM : pablo</div>
 						</h2>
 						<br>
-						SPARCS 공식 홈페이지를 새롭게 디자인하는 프로젝트입니다. 공식 홈페이지의 목적을 새롭게 정의하는 것부터 디자인, 실제 개발까지 순차적으로 진행될 예정입니다.
-						<br><br>
+            학사일정 등 카이스트와 관련된 정보가 궁금할 때 어디서 확인해야할지 모르거나 포탈 등에 검색해도 원하는 결과를 얻지 못하는 경우가 많습니다. 넙죽이는 이들을 통합적으로 검색할 수 있는 서비스로, 챗봇 형태로 제공됩니다. 						<br><br>
 						<a href="../aboutus"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
 						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
 					</div>
 				</div>
+        <div class="column">
+          <div style="width:80%; margin:10%;">
+            <img class="ui small centered image" src="./../../static/project-icon.png"/>
+            <h2 class="ui header">
+              New Ara
+              <div class="sub header">PM : raon</div>
+            </h2>
+            <br>
+            현재 운영 중인 학내 커뮤니티 Ara의 새로운 버전입니다. 기존의 Ara가 개발된 지 오랜 시간이 지나 레거시 코드가 많고, 업데이트가 힘들어져 새롭게 처음부터 개발할 예정입니다.
+            <br><br>
+            <a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
+            <a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
+          </div>
+        </div>
 				<div class="column">
 					<div style="width:80%; margin:10%;">
 						<img class="ui small centered image" src="./../../static/project-icon.png"/>
 						<h2 class="ui header">
-							Slack-History
-							<div class="sub header">PM : duck</div>
+							Zabo
+							<div class="sub header">PM : ohimzsh</div>
 						</h2>
 						<br>
-						SPACRS는 커뮤니케이션 하는 데에 Slack을 씁니다. 슬랙의 히스토리를 모아서 슬랙과 거의 동일하게 보여줄 수 있는 별도의 사이트를 만들고 있습니다.
-						<br><br>
-						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
-						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
-					</div>
-				</div>
-				<div class="column">
-					<div style="width:80%; margin:10%;">
-						<img class="ui small centered image" src="./../../static/project-icon.png"/>
-						<h2 class="ui header">
-							Apply-SPARCS
-							<div class="sub header">PM : duck</div>
-						</h2>
-						<br>
-						지원 사이트입니다. 모든 동아리, 단체는 지원자를 받고 면접을 봅니다. SPARCS 뿐만 아니라 자유롭게 편하게 다른동아리에서도 쓸 수 있는 서비스를 새로 개발하고자 합니다.
+						동아리를 비롯한 각종 단체들의 리크루팅, 공연 포스터를 온라인으로 게시할 수 있는 서비스입니다. 학우들은 관심있는 단체의 행사를 보다 쉽게 검색할 수 있고, 단체들은 경쟁없이 편하게 홍보를 할 수 있습니다
 						<br><br>
 						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
 						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
@@ -69,7 +68,7 @@
 						<img class="ui small centered image" src="./../../static/project-icon.png"/>
 						<h2 class="ui header">
 							SPARCS SSO
-							<div class="sub header">PM : samjo</div>
+							<div class="sub header">PM : hou</div>
 						</h2>
 						<br>
 						SPARCS 서비스 로그인을 하나의 계정으로 할 수 있도록 해주는 Single Sign On 서비스입니다. KAIST Portal 연동을 통해 KAIST 구성원임을 인증하고 실명, 생일, 학번 등 개인 정보를 저장하여 SPARCS 서비스에 제공합니다.
@@ -83,80 +82,10 @@
 						<img class="ui small centered image" src="./../../static/project-icon.png"/>
 						<h2 class="ui header">
 							SPARCS 09
-							<div class="sub header">PM : samjo</div>
+							<div class="sub header">PM : sugoi</div>
 						</h2>
 						<br>
 						SPARCS 내부의 공동구매 플랫폼으로 관리자는 공동 구매 아이템을 업로드하고 사용자는 옵션과 수량을 입력하여 공동 구매에 참여할 수 있습니다.
-						<br><br>
-						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
-						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
-					</div>
-				</div>
-				<div class="column">
-					<div style="width:80%; margin:10%;">
-						<img class="ui small centered image" src="./../../static/project-icon.png"/>
-						<h2 class="ui header">
-							SPARCS AWS
-							<div class="sub header">PM : samjo</div>
-						</h2>
-						<br>
-						-
-						<br><br>
-						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
-						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
-					</div>
-				</div>
-				<div class="column">
-					<div style="width:80%; margin:10%;">
-						<img class="ui small centered image" src="./../../static/project-icon.png"/>
-						<h2 class="ui header">
-							App Development Study
-							<div class="sub header">PM : null</div>
-						</h2>
-						<br>
-						안드로이드 앱 개발을 경험하기 위한 토이 프로젝트를 제안합니다.
-						<br><br>
-						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
-						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
-					</div>
-				</div>
-				<div class="column">
-					<div style="width:80%; margin:10%;">
-						<img class="ui small centered image" src="./../../static/project-icon.png"/>
-						<h2 class="ui header">
-							OTL+
-							<div class="sub header">PM : stein</div>
-						</h2>
-						<br>
-						카이스트 학우들의 뜨거운 관심을 받고 있는 과목후기/모의시간표 서비스 OTL을 개선시킨 새로운 서비스입니다.
-						<br><br>
-						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
-						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
-					</div>
-				</div>
-				<div class="column">
-					<div style="width:80%; margin:10%;">
-						<img class="ui small centered image" src="./../../static/project-icon.png"/>
-						<h2 class="ui header">
-							Ara
-							<div class="sub header">PM : jara</div>
-						</h2>
-						<br>
-						서버와 소스코드를 유지/보수 및 운영하는 일을 합니다.
-						<br><br>
-						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
-						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
-					</div>
-				</div>
-				<div class="column">
-					<div style="width:80%; margin:10%;">
-						<img class="ui small centered image" src="./../../static/project-icon.png"/>
-						<h2 class="ui header">
-							Zabo
-							<div class="sub header">PM : potato</div>
-						</h2>
-						<br>
-						-
 						<br><br>
 						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
 						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
@@ -170,18 +99,52 @@
 							<div class="sub header">PM : luan</div>
 						</h2>
 						<br>
-						SPARCS 회원의 연락처를 쉽게 조회하고, 본인의 연락처를 등록시키는 도구입니다. 현재 명령줄 기반의 도구와 Slack bot 형태로 서비스되고 있습니다.
+            SPARCS 회원의 정보를 보관하고 열람할 수 있는 서비스입니다.
 						<br><br>
-            <a href="https://github.com/sparcs-kaist/nugu">
-              <div style="display:inline;">
-                <i class="big github alternate icon link icon" style="color:black;" ></i>
-              </div>
-            </a>
-            <a href="https://github.com/sparcs-kaist/nugu-api">
-              <div style="display:inline;">
-                <i class="big github alternate icon link icon" style="color:black;" ></i>
-              </div>
-            </a>
+						<a href="https://github.com/sparcs-kaist/nugu"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
+						<a href="https://github.com/sparcs-kaist/nugu-api"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
+					</div>
+				</div>
+				<div class="column">
+					<div style="width:80%; margin:10%;">
+						<img class="ui small centered image" src="./../../static/project-icon.png"/>
+						<h2 class="ui header">
+							OTL PLUS
+							<div class="sub header">PM : zealot</div>
+						</h2>
+						<br>
+						카이스트 학우들의 뜨거운 관심을 받고 있는 과목후기/모의시간표 서비스 OTL을 개선시킨 새로운 서비스입니다. 현재 과목 후기 사이트가 OTL+로 대체되었으며 곧 시간표에도 OTL+가 적용될 예정입니다
+						<br><br>
+						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
+						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
+					</div>
+				</div>
+				<div class="column">
+					<div style="width:80%; margin:10%;">
+						<img class="ui small centered image" src="./../../static/project-icon.png"/>
+						<h2 class="ui header">
+							ARA
+							<div class="sub header">PM : jara</div>
+						</h2>
+						<br>
+						KAIST 구성원들의 커뮤니티입니다. 학내 중요공지 뿐만 아니라 구인/구직, 중고거래 글 등 많은 종류의 글들이 게시됩니다. KAIST 구성원이라면 누구나 사용할 수 있습니다.
+						<br><br>
+						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
+						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
+					</div>
+				</div>
+				<div class="column">
+					<div style="width:80%; margin:10%;">
+						<img class="ui small centered image" src="./../../static/project-icon.png"/>
+						<h2 class="ui header">
+							거울
+							<div class="sub header">PM : jambo</div>
+						</h2>
+						<br>
+            전세계적으로 자주 사용하는 자유/공개 소프트웨어를 미러링하는 서비스입니다. 거울을 통해 아시아 지역의 컴퓨터 사용자들은 오픈 소스 소프트웨어를 가까운 SPARCS 컴퓨터를 통해 다운받을 수 있습니다.
+						<br><br>
+						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
+						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
 					</div>
 				</div>
 				<div class="column">
@@ -189,10 +152,10 @@
 						<img class="ui small centered image" src="./../../static/project-icon.png"/>
 						<h2 class="ui header">
 							Heartbeat
-							<div class="sub header">PM : -</div>
+							<div class="sub header">PM : jambo, sugoi</div>
 						</h2>
 						<br>
-						SPARCS 물리서버와 가상서버의 상태를 지속적으로 모니터링하고, 이를 보기 편하게 Web으로 보여주는 서비스입니다.
+            Heartbeat는 SPARCS 물리서버와 가상서버의 상태를 지속적으로 Web을 통해 편하게 모니터링할 수 있게 해주는 서비스입니다.
 						<br><br>
 						<a href="https://www.google.com"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
 						<a href="https://www.github.com"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
