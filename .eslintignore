@@ -1,5 +1,4 @@
 build/*.js
-!build/dev-server.js
 !build/schema.js
 
 config/*.js
