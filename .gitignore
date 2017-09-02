@@ -173,3 +173,4 @@ semantic.json
 static/images/
 static/seminars/
 localconfig.js
+deploy.sh
