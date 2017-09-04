@@ -502,17 +502,10 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
         // compilation error display
         app.use(hotMiddleware);
       } else {
-        console.log('HERE!', port, path.join(__dirname, '../dist'))
         app.use('/', express.static(path.join(__dirname, '../dist')))
         app.get('*', (req, res) => {
-          console.log('hey!')
           res.redirect('/')
         })
-
-        // app.get('/', (req, res) => {
-        //   console.log('hello!')
-        //   res.sendFile('../dist/index.html')
-        // })
       }
 
       // proxy api requests
