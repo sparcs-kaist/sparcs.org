@@ -46,7 +46,7 @@
             <br>
             SPARCS 회원의 정보를 보관하고 열람할 수 있는 서비스입니다.
             <br><br>
-            <a href="https://github.com/sparcs-kaist/nugu"><div style="display:inline;"><i class="big home icon link icon" style="color:black;"></i></div></a>
+            <a href="https://github.com/sparcs-kaist/nugu"><div style="display:inline;"><i class="big github icon link icon" style="color:black;"></i></div></a>
             <a href="https://github.com/sparcs-kaist/nugu-api"><div style="display:inline;"><i class="big github alternate icon link icon" style="color:black;"></i></div></a>
           </div>
         </div>
