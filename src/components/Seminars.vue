@@ -191,28 +191,30 @@
       },
 
       deleteSeminar(seminar) {
-        axios.post(`${apiEndpoint}/db/seminars/delete`, seminar)
-          .then((response) => {
-            const { success } = response.data;
-            if (success) {
-              // TODO: On success...
-              axios.get(`${apiEndpoint}/db/seminars`)
-                .then((response2) => {
-                  console.log(response2);
-                  const { seminars } = response2.data;
-                  seminars.forEach((seminar2) => {
-                    seminar2.date = seminar2.date.split('T')[0];
+        if (window.confirm('세미나 파일을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+          axios.post(`${apiEndpoint}/db/seminars/delete`, seminar)
+            .then((response) => {
+              const { success } = response.data;
+              if (success) {
+                // TODO: On success...
+                axios.get(`${apiEndpoint}/db/seminars`)
+                  .then((response2) => {
+                    console.log(response2);
+                    const { seminars } = response2.data;
+                    seminars.forEach((seminar2) => {
+                      seminar2.date = seminar2.date.split('T')[0];
+                    });
+                    this.seminars = seminars;
+                    this.filtered = seminars;
+                  })
+                  .catch((error2) => {
+                    console.log(error2);
                   });
-                  this.seminars = seminars;
-                  this.filtered = seminars;
-                })
-                .catch((error2) => {
-                  console.log(error2);
-                });
-            } else {
-              // TODO: On failure...
-            }
-          })
+              } else {
+                // TODO: On failure...
+              }
+            })
+        }
       },
 
       selectFile() {
