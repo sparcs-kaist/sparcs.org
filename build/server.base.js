@@ -167,7 +167,7 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
         const filePath = joinPath(filePathDirAlbum, fileName);
         const filePathDir = `${year}/${album}/`;
         fs.writeFileSync(filePath, imageBuffer);
-        const url = uri + imgPath + filePathDir + fileName;
+        const url = localConfig.staticHost + imgPath + filePathDir + fileName;
         return url;
       }
 
@@ -382,7 +382,7 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
         // const fileName = `${speaker}_${titleWithUnderscores}.pdf`;
         const fileName = `${speaker}_${Date.now()}.pdf`;
         const filePath = joinPath(__dirname, '/..', seminarPath, fileName);
-        const url = uri + seminarPath + fileName;
+        const url = localConfig.staticHost + seminarPath + fileName;
         fs.writeFileSync(filePath, buffer);
 
         const sources = [url];
