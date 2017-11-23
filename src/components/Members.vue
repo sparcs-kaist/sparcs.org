@@ -19,9 +19,11 @@
 			</div>
 		</div>
 		<div style="margin: 20px"></div> <!-- To be deleted-->
+    <div v-if="selectedUsers.length == 0" class="ui center aligned basic segment">
+      멤버 목록을 불러오는 중입니다...
+    </div>
     <div class="memberList ui container">
 			<div class="ui four doubling cards">
-
         <template v-for="member in selectedUsers">
           <div class="card">
             <div class="middle aligned content"  @click="showUserDetail(member.id)">
