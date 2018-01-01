@@ -27,7 +27,7 @@
     "mongodb": "^2.2.26",
     "mongoose": "^4.10.0",
     "net": "^1.0.2",
-    "node-sass": "^4.5.0",
+    "node-sass": "^4.7.2",
     "path.join": "^1.0.0",
     "request-promise": "^4.2.1",
     "semantic-ui": "^2.2.10",
