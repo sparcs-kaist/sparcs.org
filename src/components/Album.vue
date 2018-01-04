@@ -5,43 +5,102 @@
     <div class="album overlay">
   		<div class="ui container album">
   			<div id="album_list" class="ui three column grid">
-        <div class="column album" v-for="(year, index) in yearList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'year'" @click="showAlbum(year.year)">
+        <div
+          class="column album"
+          v-for="(year, index) in yearList"
+          v-if="state === 'year'"
+          :class="{ 'left' : index % 3 === 0, 'center' : index % 3 === 1, 'right' : index % 3 === 2 }"
+          @click="showAlbum(year.year)"
+        >
             <div class="ui fluid card">
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + getYearImage(year) +'\')' }"></div>
+              <div
+                id="card_preview"
+                class="image"
+                :style="{'background-image': 'url(\'' + getYearImage(year) +'\')'}"
+              ></div>
               <div id="cardContent" class="content">
                 <div class="header">{{year.year}}</div>
-      					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber > 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photos</div>
-      					<div class="meta" v-if="year.eventNumber <= 1 && year.photoNumber > 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
-      					<div class="meta" v-if="year.eventNumber > 1 && year.photoNumber <= 1">{{year.eventNumber}} Events, {{year.photoNumber}} Photo</div>
-      					<div class="meta" v-if="year.eventNumber <= 1 && year.photoNumber <= 1">{{year.eventNumber}} Event, {{year.photoNumber}} Photos</div>
+      					<div
+                  class="meta"
+                  v-if="year.eventNumber > 1 && year.photoNumber > 1"
+                >
+                  {{year.eventNumber}} Event<span v-if="year.eventNumber > 1">s</span>,
+                  {{year.photoNumber}} Photo<span v-if="year.photoNumber > 1">s</span>
+                </div>
               </div>
             </div>
   				</div>
-  				<div class="column album" v-for="(album, index) in albumList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'album'" @click="showPhotos(album)">
+  				<div
+            class="column album"
+            v-for="(album, index) in albumList"
+            v-if="state === 'album'"
+            :class="{'left' : index % 3 === 0, 'center' : index % 3 === 1, 'right' : index % 3 === 2}"
+            @click="showPhotos(album)">
             <div class="ui fluid card">
-              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, album)"></i>
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + getAlbumImage(album) +'\')' }"></div>
+              <i
+                id="albumRemoveIcon"
+                class="remove icon"
+                v-if="isSPARCS"
+                @click="showDeleteConfirmModal($event, album)"
+              ></i>
+              <div
+                id="card_preview"
+                class="image"
+                :style="{'background-image': 'url(\'' + getAlbumImage(album) +'\')'}"
+              ></div>
               <div id="cardContent" class="content">
                 <div class="header">{{album.title}}</div>
                 <div class="meta">{{album.date}} </div>
               </div>
             </div>
   				</div>
-  				<div class="column album" v-for="(photo, index) in photoList" v-bind:class="{ 'left' : index % 3 == 0, 'center' : index % 3 == 1, 'right' : index % 3 == 2 }" v-if="state === 'photo'" @click="showImage(photo, index)">
+  				<div
+            class="column album"
+            v-for="(photo, index) in photoList"
+            v-if="state === 'photo'"
+            :class="{'left' : index % 3 === 0, 'center' : index % 3 === 1, 'right' : index % 3 === 2}"
+            @click="showImage(photo, index)"
+          >
             <div class="ui fluid card">
-              <i id="albumRemoveIcon" class="remove icon" v-if="isSPARCS" @click="showDeleteConfirmModal($event, photo)"></i>
-              <div id="card_preview" class="image" v-bind:style="{ 'background-image': 'url(\'' + photo +'\')' }"></div>
+              <i
+                id="albumRemoveIcon"
+                class="remove icon"
+                v-if="isSPARCS"
+                @click="showDeleteConfirmModal($event, photo)"
+              ></i>
+              <div
+                id="card_preview"
+                class="image"
+                :style="{'background-image': 'url(\'' + photo +'\')'}"
+              ></div>
             </div>
           </div>
 
   			</div>
      </div>
 
-     <div class="ui" id="photoDetail" @click="hideImage" style="text-align: center;">
+     <div
+       class="ui"
+       id="photoDetail"
+       @click="hideImage"
+       style="text-align: center;"
+     >
        <div id="photoDetailBG">
-         <i id="photoDetailIconLeft" class="angle large left icon" @click="previousImage"></i>
-         <img id="photoDetailImage" class="ui middle aligned image" :src="selectedPhoto.s" >
-         <i id="photoDetailIconRight" class="angle large right icon" @click="nextImage"></i>
+         <i
+           id="photoDetailIconLeft"
+           class="angle large left icon"
+           @click="previousImage"
+         ></i>
+         <img
+           id="photoDetailImage"
+           class="ui middle aligned image"
+           :src="selectedPhoto.s"
+         />
+         <i
+           id="photoDetailIconRight"
+           class="angle large right icon"
+           @click="nextImage"
+         ></i>
        </div>
     </div>
    </div>
@@ -55,13 +114,18 @@
           <form id="newPhotoForm" class="ui form">
             <div class="field">
               <label>연도 </label>
-              <!-- <input class="fluid" v-model="uploadYear"></input> -->
               <div id="yearDropdown" class="ui fluid search selection dropdown">
                 <input id="yearDropdownInput" type="hidden" name="year">
                 <i class="dropdown icon"></i>
                 <div id="yearText" class="default text">Select Year</div>
                 <div class="menu">
-                  <div class="item" v-for="(year, index) in yearData" :data-value="year.year" >{{year}}</div>
+                  <div
+                    class="item"
+                    v-for="(year, index) in yearData"
+                    :data-value="year.year"
+                  >
+                    {{year}}
+                  </div>
                 </div>
               </div>
             </div>
@@ -72,7 +136,13 @@
                 <i class="dropdown icon"></i>
                 <div id="albumText" class="default text">Select Album</div>
                 <div class="menu">
-                  <div class="item" v-for="(albumTitle, index) in uploadAlbumList" :data-value="albumTitle" >{{albumTitle}}</div>
+                  <div
+                    class="item"
+                    v-for="(albumTitle, index) in uploadAlbumList"
+                    :data-value="albumTitle"
+                  >
+                    {{albumTitle}}
+                  </div>
                 </div>
               </div>
             </div>
@@ -80,13 +150,20 @@
               <label>사진 첨부 </label>
               <div class="ui file input action">
                 <input type="text" v-bind:value="uploadPhotoTitle" name="image" readonly>
-                <input type="file" id="photoUpload" ref="fileUploads" @change="onFileChangePhoto($event)" style="display: none" multiple>
+                <input
+                  multiple
+                  type="file"
+                  id="photoUpload"
+                  ref="fileUploads"
+                  @change="onFileChangePhoto($event)"
+                  style="display: none"
+                >
                 <div class="ui button" @click="onSelectFileClick"> 파일 선택 </div>
               </div>
             </div>
           </form>
           </div>
-          <div class="actions" style="clear:both;">
+          <div class="actions" style="clear: both;">
             <div class="ui black button deny">Cancel</div>
             <div class="ui positive right labeled icon button approve" @click="uploadImage">
               Upload <i class="checkmark icon"></i>
@@ -94,7 +171,9 @@
           </div>
         </div>
       <div id="addAlbumModal" class="ui small modal">
-        <div class="header">Add New Album <i class="close icon" style="float:right; cursor: pointer; cursor: hand;" @click="hideNewAlbumModal"></i> </div>
+        <div class="header">
+          Add New Album <i class="close icon" style="float: right; cursor: pointer; cursor: hand;" @click="hideNewAlbumModal"></i>
+        </div>
           <div class="content">
             <form id="newAlbumForm" class="ui form">
               <div id="newAlbumDiv" class="field">
