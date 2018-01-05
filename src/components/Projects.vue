@@ -26,7 +26,7 @@
             <br><br>
             <a
               v-if="project.homepage"
-              href="{{project.homepage}}"
+              :href="project.homepage"
             >
               <div style="display: inline;">
                 <i class="big home icon link icon" style="color: black;"></i>
@@ -34,7 +34,7 @@
             </a>
             <a
               v-if="project.github"
-              href="{{project.github}}"
+              :href="project.github"
             >
               <div style="display: inline;">
                 <i class="big github alternate icon link icon" style="color: black;"></i>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import projects from '../text/projects';
+import * as projects from '../text/projects';
 
 export default {
   name: 'Projects',
