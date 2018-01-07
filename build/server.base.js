@@ -78,7 +78,7 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
       .then(() => {
         console.log('Successed in connecting to mongod server')
         const mongoStore = require('connect-mongo')(session)
-        sessionArgs.store = new mongoStore({ url: mongoUrl })
+        sessionArgs.store = new mongoStore({ mongooseConnection: mongoose.connection })
         res()
       })
       .catch(err => {
