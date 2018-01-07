@@ -9,7 +9,6 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
   const joinPath = require('path.join');
   const express = require('express');
   const webpack = require('webpack');
-  const mongoose = require('mongoose');
   const fs = require('fs');
   const proxyMiddleware = require('http-proxy-middleware');
   const bodyParser = require('body-parser');
@@ -18,6 +17,9 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
   const Client = require('./sparcsssov2');
   const registerNuguApi = require('./nugu-api');
   const sparcsRequired = require('./sparcsrequired')
+
+  let mongoose = require('mongoose');  
+  mongoose.Promise = global.Promise;
 
 // default port where dev server listens for incoming traffic
   const port = process.env.PORT || config.port;
@@ -70,7 +72,9 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
   const mongoUrl = `mongodb://${dbAuth}${localConfig.dbHost}/${localConfig.dbName}`
 
   new Promise(res => {
-    mongoose.connect(mongoUrl)
+    mongoose.connect(mongoUrl, {
+      useMongoClient: true,
+    })
       .then(() => {
         console.log('Successed in connecting to mongod server')
         const mongoStore = require('connect-mongo')(session)
