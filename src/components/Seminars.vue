@@ -72,7 +72,7 @@
           <td>{{seminar.date}}</td>
           <td>
             {{seminar.title}}
-            <a class="ui red label" style="float: right" v-if="isSPARCS" @click="deleteSeminar(seminar)">삭제</a>
+            <!--<a class="ui red label" style="float: right" v-if="isSPARCS" @click="deleteSeminar(seminar)">삭제</a>-->
           </td>
           <td>
             <span v-for="source in seminar.sources">

@@ -406,15 +406,15 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
         });
       });
 
-      app.post('/db/seminars/delete', (req, res) => {
-        const {title, speaker} = req.body;
-        schema.Seminars.remove({title, speaker}, (err) => {
-          if (err) {
-            console.log(err);
-            res.send({ success: false });
-          } else res.send({ success: true })
-        })
-      });
+      // app.post('/db/seminars/delete', (req, res) => {
+      //   const {title, speaker} = req.body;
+      //   schema.Seminars.remove({title, speaker}, (err) => {
+      //     if (err) {
+      //       console.log(err);
+      //       res.send({ success: false });
+      //     } else res.send({ success: true })
+      //   })
+      // });
 
       registerNuguApi(app);
 
