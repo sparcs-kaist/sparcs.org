@@ -23,6 +23,7 @@
     "jquery": "^3.1.1",
     "js-cookie": "^2.1.4",
     "lodash": "^4.17.4",
+    "marked": "^0.3.15",
     "module": "^1.2.5",
     "mongodb": "^2.2.26",
     "mongoose": "^4.13.8",
