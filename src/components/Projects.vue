@@ -1,13 +1,13 @@
 <template>
-	<div>
-		<div id="projectHeader" class="ui vertical masthead center aligned basic segment">
-			<div class="ui text container">
-				<h1 class="ui header" style="color: #ffffff;">Service, That Will Move You</h1>
-				<h2>SPARCS에서 런칭되고 있는 서비스, 프로젝트들을 만나보세요!</h2>
-			</div>
-		</div>
-		<div class="ui container">
-			<div class="ui stackable center aligned three column grid">
+  <div>
+    <div id="project-header" class="ui vertical masthead center aligned basic segment">
+      <div class="ui text container">
+        <h1 class="ui header" style="color: #ffffff;">Service, That Will Move You</h1>
+        <h2>SPARCS에서 런칭되고 있는 서비스, 프로젝트들을 만나보세요!</h2>
+      </div>
+    </div>
+    <div class="ui container">
+      <div class="ui stackable center aligned three column grid">
         <div
           v-for="project in projects"
           class="column"
@@ -42,41 +42,41 @@
             </a>
           </div>
         </div>
-			</div>
-		</div>
-	</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import * as projects from '../text/projects';
+  import * as projects from '../text/projects';
 
-export default {
-  name: 'Projects',
-  data: () => ({
-    projects: [],
-  }),
+  export default {
+    name: 'Projects',
+    data: () => ({
+      projects: [],
+    }),
 
-  created() {
-    this.projects = JSON.parse(projects);
-  },
+    created() {
+      this.projects = JSON.parse(projects);
+    },
 
-  mounted() {
-    document.getElementById('projects').classList.add('active');
-    // we gave marginTop of r_view when righ menu item is clicked, so reload doesn't take this action
-    const width = $(window).width();
-    if (width <= 600) {
-      document.getElementById('r_view').style.marginTop = '49px';
-    } else {
-      document.getElementById('r_view').style.marginTop = '85px';
-    }
-    document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
-  },
-};
+    mounted() {
+      document.getElementById('projects').classList.add('active');
+      // we gave marginTop of r_view when righ menu item is clicked, so reload doesn't take this action
+      const width = $(window).width();
+      if (width <= 600) {
+        document.getElementById('r_view').style.marginTop = '49px';
+      } else {
+        document.getElementById('r_view').style.marginTop = '85px';
+      }
+      document.getElementById('menu_header').style.backgroundColor = 'rgba(0,0,0,1)';
+    },
+  };
 </script>
 
 <style>
-#projectHeader{
-  background-image: url('../../static/mesh03.png');
-  color: #ffffff;
-}
+  #project-header {
+    background-image: url('../../static/mesh03.png');
+    color: #ffffff;
+  }
 </style>
