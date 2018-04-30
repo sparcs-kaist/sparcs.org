@@ -1,5 +1,9 @@
 # sparcs_home
 
+## Configure
+- Node.js v8.9.4
+- MongoDB v3.4.1
+
 ## DB Setup
 
 - Install mongodb
