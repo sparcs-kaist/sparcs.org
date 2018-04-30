@@ -307,9 +307,9 @@
         </p>
       <h2 class="ui dividing header">참고</h2>
       <ul>
-        <li><a class="rules" href="http://sparcs.org/media/files/20090504-rules.pdf">2009년 5월 4일 회칙 개정 내역</a></li>
-        <li><a class="rules" href="http://sparcs.org/media/files/20100927-rules.pdf">2010년 9월 27일 회칙 개정 내역</a></li>
-        <li><a class="rules" href="http://sparcs.org/media/files/20130429-rules.pdf">2013년 4월 29일 회칙 개정 내역</a></li>
+        <li><a class="rules" href="http://sparcs.org/static/files/20090504-rules.pdf">2009년 5월 4일 회칙 개정 내역</a></li>
+        <li><a class="rules" href="http://sparcs.org/static/files/20100927-rules.pdf">2010년 9월 27일 회칙 개정 내역</a></li>
+        <li><a class="rules" href="http://sparcs.org/static/files/20130429-rules.pdf">2013년 4월 29일 회칙 개정 내역</a></li>
       </ul>
       </div>
     </div>

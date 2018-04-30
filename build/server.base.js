@@ -485,11 +485,12 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
           return res.redirect('/aboutus');
         }
         const sid = getKey(sess, 'sid', '');
-        client.getLogoutUrl(sid, '/aboutus');
+        const logoutUrl = client.getLogoutUrl(sid, '/aboutus');
         req.session.destroy();
-        res.clearCookie('destroyKey');
+		// res.clearCookie('destroyKey');
         console.log('You logged out from SPARCS')
-        return res.redirect('/aboutus');
+		console.log(logoutUrl);
+        return res.redirect(logoutUrl);
       });
 
       console.log(process.env.NODE_ENV)
