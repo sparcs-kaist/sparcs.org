@@ -18,7 +18,7 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
   const registerNuguApi = require('./nugu-api');
   const sparcsRequired = require('./sparcsrequired')
 
-  let mongoose = require('mongoose');  
+  let mongoose = require('mongoose');
   mongoose.Promise = global.Promise;
 
 // default port where dev server listens for incoming traffic
@@ -108,15 +108,16 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
 
       //  Redirect legacy static seminar urls to new ones
       //  ex) /seminar/attachment/x to /static/seminars/x
-      app.get('/seminar/attachment/:file_name', (req, res) => {
-        res.redirect(`/static/seminars/${req.params.file_name}`)
-      })
+      // app.get('/seminar/attachment/:file_name', (req, res) => {
+      //   res.redirect(`/static/seminars/${req.params.file_name}`)
+      // })
 
 
       // serve pure static assets
       const staticPath = path.posix.join(config.assetsPublicPath, config.assetsSubDirectory);
+      const distPath = path.posix.join(config.dist, config.assetsSubDirectory);
       const imgPath = `${staticPath}/images/`;
-      const seminarPath = `${staticPath}/seminars/`;
+      const seminarPath = `${distPath}/seminars/`;
 
       app.use(imgPath, sparcsRequired)
       app.use(staticPath, express.static('../static'));
