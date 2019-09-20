@@ -22,7 +22,7 @@
     "hangul-js": "^0.2.3",
     "jquery": "^3.1.1",
     "js-cookie": "^2.1.4",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.13",
     "module": "^1.2.5",
     "mongodb": "^2.2.26",
     "mongoose": "^4.13.8",
