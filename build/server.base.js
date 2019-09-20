@@ -514,6 +514,7 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
         // compilation error display
         app.use(hotMiddleware);
       } else {
+        app.use('/dist', express.static(path.join(__dirname, '../dist')))
         app.use('/', express.static(path.join(__dirname, '../dist')))
         app.get('*', (req, res) => {
           res.redirect('/')
