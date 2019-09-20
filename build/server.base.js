@@ -119,7 +119,7 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
       const seminarPath = `${staticPath}/seminars/`;
 
       app.use(imgPath, sparcsRequired)
-      app.use(staticPath, express.static('./static'));
+      app.use(staticPath, express.static('../static'));
       app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
       app.use(bodyParser.json({limit: '50mb'}));
 
@@ -387,16 +387,22 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
         const fileName = `${speaker}_${Date.now()}.pdf`;
         const filePath = joinPath(__dirname, '/..', seminarPath, fileName);
         const url = localConfig.staticHost + seminarPath + fileName;
-        fs.writeFileSync(filePath, buffer);
+        try {
+          fs.writeFileSync(filePath, buffer);
 
-        const sources = [url];
-        const tuple = new schema.Seminars({ title, speaker, date, sources });
-        tuple.save((err) => {
-          if (err) {
-            console.log(err);
-            res.send({ success: false });
-          } else res.send({ success: true });
-        });
+          const sources = [url];
+          const tuple = new schema.Seminars({ title, speaker, date, sources });
+          tuple.save((err) => {
+            if (err) {
+              console.log(err);
+              res.send({ success: false });
+            } else res.send({ success: true });
+          });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send(error);
+        }
+
       });
 
       app.get('/db/seminars', (req, res) => {
