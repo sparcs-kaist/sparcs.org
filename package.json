@@ -20,7 +20,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "fs": "0.0.1-security",
     "hangul-js": "^0.2.3",
-    "jquery": "^3.1.1",
+    "jquery": "^3.4.0",
     "js-cookie": "^2.1.4",
     "lodash": "^4.17.4",
     "module": "^1.2.5",
