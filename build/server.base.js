@@ -402,7 +402,7 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
       app.get('/db/seminars', (req, res) => {
         schema.Seminars.find({}, (err, seminars) => {
           if (err) res.send({ seminars: [] });
-          else res.send({ seminars });
+          else res.send({ seminars: seminars.reverse() });
         });
       });
 
