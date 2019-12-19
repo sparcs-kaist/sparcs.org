@@ -152,7 +152,11 @@
       uploadSeminar() {
         // TODO: if one of the key is not defined, return
         this.seminarInfo.date = Date.now();
-        axios.post(`${apiEndpoint}/db/seminars`, this.seminarInfo)
+        const formData = new FormData();
+        for (let key of this.seminarInfo) {
+          formData.append(key, this.seminarInfo[key]);
+        }
+        axios.post(`${apiEndpoint}/db/seminars`, formData)
           .then((response) => {
             const { success } = response.data;
             if (success) {

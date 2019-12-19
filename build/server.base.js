@@ -14,6 +14,9 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
   const bodyParser = require('body-parser');
   const schema = require('./schema.js');
   const session = require('express-session');
+  const aws = require('aws-sdk');
+  const multer = require('multer');
+  const multerS3 = require('multer-s3');
   const Client = require('./sparcsssov2');
   const registerNuguApi = require('./nugu-api');
   const sparcsRequired = require('./sparcsrequired')
@@ -65,6 +68,32 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
       maxAge: 1000 * 60 * 60, // 1hour
     },
   }
+
+  aws.config.update({
+    accessKeyId: localConfig.awsS3AccessKey,
+    secretAccessKey: localConfig.awsS3SecretKey,
+  });
+  const s3 = new aws.S3();
+
+  const upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: 'sparcs.home',
+      // Set public read permissions
+      acl: 'public-read',
+      // Auto detect contet type
+      contentType: multerS3.AUTO_CONTENT_TYPE,
+      cacheControl: 'max-age=31536000',
+      metadata: function (req, file, cb) {
+        cb(null, {fieldName: file.fieldname});
+      },
+      key: function (req, file, cb) {
+        const { speaker } = req.body;
+        const fileName = `${speaker}_${Date.now()}.pdf`;
+        cb(null, fileName);
+      },
+    })
+  })
 
 // Database
   const { dbUser, dbPassword, serverDomain, serverPort } = localConfig
@@ -378,20 +407,11 @@ module.exports = (webpackConfig, config, compiler, devMiddleware, hotMiddleware)
         );
       });
 
-      app.post('/db/seminars', (req, res) => {
-        const {title, speaker, date, content} = req.body;
-
-        const strContent = content.replace(/^data:application\/pdf;base64,/, '');
-        const buffer = new Buffer(strContent, 'base64');
-        const titleWithUnderscores = title.replace(' ', '_');
-        // const fileName = `${speaker}_${titleWithUnderscores}.pdf`;
-        const fileName = `${speaker}_${Date.now()}.pdf`;
-        const filePath = joinPath(__dirname, '/..', seminarPath, fileName);
-        const url = localConfig.staticHost + seminarPath + fileName;
+      app.post('/db/seminars', upload.single('content'), (req, res) => {
+        const {title, speaker, date } = req.body;
+        const { filename, location } = req.params;
         try {
-          fs.writeFileSync(filePath, buffer);
-
-          const sources = [url];
+          const sources = [location];
           const tuple = new schema.Seminars({ title, speaker, date, sources });
           tuple.save((err) => {
             if (err) {
